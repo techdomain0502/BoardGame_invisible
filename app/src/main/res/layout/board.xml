@@ -4,6 +4,7 @@
     <com.test.board.Board
         android:id="@+id/board"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="400dp"
+        android:layout_centerVertical="true"
         android:padding="2dp"/>
     </RelativeLayout>

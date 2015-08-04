@@ -3,6 +3,7 @@ package com.test.board;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -93,8 +94,10 @@ public class Board extends TableLayout {
             for (int j = 0; j < no_cols; j++) {
                 TableRow.LayoutParams buttonParams = new TableRow.LayoutParams(button_dimen, button_dimen);
                 Button button = new Button(context);
+                button.setTextAppearance(context,R.style.ButtonText);
                 button.setLayoutParams(buttonParams);
                 button.setTag(new Coord(i, j));
+                button.setBackgroundResource(R.drawable.btn_black_glossy);
                 button.setOnTouchListener(new onFlingGestureListenerImpl());
                 if(pos_array[i][j]==1)
                     button.setText(labelList.get(count++));

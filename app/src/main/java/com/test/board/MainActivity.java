@@ -35,7 +35,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        board.initBoard(2);
+        board.initBoard(3);
     }
 
 }
