@@ -1,6 +1,7 @@
 package com.test.board;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
@@ -35,6 +36,10 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Bundle  i = getIntent().getExtras();
+        String grid = i.get("grid").toString();
+        if(grid != null)
+        Toast.makeText(this,grid,Toast.LENGTH_SHORT).show();
         board.initBoard(3);
     }
 
