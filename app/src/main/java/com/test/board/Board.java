@@ -77,6 +77,14 @@ public class Board extends TableLayout {
               else
                   pos_array[i][j]=1;
           }
+
+
+        for(int i=0;i<no_rows;i++)   //i*SIZE+j
+            for(int j=0;j<no_cols;j++) {
+                Log.d("boardgame", i+" "+j+" "+ pos_array[i][j]+"");
+            }
+
+
     }
 
     @Override
