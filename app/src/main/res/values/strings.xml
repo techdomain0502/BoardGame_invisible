@@ -11,4 +11,5 @@
     <string name="continue_last">Continue Last</string>
     <string name="title_activity_settings_screen">SettingsScreen</string>
     <string name="title_activity_front_page">FrontPage</string>
+	<string name="play">Play</string>
 </resources>
