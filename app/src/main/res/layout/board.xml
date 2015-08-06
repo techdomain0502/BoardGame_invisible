@@ -74,4 +74,21 @@
         android:layout_height="400dp"
         android:layout_centerVertical="true"
         android:padding="2dp" />
+    <ImageView
+        android:id="@+id/playButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/play_frame"
+        android:clickable="true"
+        />
+    <TextView
+        android:id="@+id/guideText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="20dp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:text="Press Start to Play"/>
 </RelativeLayout>
