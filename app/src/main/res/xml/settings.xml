@@ -9,6 +9,7 @@
         android:key="theme"
         android:entries="@array/theme_entry"
         android:defaultValue="@string/white"
+        android:persistent="true"
         android:entryValues="@array/theme_value"/>
 
     <ListPreference
@@ -16,6 +17,7 @@
         android:summary="Choose the Grid Size"
         android:key="grid"
         android:entries="@array/grid_entry"
+        android:persistent="true"
         android:defaultValue="@string/three"
         android:entryValues="@array/grid_value"/>
 

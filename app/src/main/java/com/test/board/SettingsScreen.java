@@ -30,6 +30,7 @@ public class SettingsScreen extends PreferenceActivity implements SharedPreferen
 
         sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         updatePreferences();
+        updateSettingsUI();
     }
 
     @Override
@@ -65,7 +66,7 @@ public class SettingsScreen extends PreferenceActivity implements SharedPreferen
             grid.setSummary(value);
 
         }
-        //updatePreferences();
+        updatePreferences();
     }
     private void updatePreferences(){
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -76,5 +77,7 @@ public class SettingsScreen extends PreferenceActivity implements SharedPreferen
     }
 
     private void updateSettingsUI() {
+        grid.setSummary(grid.getValue());
+        theme.setSummary(theme.getValue());
     }
 }

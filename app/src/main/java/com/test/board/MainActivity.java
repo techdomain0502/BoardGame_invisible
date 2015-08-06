@@ -43,14 +43,12 @@ private TextView hr,min,sec,msec;
         setContentView(R.layout.board);
 		  Bundle  i = getIntent().getExtras();
         String grid = i.get("grid").toString();
-        if(grid != null)
-        Toast.makeText(this,grid,Toast.LENGTH_SHORT).show();
         board = (com.test.board.Board)findViewById(R.id.board);
 		 hr = (TextView)findViewById(R.id.hour);
         min = (TextView)findViewById(R.id.min);
         sec = (TextView)findViewById(R.id.sec);
         msec = (TextView)findViewById(R.id.msec);
-        board.initBoard(3);
+        board.initBoard(Integer.valueOf(grid));
     }
 
     private void updateTimer (float time){
@@ -123,8 +121,6 @@ private TextView hr,min,sec,msec;
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch(id){
-            case R.id.settings:
-                break;
             case R.id.play:
                 startTime = System.currentTimeMillis();
                 mHandler.removeCallbacks(startTimer);

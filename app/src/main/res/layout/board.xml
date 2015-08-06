@@ -13,11 +13,18 @@
         android:padding="2dp">
 
         <TextView
+            android:id="@+id/elapse_time"
+            style="@style/timerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Elapsed Time: " />
+
+        <TextView
             android:id="@+id/hour"
             style="@style/timerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="hh" />
+            android:text="00" />
 
         <TextView
             style="@style/timerText"
@@ -30,7 +37,7 @@
             style="@style/timerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="mm" />
+            android:text="00" />
 
         <TextView
             style="@style/timerText"
@@ -43,7 +50,7 @@
             style="@style/timerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ss" />
+            android:text="00" />
 
         <TextView
             style="@style/timerText"
@@ -56,7 +63,7 @@
             style="@style/timerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ms" />
+            android:text="00" />
 
 
     </LinearLayout>

@@ -36,10 +36,13 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
         new_game.setOnClickListener(this);
         configuration.setOnClickListener(this);
 
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         theme = sharedPreferences.getString("theme","Null");
         grid = sharedPreferences.getString("grid","Null");
-
 
     }
 
@@ -77,7 +80,6 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
                 startActivity(newgame);
                 break;
             case R.id.config:
-                Toast.makeText(this, "config",Toast.LENGTH_SHORT).show();
                 Intent settings_intent= new Intent(this,SettingsScreen.class);
                 startActivity(settings_intent);
                 break;
