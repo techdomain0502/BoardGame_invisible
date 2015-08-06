@@ -3,6 +3,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/game_background">
 
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -64,8 +65,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="00" />
-
-
     </LinearLayout>
 
     <com.test.board.Board
@@ -74,13 +73,40 @@
         android:layout_height="400dp"
         android:layout_centerVertical="true"
         android:padding="2dp" />
+
+
+    <RelativeLayout
+        android:id="@+id/startTimerContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        >
+
+        <TextView
+            android:id="@+id/header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/timer_text"
+            android:text="Game Begins in"
+            android:layout_centerHorizontal="true"
+            android:textColor="@android:color/white"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/timer_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/white"
+            android:textSize="40sp" />
+    </RelativeLayout>
+
     <ImageView
         android:id="@+id/playButton"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/play_frame"
         android:clickable="true"
-        />
+        android:src="@drawable/play_frame" />
+
     <TextView
         android:id="@+id/guideText"
         android:layout_width="wrap_content"
@@ -88,7 +114,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:paddingBottom="20dp"
+        android:text="Press Start to Play"
         android:textColor="@android:color/black"
-        android:textStyle="bold"
-        android:text="Press Start to Play"/>
+        android:textStyle="bold" />
+
+
 </RelativeLayout>

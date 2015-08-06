@@ -3,6 +3,7 @@ package com.test.board;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
@@ -31,7 +33,7 @@ import java.util.Collections;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener{
     private Board board;
-    private TextView hr,min,sec,msec,playguideText;
+    private TextView hr,min,sec,msec,playguideText,timer_text,header;
     private ImageView playButton;
     private long secs,mins,hrs;
     private String seconds,milliseconds,hours,minutes;
@@ -40,6 +42,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private long elapsedTime;
     private final int REFRESH_RATE = 100;
     Animation anim;
+    AlphaAnimation alphaAnimation;
+    private CountDownTimer timer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,9 +57,30 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         msec = (TextView)findViewById(R.id.msec);
         playguideText = (TextView)findViewById(R.id.guideText);
         playButton = (ImageView)findViewById(R.id.playButton);
+        timer_text = (TextView)findViewById(R.id.timer_text);
+        header = (TextView)findViewById(R.id.header);
         playButton.setOnClickListener(this);
         board.initBoard(Integer.valueOf(grid));
         initAnimation();
+
+        timer = new CountDownTimer(4000,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                Log.d("timer",millisUntilFinished/1000+"");
+                 timer_text.setText(""+millisUntilFinished/1000);
+                 timer_text.startAnimation(alphaAnimation);
+            }
+
+            @Override
+            public void onFinish() {
+                startTime = System.currentTimeMillis();
+                mHandler.removeCallbacks(startTimer);
+                mHandler.postDelayed(startTimer, 0);
+                timer_text.setVisibility(View.GONE);
+                header.setVisibility(View.GONE);
+            }
+        };
+
     }
 
     private void initAnimation() {
@@ -68,6 +93,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         anim.setDuration(1000);
         anim.setRepeatMode(Animation.REVERSE);
         playguideText.startAnimation(anim);
+
+        alphaAnimation = new AlphaAnimation(1.0f, 0.0f);
+        alphaAnimation.setDuration(1000);
+        alphaAnimation.setFillAfter(true);
     }
 
 
@@ -163,10 +192,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onClick(View v) {
         playButton.setVisibility(View.GONE);
         anim.cancel();;
-        startTime = System.currentTimeMillis();
-        mHandler.removeCallbacks(startTimer);
-        mHandler.postDelayed(startTimer, 0);
         playguideText.setVisibility(View.GONE);
+        timer.start();
     }
 
     @Override
