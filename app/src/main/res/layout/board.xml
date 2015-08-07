@@ -79,6 +79,8 @@
         android:id="@+id/startTimerContainer"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:background="@drawable/countdown_frame"
+        android:visibility="invisible"
         >
 
         <TextView
@@ -88,7 +90,7 @@
             android:layout_above="@+id/timer_text"
             android:text="Game Begins in"
             android:layout_centerHorizontal="true"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textSize="40sp" />
 
         <TextView
@@ -96,16 +98,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textColor="@android:color/white"
-            android:textSize="40sp" />
+            android:textColor="@android:color/black"
+            android:textSize="150dp" />
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/playButtonContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/countdown_frame"
+        >
 
     <ImageView
         android:id="@+id/playButton"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:clickable="true"
-        android:src="@drawable/play_frame" />
+        android:src="@drawable/play_over_framebutton" />
 
     <TextView
         android:id="@+id/guideText"
@@ -117,6 +127,6 @@
         android:text="Press Start to Play"
         android:textColor="@android:color/black"
         android:textStyle="bold" />
-
+</RelativeLayout>
 
 </RelativeLayout>

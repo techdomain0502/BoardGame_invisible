@@ -37,6 +37,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private ImageView playButton;
     private long secs,mins,hrs;
     private String seconds,milliseconds,hours,minutes;
+    private RelativeLayout playContainer,counterContainer;
     private Handler mHandler = new Handler();
     private long startTime;
     private long elapsedTime;
@@ -55,6 +56,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         min = (TextView)findViewById(R.id.min);
         sec = (TextView)findViewById(R.id.sec);
         msec = (TextView)findViewById(R.id.msec);
+        playContainer = (RelativeLayout)findViewById(R.id.playButtonContainer);
+        counterContainer = (RelativeLayout)findViewById(R.id.startTimerContainer);
         playguideText = (TextView)findViewById(R.id.guideText);
         playButton = (ImageView)findViewById(R.id.playButton);
         timer_text = (TextView)findViewById(R.id.timer_text);
@@ -66,7 +69,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         timer = new CountDownTimer(4000,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                Log.d("timer",millisUntilFinished/1000+"");
                  timer_text.setText(""+millisUntilFinished/1000);
                  timer_text.startAnimation(alphaAnimation);
             }
@@ -76,8 +78,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 startTime = System.currentTimeMillis();
                 mHandler.removeCallbacks(startTimer);
                 mHandler.postDelayed(startTimer, 0);
-                timer_text.setVisibility(View.GONE);
-                header.setVisibility(View.GONE);
+                alphaAnimation.cancel();
+                counterContainer.setVisibility(View.GONE);
             }
         };
 
@@ -190,9 +192,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        playButton.setVisibility(View.GONE);
+        playContainer.setVisibility(View.GONE);
         anim.cancel();;
         playguideText.setVisibility(View.GONE);
+        counterContainer.setVisibility(View.VISIBLE);
         timer.start();
     }
 
