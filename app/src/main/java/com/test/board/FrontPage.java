@@ -41,8 +41,8 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
     @Override
     protected void onResume() {
         super.onResume();
-        theme = sharedPreferences.getString("theme","Null");
-        grid = sharedPreferences.getString("grid","Null");
+        theme = sharedPreferences.getString("theme","white");
+        grid = sharedPreferences.getString("grid","3");
 
     }
 
