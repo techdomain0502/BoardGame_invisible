@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
@@ -42,8 +43,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private long startTime;
     private long elapsedTime;
     private final int REFRESH_RATE = 100;
-    Animation anim;
-    AlphaAnimation alphaAnimation;
+    private Animation anim;
+    private AlphaAnimation alphaAnimation;
+    private ScaleAnimation scaleAnimation;
+    private AnimationSet set;
     private CountDownTimer timer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,18 +69,19 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         board.initBoard(Integer.valueOf(grid));
         initAnimation();
 
-        timer = new CountDownTimer(4000,1000) {
+        timer = new CountDownTimer(3050,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
+                Log.d("timerdemo",""+millisUntilFinished);
                  timer_text.setText(""+millisUntilFinished/1000);
-                 timer_text.startAnimation(alphaAnimation);
+                 timer_text.startAnimation(set);
             }
 
             @Override
             public void onFinish() {
-                startTime = System.currentTimeMillis();
                 mHandler.removeCallbacks(startTimer);
                 mHandler.postDelayed(startTimer, 0);
+                startTime = System.currentTimeMillis();
                 alphaAnimation.cancel();
                 counterContainer.setVisibility(View.GONE);
             }
@@ -87,8 +91,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     private void initAnimation() {
         anim = new ScaleAnimation(
-                0f, 2.5f, // Start and end values for the X axis scaling
-                0f, 2.5f, // Start and end values for the Y axis scaling
+                1f, 2.5f, // Start and end values for the X axis scaling
+                1f, 2.5f, // Start and end values for the Y axis scaling
                 Animation.RELATIVE_TO_SELF, 0.5f, // Pivot point of X scaling
                 Animation.RELATIVE_TO_SELF, 0.5f); // Pivot point of Y scaling
         anim.setRepeatCount(Animation.INFINITE); // Needed to keep the result of the animation
@@ -96,9 +100,18 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         anim.setRepeatMode(Animation.REVERSE);
         playguideText.startAnimation(anim);
 
+        set = new AnimationSet(true);
+        set.setFillAfter(true);
         alphaAnimation = new AlphaAnimation(1.0f, 0.0f);
-        alphaAnimation.setDuration(1000);
-        alphaAnimation.setFillAfter(true);
+        alphaAnimation.setDuration(500);
+       // alphaAnimation.setFillAfter(true);
+        set.addAnimation(alphaAnimation);
+
+        scaleAnimation = new ScaleAnimation(1f,0f,1f,0f,Animation.RELATIVE_TO_SELF,
+                0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+        scaleAnimation.setDuration(500);
+        set.addAnimation(scaleAnimation);
+
     }
 
 
@@ -150,8 +163,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
         if(milliseconds.length()<=1){
             milliseconds = "00";
-        }else
-        milliseconds = milliseconds.substring(milliseconds.length()-3, milliseconds.length()-2);
+        }else {
+            milliseconds ="0"+ milliseconds.substring(milliseconds.length() - 3, milliseconds.length() - 2);
+        }
 
 		/* Setting the timer text to the elapsed time */
         (hr).setText(hours);
@@ -192,11 +206,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        timer.start();
         playContainer.setVisibility(View.GONE);
         anim.cancel();;
         playguideText.setVisibility(View.GONE);
         counterContainer.setVisibility(View.VISIBLE);
-        timer.start();
     }
 
     @Override

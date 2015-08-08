@@ -1,32 +1,35 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
-    tools:context="com.test.board.FrontPage"
-    android:gravity="center|bottom"
-    android:layout_marginBottom="50dp">
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        >
 
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/continue_last"
-        android:text="@string/continue_last" />
+        <Button
+            android:id="@+id/continue_last"
+            style="@style/frontpageButtonText"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_green_glossy"
+            android:text="@string/continue_last" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/new_game"
-        android:text="@string/new_game" />
+        <Button
+            android:id="@+id/new_game"
+            style="@style/frontpageButtonText"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_blue_glossy"
+            android:text="@string/new_game" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/config"
-        android:text="@string/configuration" />
-</LinearLayout>
+        <Button
+            android:id="@+id/config"
+            style="@style/frontpageButtonText"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_pink_glossy"
+            android:text="@string/configuration" />
+    </LinearLayout>
+</RelativeLayout>
