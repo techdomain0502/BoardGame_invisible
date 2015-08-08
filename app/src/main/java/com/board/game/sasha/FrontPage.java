@@ -1,17 +1,18 @@
-package com.test.board;
+package com.board.game.sasha;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.Toast;
+
+import com.board.game.sasha.MainActivity;
+import com.board.game.sasha.R;
+import com.board.game.sasha.SettingsScreen;
 
 
 public class FrontPage extends ActionBarActivity implements View.OnClickListener {

@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:background="@android:color/black"
+        android:background="@drawable/btn_green_matte"
         android:orientation="horizontal"
         android:padding="2dp">
 
@@ -66,7 +66,7 @@
             android:text="00" />
     </LinearLayout>
 
-    <com.test.board.Board
+    <com.board.game.sasha.Board
         android:id="@+id/board"
         android:layout_width="match_parent"
         android:layout_height="400dp"
@@ -112,10 +112,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:paddingTop="20dp"
+            android:padding="10dp"
             android:text="@string/beginHeader"
             android:textColor="@android:color/black"
             android:textSize="30dp"
+            android:background="@drawable/btn_orange_matte"
             android:textStyle="bold|italic" />
 
         <Button

@@ -1,15 +1,12 @@
-package com.test.board;
+package com.board.game.sasha;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.media.audiofx.BassBoost;
+import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.PreferenceActivity;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 
 public class SettingsScreen extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener{

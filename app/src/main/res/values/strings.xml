@@ -1,6 +1,6 @@
 <resources>
     <string name="start">Press Start to Play</string>
-    <string name="beginHeader">So Let\'s Begin?</string>
+    <string name="beginHeader">So Let\'s Begin!</string>
     <string name="app_name">Board</string>
     <string name="three">3</string>
     <string name="four">4</string>

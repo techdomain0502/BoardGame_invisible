@@ -1,9 +1,8 @@
-package com.test.board;
+package com.board.game.sasha;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -34,6 +33,12 @@ public class Board extends TableLayout {
     private ArrayList<String> labelList;
     private int[][] pos_array ;
     private int TRANSLATE_OFFSET = 100;
+    private int drawable[] = {R.drawable.btn_army_glossy,R.drawable.btn_black_glossy,
+                              R.drawable.btn_blue_glossy,R.drawable.btn_blue_pink_glossy,
+                              R.drawable.btn_green_glossy,
+                              R.drawable.btn_lightblue_glossy,R.drawable.btn_pink_glossy,
+                              R.drawable.btn_white_glossy
+                              };
     public Board(Context ctxt, AttributeSet attr){
         super(ctxt, attr);
         context = ctxt;
@@ -79,11 +84,6 @@ public class Board extends TableLayout {
           }
 
 
-        for(int i=0;i<no_rows;i++)   //i*SIZE+j
-            for(int j=0;j<no_cols;j++) {
-                Log.d("boardgame", i+" "+j+" "+ pos_array[i][j]+"");
-            }
-
 
     }
 
@@ -105,7 +105,7 @@ public class Board extends TableLayout {
                 button.setTextAppearance(context,R.style.ButtonText);
                 button.setLayoutParams(buttonParams);
                 button.setTag(new Coord(i, j));
-                button.setBackgroundResource(R.drawable.btn_black_glossy);
+                button.setBackgroundResource(drawable[(i*no_rows+j)%8]);
                 button.setOnTouchListener(new onFlingGestureListenerImpl());
                 if(pos_array[i][j]==1)
                     button.setText(labelList.get(count++));
@@ -154,7 +154,7 @@ public class Board extends TableLayout {
 
 
 
-    public class onFlingGestureListenerImpl extends onFlingGestureListener{
+    public class onFlingGestureListenerImpl extends onFlingGestureListener {
         @Override
         public void toBottom(View v, Object o) {
             int x = ((Coord)o).getX();
@@ -252,6 +252,7 @@ public class Board extends TableLayout {
         final TableRow row = (TableRow)this.getChildAt(x);
         temp = (Button) row.getChildAt(y);
         final String text = temp.getText().toString();
+        final Drawable background = temp.getBackground();
 
         TranslateAnimation animRight = new TranslateAnimation(0,TRANSLATE_OFFSET, 0, 0);
         animRight.setDuration(200);
@@ -268,6 +269,7 @@ public class Board extends TableLayout {
             public void onAnimationEnd(Animation animation) {
                 temp.setVisibility(View.VISIBLE);
                 temp.setText(text);
+                temp.setBackgroundDrawable(background);
                 pos_array[x][y] = 0;
                 pos_array[x][y + 1] = 1;
                 validateResult();
@@ -284,6 +286,7 @@ public class Board extends TableLayout {
         final  TableRow row = (TableRow)this.getChildAt(x);
         temp = (Button) row.getChildAt(y);
         final  String text = temp.getText().toString();
+        final Drawable background = temp.getBackground();
 
         TranslateAnimation animLeft = new TranslateAnimation(0,-TRANSLATE_OFFSET,0, 0);
         animLeft.setDuration(200);
@@ -299,7 +302,9 @@ public class Board extends TableLayout {
             @Override
             public void onAnimationEnd(Animation animation) {
                 temp.setVisibility(View.VISIBLE);
+                temp.setBackgroundResource(drawable[(x * no_rows + y) % 9]);
                 temp.setText(text);
+                temp.setBackgroundDrawable(background);
                 pos_array[x][y] = 0;
                 pos_array[x][y - 1] = 1;
                 validateResult();
@@ -319,6 +324,7 @@ public class Board extends TableLayout {
         final TableRow row1 = (TableRow)this.getChildAt(x-1);
         temp = (Button) row.getChildAt(y);
         final String text = temp.getText().toString();
+        final Drawable background = temp.getBackground();
 
         TranslateAnimation animTop = new TranslateAnimation(0, 0, 0, -TRANSLATE_OFFSET);
         animTop.setDuration(200);
@@ -334,6 +340,7 @@ public class Board extends TableLayout {
             public void onAnimationEnd(Animation animation) {
                 temp.setVisibility(View.VISIBLE);
                 temp.setText(text);
+                temp.setBackgroundDrawable(background);
                 pos_array[x][y] = 0;
                 pos_array[x - 1][y] = 1;
                 validateResult();
@@ -351,7 +358,7 @@ public class Board extends TableLayout {
         final TableRow row1 = (TableRow)this.getChildAt(x+1);
         temp = (Button) row.getChildAt(y);
         final String text = temp.getText().toString();
-
+        final Drawable background = temp.getBackground();
         TranslateAnimation animDown = new TranslateAnimation(0, 0, 0, TRANSLATE_OFFSET);
         animDown.setDuration(200);
         btn.startAnimation(animDown);
@@ -366,6 +373,7 @@ public class Board extends TableLayout {
             public void onAnimationEnd(Animation animation) {
                 temp.setVisibility(View.VISIBLE);
                 temp.setText(text);
+                temp.setBackgroundDrawable(background);
                 pos_array[x][y] = 0;
                 pos_array[x + 1][y] = 1;
                 validateResult();

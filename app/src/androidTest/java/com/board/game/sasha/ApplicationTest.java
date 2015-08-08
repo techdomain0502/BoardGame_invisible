@@ -1,4 +1,4 @@
-package com.test.board;
+package com.board.game.sasha;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

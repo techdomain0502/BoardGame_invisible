@@ -1,4 +1,4 @@
-package com.test.board;
+package com.board.game.sasha;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -39,7 +39,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         setContentView(R.layout.board);
 		  Bundle  i = getIntent().getExtras();
         String grid = i.get("grid").toString();
-        board = (com.test.board.Board)findViewById(R.id.board);
+        board = (Board)findViewById(R.id.board);
 		 hr = (TextView)findViewById(R.id.hour);
         min = (TextView)findViewById(R.id.min);
         sec = (TextView)findViewById(R.id.sec);

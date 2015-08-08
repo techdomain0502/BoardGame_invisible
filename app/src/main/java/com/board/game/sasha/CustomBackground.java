@@ -1,4 +1,4 @@
-package com.test.board;
+package com.board.game.sasha;
 
 import android.content.Context;
 import android.graphics.Canvas;

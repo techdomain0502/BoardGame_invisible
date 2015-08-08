@@ -1,6 +1,5 @@
-package com.test.board;
+package com.board.game.sasha;
 
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
