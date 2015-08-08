@@ -29,8 +29,6 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
         setContentView(R.layout.activity_front_page);
 
         sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        theme = sharedPreferences.getString("theme", "white");
-        grid = sharedPreferences.getString("grid","3");
 
         continue_last = (Button)findViewById(R.id.continue_last);
         new_game = (Button)findViewById(R.id.new_game);
@@ -48,6 +46,13 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
         anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_bottom_to_top);
         configuration.setAnimation(anim);
         anim.start();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        theme = sharedPreferences.getString("theme", "white");
+        grid = sharedPreferences.getString("grid","3");
     }
 
     @Override
