@@ -108,13 +108,13 @@
         android:background="@drawable/countdown_frame"
         >
 
-    <ImageView
+    <Button
         android:id="@+id/playButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:clickable="true"
-        android:src="@drawable/play_over_framebutton" />
+        android:background="@drawable/play_over_framebutton" />
 
     <TextView
         android:id="@+id/guideText"
@@ -123,7 +123,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:paddingBottom="20dp"
-        android:text="Press Start to Play"
+        android:text="@string/start"
         android:textColor="@android:color/black"
         android:textStyle="bold" />
 </RelativeLayout>

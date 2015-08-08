@@ -1,41 +1,26 @@
 package com.test.board;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener{
     private Board board;
     private TextView hr,min,sec,msec,playguideText,timer_text,header;
-    private ImageView playButton;
+    private Button playButton;
     private long secs,mins,hrs;
     private String seconds,milliseconds,hours,minutes;
     private RelativeLayout playContainer,counterContainer;
@@ -62,7 +47,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         playContainer = (RelativeLayout)findViewById(R.id.playButtonContainer);
         counterContainer = (RelativeLayout)findViewById(R.id.startTimerContainer);
         playguideText = (TextView)findViewById(R.id.guideText);
-        playButton = (ImageView)findViewById(R.id.playButton);
+        playButton = (Button)findViewById(R.id.playButton);
         timer_text = (TextView)findViewById(R.id.timer_text);
         header = (TextView)findViewById(R.id.header);
         playButton.setOnClickListener(this);
