@@ -50,6 +50,38 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
         anim.start();
     }
 
+<<<<<<< HEAD
+=======
+    @Override
+    protected void onResume() {
+        super.onResume();
+        theme = sharedPreferences.getString("theme","white");
+        grid = sharedPreferences.getString("grid","3");
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_front_page, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+>>>>>>> b2598c7d567a52e107d46b7dfca3dfe954d39da6
 
     @Override
     public void onClick(View v) {
