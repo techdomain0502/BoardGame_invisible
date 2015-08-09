@@ -302,7 +302,6 @@ public class Board extends TableLayout {
             @Override
             public void onAnimationEnd(Animation animation) {
                 temp.setVisibility(View.VISIBLE);
-                temp.setBackgroundResource(drawable[(x * no_rows + y) % 9]);
                 temp.setText(text);
                 temp.setBackgroundDrawable(background);
                 pos_array[x][y] = 0;
