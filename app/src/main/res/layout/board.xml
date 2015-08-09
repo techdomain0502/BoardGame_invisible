@@ -94,27 +94,20 @@
             android:textColor="@android:color/black"
             android:textSize="40sp" />
 
-        <FrameLayout
-            android:layout_below="@+id/header"
-            android:id="@+id/timer_text_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
             <com.board.game.sasha.ArcTimer
+                android:layout_below="@+id/header"
                 android:id="@+id/arcTimer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 />
             <TextView
                 android:id="@+id/timer_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/pink"
-                android:layout_gravity="center"
+                android:layout_centerInParent="true"
                 android:textSize="100sp" />
 
-        </FrameLayout>
     </RelativeLayout>
 
     <RelativeLayout

@@ -12,6 +12,15 @@
         <item name="android:textSize">25dp</item>
     </style>
 
+    <style name="SettingsTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/btn_green_matte</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+
     <style name="frontpageButtonText">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center_horizontal</item>

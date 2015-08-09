@@ -13,7 +13,6 @@ public class SettingsScreen extends PreferenceActivity implements SharedPreferen
     private  ListPreference theme,grid,sound;
     private  final String MyPREFERENCES = "MyPrefs1" ;
     private  final String Grid = "grid";
-    private  final String Theme = "theme";
     private  final String Sound = "sound";
 
     SharedPreferences sharedPreferences;
@@ -23,7 +22,6 @@ public class SettingsScreen extends PreferenceActivity implements SharedPreferen
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.settings);
 
-        theme = (ListPreference)findPreference("theme");
         grid = (ListPreference)findPreference("grid");
         sound = (ListPreference)findPreference("sound");
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
@@ -37,11 +35,7 @@ public class SettingsScreen extends PreferenceActivity implements SharedPreferen
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if(key.equalsIgnoreCase("theme")){
-            String value  = theme.getValue();
-           theme.setSummary(value);
-        }
-        else if(key.equalsIgnoreCase("grid")){
+        if(key.equalsIgnoreCase("grid")){
             String value = grid.getValue();
             grid.setSummary(value);
         }
@@ -54,14 +48,12 @@ public class SettingsScreen extends PreferenceActivity implements SharedPreferen
     private void updatePreferences(){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(Grid, grid.getValue());
-        editor.putString(Theme, theme.getValue());
         editor.putString(Sound,sound.getValue());
         editor.commit();
     }
 
     private void updateSettingsUI() {
         grid.setSummary(grid.getValue());
-        theme.setSummary(theme.getValue());
         sound.setSummary(sound.getValue());
     }
 }

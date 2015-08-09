@@ -21,7 +21,6 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
     Button new_game;
     Button configuration;
     SharedPreferences sharedPreferences;
-    String theme;
     String grid;
     String sound;
 
@@ -53,7 +52,6 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
     @Override
     protected void onResume() {
         super.onResume();
-        theme = sharedPreferences.getString("theme", "white");
         grid = sharedPreferences.getString("grid","3");
         sound = sharedPreferences.getString("sound","on");
     }
@@ -65,7 +63,6 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
                 break;
             case R.id.new_game:
                 Intent newgame = new Intent(this, MainActivity.class);
-                newgame.putExtra("theme",theme);
                 newgame.putExtra("grid",grid);
                 newgame.putExtra("sound",sound);
                 startActivity(newgame);

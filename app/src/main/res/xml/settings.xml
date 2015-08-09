@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 <PreferenceCategory
     android:title="Game Settings"
     android:key="main_category">
-    <ListPreference
-        android:title="Choose Game Theme"
-        android:summary="Choose the board color"
-        android:key="theme"
-        android:entries="@array/theme_entry"
-        android:defaultValue="@string/white"
-        android:persistent="true"
-        android:entryValues="@array/theme_value"/>
 
     <ListPreference
         android:title="Grid Size"
