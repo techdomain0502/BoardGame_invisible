@@ -25,8 +25,9 @@ public  class ArcTimer extends View {
     private Animation anim;
     private   float delta=120;
     private  float startAngle=-90;
-    private Paint p = new Paint();
-    private Paint p1 = new Paint();
+    private Paint p ;
+    private Paint p1 ;
+    private Paint p2;
     private float sweepdelta = 0;
 
     // CONSTRUCTOR
@@ -42,6 +43,9 @@ public  class ArcTimer extends View {
         init();
     }
     private void init() {
+        p = new Paint();
+        p1 = new Paint();
+        p2 = new Paint();
         anim = new CustomAnimation();
         this.setAnimation(anim);
         anim.setDuration(1000);
@@ -49,7 +53,11 @@ public  class ArcTimer extends View {
         p1.setAntiAlias(true);
         p1.setColor(getResources().getColor(R.color.orange));
         p1.setStyle(Paint.Style.STROKE);
-        p1.setStrokeWidth(15);
+        p1.setStrokeWidth(10);
+        p2.setAntiAlias(true);
+        p2.setColor(getResources().getColor(R.color.green));
+        p2.setStyle(Paint.Style.STROKE);
+        p2.setStrokeWidth(10);
 
         sweepdelta = sweepAngle;
         anim.start();
@@ -59,6 +67,7 @@ public  class ArcTimer extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         rectF = new RectF(getWidth()/8,getWidth()/8, 7*getWidth()/8,7*getWidth()/8);
+        rectF1 = new RectF(getWidth()/8-15,getWidth()/8-15, 7*getWidth()/8+15,7*getWidth()/8+15);
     }
 
     public void updateSweepAngle(){
@@ -70,7 +79,9 @@ public  class ArcTimer extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawOval(rectF, p);
-        canvas.drawArc (rectF, startAngle,sweepAngle, false, p1);
+        canvas.drawOval(rectF1, p);
+        canvas.drawArc(rectF, startAngle,sweepAngle, false, p1);
+        canvas.drawArc (rectF1,startAngle,-sweepAngle, false, p2);
     }
 
     private class CustomAnimation extends Animation{
