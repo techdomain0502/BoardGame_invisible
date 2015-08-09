@@ -21,6 +21,15 @@
         android:defaultValue="@string/three"
         android:entryValues="@array/grid_value"/>
 
+    <ListPreference
+        android:title="Sound Mode"
+        android:summary="Choose to Turn on/off Sounds"
+        android:key="sound"
+        android:entries="@array/sound_entry"
+        android:persistent="true"
+        android:defaultValue="@string/on"
+        android:entryValues="@array/sound_value"/>
+
 
 </PreferenceCategory>
 </PreferenceScreen>

@@ -10,10 +10,12 @@ import android.view.MenuItem;
 
 
 public class SettingsScreen extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
-    private ListPreference theme,grid;
-    public static final String MyPREFERENCES = "MyPrefs1" ;
-    public static final String Grid = "grid";
-    public static final String Theme = "theme";
+    private  ListPreference theme,grid,sound;
+    private  final String MyPREFERENCES = "MyPrefs1" ;
+    private  final String Grid = "grid";
+    private  final String Theme = "theme";
+    private  final String Sound = "sound";
+
     SharedPreferences sharedPreferences;
 
     @Override
@@ -23,6 +25,7 @@ public class SettingsScreen extends PreferenceActivity implements SharedPreferen
 
         theme = (ListPreference)findPreference("theme");
         grid = (ListPreference)findPreference("grid");
+        sound = (ListPreference)findPreference("sound");
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
         sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
@@ -30,27 +33,7 @@ public class SettingsScreen extends PreferenceActivity implements SharedPreferen
         updateSettingsUI();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_settings_screen, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -61,20 +44,24 @@ public class SettingsScreen extends PreferenceActivity implements SharedPreferen
         else if(key.equalsIgnoreCase("grid")){
             String value = grid.getValue();
             grid.setSummary(value);
-
+        }
+        else if(key.equalsIgnoreCase("sound")){
+            String value = sound.getValue();
+            sound.setSummary(value);
         }
         updatePreferences();
     }
     private void updatePreferences(){
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
         editor.putString(Grid, grid.getValue());
         editor.putString(Theme, theme.getValue());
+        editor.putString(Sound,sound.getValue());
         editor.commit();
     }
 
     private void updateSettingsUI() {
         grid.setSummary(grid.getValue());
         theme.setSummary(theme.getValue());
+        sound.setSummary(sound.getValue());
     }
 }

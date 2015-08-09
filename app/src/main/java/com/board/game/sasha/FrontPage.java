@@ -23,6 +23,7 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
     SharedPreferences sharedPreferences;
     String theme;
     String grid;
+    String sound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
         super.onResume();
         theme = sharedPreferences.getString("theme", "white");
         grid = sharedPreferences.getString("grid","3");
+        sound = sharedPreferences.getString("sound","on");
     }
 
     @Override
@@ -65,6 +67,7 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
                 Intent newgame = new Intent(this, MainActivity.class);
                 newgame.putExtra("theme",theme);
                 newgame.putExtra("grid",grid);
+                newgame.putExtra("sound",sound);
                 startActivity(newgame);
                 break;
             case R.id.config:

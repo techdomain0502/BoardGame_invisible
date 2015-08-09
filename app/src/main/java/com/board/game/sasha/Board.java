@@ -2,6 +2,8 @@ package com.board.game.sasha;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,8 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
+
+import com.board.game.sasha.com.board.game.sasha.logutils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,8 +49,17 @@ public class Board extends TableLayout {
         this.setWillNotDraw(false);
         this.setClipChildren(false);
     }
-
-    public void initBoard(int size) {
+    private SoundPool sp;
+    private int sound[];
+    private boolean isSoundEnabled;
+    public void initBoard(int size,String soundMode) {
+        isSoundEnabled=(soundMode.equalsIgnoreCase("on"))?true:false;
+        if(isSoundEnabled) {
+           sound = new int[2];
+           sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+           sound[0] = sp.load(context, R.raw.valid, 1);
+           sound[1] = sp.load(context, R.raw.invalid, 1);
+       }
         BOARD_SIZE = size;
         no_rows = size;
         no_cols = size;
@@ -163,6 +176,8 @@ public class Board extends TableLayout {
             if(validate_DownMove(x,y))
                 animDown((Button)v,x,y);
             else{
+                if(isSoundEnabled)
+                  sp.play(sound[1], 1, 1, 1, 0,(float) 1.0);
                 //if(vib.hasVibrator())
                   //  vib.vibrate(100);
                 Toast.makeText(context, "InValid Move", Toast.LENGTH_SHORT).show();
@@ -177,6 +192,8 @@ public class Board extends TableLayout {
             if(validate_LeftMove(x,y))
                 animLeft((Button)v,x,y);
             else{
+                if(isSoundEnabled)
+                  sp.play(sound[1], 1, 1, 1, 0,(float) 1.0);
                 //if(vib.hasVibrator())
                   //  vib.vibrate(100);
                 Toast.makeText(context,"InValid Move",Toast.LENGTH_SHORT).show();
@@ -192,6 +209,8 @@ public class Board extends TableLayout {
             if(validate_RightMove(x,y))
                 animRight((Button)v,x,y);
             else{
+                if(isSoundEnabled)
+                   sp.play(sound[1], 1, 1, 1, 0,(float) 1.0);
               //  if(vib.hasVibrator())
                 //    vib.vibrate(100);
                 Toast.makeText(context,"InValid Move",Toast.LENGTH_SHORT).show();
@@ -206,6 +225,8 @@ public class Board extends TableLayout {
             if(validate_UpMove(x,y))
                 animTop((Button)v,x,y);
             else{
+                if(isSoundEnabled)
+                   sp.play(sound[1], 1, 1, 1, 0,(float) 1.0);
               //  if(vib.hasVibrator())
                 //    vib.vibrate(1000);
                 Toast.makeText(context,"InValid Move",Toast.LENGTH_SHORT).show();
@@ -249,6 +270,8 @@ public class Board extends TableLayout {
 
 
     private void animRight(Button btn,final int x,final int y){
+        if(isSoundEnabled)
+          sp.play(sound[0], 1, 1, 1, 0,(float) 1.0);
         final TableRow row = (TableRow)this.getChildAt(x);
         temp = (Button) row.getChildAt(y);
         final String text = temp.getText().toString();
@@ -283,6 +306,8 @@ public class Board extends TableLayout {
     }
 
     private void animLeft(Button btn,final int x,final int y){
+        if(isSoundEnabled)
+          sp.play(sound[0], 1, 1, 1, 0,(float) 1.0);
         final  TableRow row = (TableRow)this.getChildAt(x);
         temp = (Button) row.getChildAt(y);
         final  String text = temp.getText().toString();
@@ -318,7 +343,8 @@ public class Board extends TableLayout {
 
 
     private void animTop(Button btn,final int x,final int y){
-
+        if(isSoundEnabled)
+           sp.play(sound[0], 1, 1, 1, 0,(float) 1.0);
         final TableRow row = (TableRow)this.getChildAt(x);
         final TableRow row1 = (TableRow)this.getChildAt(x-1);
         temp = (Button) row.getChildAt(y);
@@ -353,6 +379,8 @@ public class Board extends TableLayout {
     }
 
     private void animDown(Button btn,final int x,final int y){
+        if(isSoundEnabled)
+          sp.play(sound[0], 1, 1, 1, 0,(float) 1.0);
         final  TableRow row = (TableRow)this.getChildAt(x);
         final TableRow row1 = (TableRow)this.getChildAt(x+1);
         temp = (Button) row.getChildAt(y);
@@ -408,5 +436,13 @@ public class Board extends TableLayout {
         return false;
     }
 
+
+    public void flushSoundPool(){
+        if(sp!=null) {
+            sp.release();
+            sp = null;
+            LogUtils.LOGD("BoardGame", "flushSoundPool-- Board");
+        }
+    }
 
 }

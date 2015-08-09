@@ -40,8 +40,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.board);
-		  Bundle  i = getIntent().getExtras();
+        Bundle  i = getIntent().getExtras();
         String grid = i.get("grid").toString();
+        String soundMode = i.get("sound").toString();
         board = (Board)findViewById(R.id.board);
 		 hr = (TextView)findViewById(R.id.hour);
         min = (TextView)findViewById(R.id.min);
@@ -55,7 +56,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         timer_text = (TextView)findViewById(R.id.timer_text);
         header = (TextView)findViewById(R.id.header);
         playButton.setOnClickListener(this);
-        board.initBoard(Integer.valueOf(grid));
+        board.initBoard(Integer.valueOf(grid),soundMode);
         initAnimation();
 
         timer = new CountDownTimer(3500,1000) {
@@ -210,5 +211,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             anim.cancel();
         if(mHandler!=null && startTimer!=null)
             mHandler.removeCallbacks(startTimer);
+        if(board != null)
+            board.flushSoundPool();
     }
 }
