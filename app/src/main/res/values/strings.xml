@@ -4,6 +4,7 @@
     <string name="app_name">Board</string>
     <string name="three">3</string>
     <string name="four">4</string>
+    <string name="five">5</string>
     <string name="white">white</string>
     <string name="black">black</string>
     <string name="hello_world">Hello world!</string>

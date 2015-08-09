@@ -3,10 +3,12 @@
     <string-array name="grid_entry">
         <item>3 X 3</item>
         <item>4 X 4</item>
+        <item>5 X 5</item>
     </string-array>
     <string-array name="grid_value">
         <item>@string/three</item>
         <item>@string/four</item>
+        <item>@string/five</item>
     </string-array>
     <string-array name="theme_entry">
         <item>White</item>
