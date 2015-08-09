@@ -32,12 +32,5 @@
             android:layout_height="wrap_content"
             android:background="@drawable/firstpage_button3_selector"
             android:text="@string/configuration" />
-        <Button
-            android:id="@+id/share"
-            style="@style/frontpageButtonText"
-            android:layout_height="wrap_content"
-            android:background="@drawable/btn_blue_matte"
-            android:text="@string/share" />
-
     </LinearLayout>
 </RelativeLayout>
