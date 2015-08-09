@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.board.game.sasha.com.board.game.sasha.logutils.LogUtils;
+
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener{
     private Board board;
@@ -33,6 +35,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private ScaleAnimation scaleAnimation;
     private AnimationSet set;
     private CountDownTimer timer;
+    private ArcTimer arcTimer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +47,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         min = (TextView)findViewById(R.id.min);
         sec = (TextView)findViewById(R.id.sec);
         msec = (TextView)findViewById(R.id.msec);
+        arcTimer = (ArcTimer)findViewById(R.id.arcTimer);
         playContainer = (RelativeLayout)findViewById(R.id.playButtonContainer);
         counterContainer = (RelativeLayout)findViewById(R.id.startTimerContainer);
         playguideText = (TextView)findViewById(R.id.guideText);
@@ -54,10 +58,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         board.initBoard(Integer.valueOf(grid));
         initAnimation();
 
-        timer = new CountDownTimer(3050,1000) {
+        timer = new CountDownTimer(3500,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                Log.d("timerdemo",""+millisUntilFinished);
+                LogUtils.LOGD("timerdemo","millisUntilFinished"+millisUntilFinished);
+                 arcTimer.updateSweepAngle();
                  timer_text.setText(""+millisUntilFinished/1000);
                  timer_text.startAnimation(set);
             }

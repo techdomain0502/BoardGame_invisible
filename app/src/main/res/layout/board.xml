@@ -85,19 +85,36 @@
             android:id="@+id/header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/timer_text"
+            android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@drawable/btn_pink_matte"
             android:text="Game Begins in"
             android:textColor="@android:color/black"
             android:textSize="40sp" />
 
-        <TextView
-            android:id="@+id/timer_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textColor="@android:color/black"
-            android:textSize="150dp" />
+        <FrameLayout
+            android:layout_below="@+id/header"
+            android:id="@+id/timer_text_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <com.board.game.sasha.ArcTimer
+                android:id="@+id/arcTimer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                />
+            <TextView
+                android:id="@+id/timer_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/pink"
+                android:layout_gravity="center"
+                android:textSize="100sp" />
+
+        </FrameLayout>
     </RelativeLayout>
 
     <RelativeLayout
@@ -112,11 +129,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
+            android:background="@drawable/btn_orange_matte"
             android:padding="10dp"
             android:text="@string/beginHeader"
             android:textColor="@android:color/black"
             android:textSize="30dp"
-            android:background="@drawable/btn_orange_matte"
             android:textStyle="bold|italic" />
 
         <Button
