@@ -29,10 +29,11 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
     public static final String MyPREFERENCES = "MyPrefs1" ;
     Button continue_last;
     Button new_game;
-    Button configuration,share;
+    Button configuration,share_fb,share_tw;
     SharedPreferences sharedPreferences;
     String grid;
     String sound;
+
     CallbackManager callbackManager;
     ShareDialog shareDialog;
     @Override
@@ -65,25 +66,25 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
         continue_last = (Button)findViewById(R.id.continue_last);
         new_game = (Button)findViewById(R.id.new_game);
         configuration = (Button)findViewById(R.id.config);
-        share = (Button)findViewById(R.id.share);
-
+        share_fb = (Button)findViewById(R.id.share_fb);
+        share_tw = (Button)findViewById(R.id.share_tw);
         continue_last.setOnClickListener(this);
         new_game.setOnClickListener(this);
         configuration.setOnClickListener(this);
-        share.setOnClickListener(this);
-
+        share_fb.setOnClickListener(this);
+        share_tw.setOnClickListener(this);
         Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_left_to_right);
         continue_last.setAnimation(anim);
+        share_fb.setAnimation(anim);
         anim.start();
         anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_right_to_left);
         new_game.setAnimation(anim);
+        share_tw.setAnimation(anim);
         anim.start();
         anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_bottom_to_top);
         configuration.setAnimation(anim);
         anim.start();
-        anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_left_to_right);
-        share.setAnimation(anim);
-        anim.start();
+
 
     }
 
@@ -115,7 +116,7 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
                 Intent settings_intent= new Intent(this,SettingsScreen.class);
                 startActivity(settings_intent);
                 break;
-            case R.id.share:
+            case R.id.share_fb:
                 if (ShareDialog.canShow(ShareLinkContent.class)) {
                     ShareLinkContent linkContent = new ShareLinkContent.Builder()
                             .setContentTitle("Board Game - Please share it.")

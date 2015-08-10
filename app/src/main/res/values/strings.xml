@@ -13,7 +13,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="configuration">Options</string>
-    <string name="share">Share on Facebook</string>
+    <string name="share_fb">Share us on Facebook</string>
+    <string name="share_tw">Share us on Twitter</string>
     <string name="new_game">New Game</string>
     <string name="continue_last">Continue Last</string>
     <string name="title_activity_settings_screen">SettingsScreen</string>

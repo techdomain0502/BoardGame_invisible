@@ -8,8 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
 
         <Button
@@ -32,12 +31,19 @@
             android:layout_height="wrap_content"
             android:background="@drawable/firstpage_button3_selector"
             android:text="@string/configuration" />
+
         <Button
-            android:id="@+id/share"
+            android:id="@+id/share_fb"
             style="@style/frontpageButtonText"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_blue_matte"
-            android:text="@string/share" />
+            android:text="@string/share_fb" />
 
+        <Button
+            android:id="@+id/share_tw"
+            style="@style/frontpageButtonText"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_blue_matte"
+            android:text="@string/share_tw" />
     </LinearLayout>
 </RelativeLayout>
