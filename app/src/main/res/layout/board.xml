@@ -78,7 +78,7 @@
         android:id="@+id/startTimerContainer"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/countdown_frame"
+        android:background="@drawable/initial_page_background"
         android:visibility="invisible">
 
         <TextView
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/pink"
                 android:layout_centerInParent="true"
-                android:textSize="100sp" />
+                android:textSize="150sp" />
 
     </RelativeLayout>
 
@@ -114,7 +114,7 @@
         android:id="@+id/playButtonContainer"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/countdown_frame">
+        android:background="@drawable/initial_page_background">
 
         <TextView
             android:id="@+id/headerText"

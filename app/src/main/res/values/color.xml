@@ -5,4 +5,7 @@
     <color name="green">#6da323</color>
     <color name="orange">#f78d1d</color>
     <color name="pink">#cd4c5b</color>
+    <color name="lightgreen">#20dc16</color>
+    <color name="darkgreen">#50ae4b</color>
+
 </resources>

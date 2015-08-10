@@ -51,13 +51,13 @@ public  class ArcTimer extends View {
         anim.setDuration(1000);
         p.setColor(Color.TRANSPARENT);
         p1.setAntiAlias(true);
-        p1.setColor(getResources().getColor(R.color.orange));
+        p1.setColor(getResources().getColor(R.color.darkgreen));
         p1.setStyle(Paint.Style.STROKE);
-        p1.setStrokeWidth(10);
+        p1.setStrokeWidth(15);
         p2.setAntiAlias(true);
-        p2.setColor(getResources().getColor(R.color.green));
+        p2.setColor(getResources().getColor(R.color.lightgreen));
         p2.setStyle(Paint.Style.STROKE);
-        p2.setStrokeWidth(10);
+        p2.setStrokeWidth(5);
 
         sweepdelta = sweepAngle;
         anim.start();
@@ -81,7 +81,7 @@ public  class ArcTimer extends View {
         canvas.drawOval(rectF, p);
         canvas.drawOval(rectF1, p);
         canvas.drawArc(rectF, startAngle,sweepAngle, false, p1);
-        canvas.drawArc (rectF1,startAngle,-sweepAngle, false, p2);
+        canvas.drawArc (rectF1,startAngle,sweepAngle, false, p2);
     }
 
     private class CustomAnimation extends Animation{
