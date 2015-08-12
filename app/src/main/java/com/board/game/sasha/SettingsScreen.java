@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 public class SettingsScreen extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
     private  ListPreference theme,grid,sound;
-    private  final String MyPREFERENCES = "MyPrefs1" ;
+    private  final String MyPREFERENCES = "gameprefs" ;
     private  final String Grid = "grid";
     private  final String Sound = "sound";
 
