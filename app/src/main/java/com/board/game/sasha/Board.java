@@ -468,7 +468,9 @@ public class Board extends TableLayout {
             }
         }
         if(result==1) {
-            new AlertDialogFactory(context.getApplicationContext(),"FINISH").getDialog();
+            AlertDialog dialog = new AlertDialogFactory(context.getApplicationContext(),"FINISH").getDialog();
+            if(dialog!=null)
+                dialog.show();
             return true;
         }
         return false;
@@ -484,24 +486,6 @@ public class Board extends TableLayout {
     }
 
 
-
-    private void showSuccessDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage("You Won!!");
-        builder.setTitle("Congratulations.");
-        builder.setPositiveButton( "Play Again", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                ((MainActivity)context).finish();
-            }
-        })
-                .setNegativeButton( "Exit Game", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        ((MainActivity)context).finish();
-                    }
-                } );
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
 
 
 }

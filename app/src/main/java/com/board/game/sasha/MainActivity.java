@@ -1,5 +1,6 @@
 package com.board.game.sasha;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -262,7 +263,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onBackPressed() {
 
         if (board != null && (playContainer.getVisibility() == View.GONE && counterContainer.getVisibility() == View.GONE)) {
-            new AlertDialogFactory(MainActivity.this, "EXIT").getDialog().show();
+            AlertDialog dialog = new AlertDialogFactory(MainActivity.this, "EXIT").getDialog();
+            if(dialog!=null)
+                dialog.show();
         } else
             super.onBackPressed();
     }
