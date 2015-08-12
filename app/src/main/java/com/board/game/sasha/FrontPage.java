@@ -15,7 +15,8 @@ import android.widget.Toast;
 import com.board.game.sasha.MainActivity;
 import com.board.game.sasha.R;
 import com.board.game.sasha.SettingsScreen;
-import com.board.game.sasha.com.board.game.sasha.logutils.LogUtils;
+import com.board.game.sasha.logutils.LogUtils;
+import com.board.game.sasha.twitter.TwitterActivity;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -26,7 +27,7 @@ import com.facebook.share.widget.ShareDialog;
 
 
 public class FrontPage extends ActionBarActivity implements View.OnClickListener {
-    public static final String MyPREFERENCES = "MyPrefs1" ;
+    public static final String MyPREFERENCES = "gameprefs" ;
     Button continue_last;
     Button new_game;
     Button configuration,share_fb,share_tw;
@@ -105,12 +106,16 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.continue_last:
+                Intent savedGame = new Intent(this, MainActivity.class);
+                startActivity(savedGame);
+                finish();
                 break;
             case R.id.new_game:
-                Intent newgame = new Intent(this, MainActivity.class);
-                newgame.putExtra("grid",grid);
-                newgame.putExtra("sound",sound);
-                startActivity(newgame);
+                Intent newGame = new Intent(this, MainActivity.class);
+                newGame.putExtra("grid",grid);
+                newGame.putExtra("sound",sound);
+                startActivity(newGame);
+                finish();
                 break;
             case R.id.config:
                 Intent settings_intent= new Intent(this,SettingsScreen.class);
@@ -129,7 +134,12 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
                     shareDialog.show(linkContent);
                 }
                 break;
+            case R.id.share_tw:
+                Intent twitter_intent= new Intent(this,TwitterActivity.class);
+                startActivity(twitter_intent);
+                break;
         }
+
 
     }
 

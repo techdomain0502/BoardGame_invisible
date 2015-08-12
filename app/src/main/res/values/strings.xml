@@ -9,6 +9,17 @@
     <string name="black">black</string>
     <string name="on">on</string>
     <string name="off">off</string>
+    <string name="login_instructions">Login to twiter</string>
+    <string name="share_instructions">Enter share message</string>
+    <string name="btn_login">Login to Twitter</string>
+    <string name="btn_share">Share</string>
+
+    <!-- Twitter Configurations -->
+    <string name="twitter_callback">http://www.facebook.com/delhimetroassistant</string>
+    <string name="twitter_consumer_key">Llu66fenmKiftfDTL5T3rRpKH</string>
+    <string name="twitter_consumer_secret">AmQzXdkknF5Xf2qSzbvFNCWsNeukGQJMQKWN2CLVHJszRFp95c</string>
+    <string name="twitter_oauth_verifier">oauth_verifier</string>
+    <!-- End Configurations -->
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>

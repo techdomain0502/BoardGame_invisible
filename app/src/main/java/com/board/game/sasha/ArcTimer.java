@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
-import com.board.game.sasha.com.board.game.sasha.logutils.LogUtils;
+import com.board.game.sasha.logutils.LogUtils;
 
 /**
  * Created by sachin on 8/8/2015.

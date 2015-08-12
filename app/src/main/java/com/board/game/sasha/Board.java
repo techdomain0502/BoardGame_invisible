@@ -1,6 +1,8 @@
 package com.board.game.sasha;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -14,7 +16,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
 
-import com.board.game.sasha.com.board.game.sasha.logutils.LogUtils;
+import com.board.game.sasha.logutils.LogUtils;
+import com.board.game.sasha.dialog.AlertDialogFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,6 +46,7 @@ public class Board extends TableLayout {
                               R.drawable.btn_lightblue_glossy,R.drawable.btn_pink_glossy,
                               R.drawable.btn_white_glossy
                               };
+    boolean saved;
     public Board(Context ctxt, AttributeSet attr){
         super(ctxt, attr);
         context = ctxt;
@@ -52,25 +56,50 @@ public class Board extends TableLayout {
     private SoundPool sp;
     private int sound[];
     private boolean isSoundEnabled;
-    public void initBoard(int size,String soundMode) {
+
+    private void initSounds(String soundMode){
         isSoundEnabled=(soundMode.equalsIgnoreCase("on"))?true:false;
         if(isSoundEnabled) {
-           sound = new int[2];
-           sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-           sound[0] = sp.load(context, R.raw.valid, 1);
-           sound[1] = sp.load(context, R.raw.invalid, 1);
-       }
-        BOARD_SIZE = size;
-        no_rows = size;
-        no_cols = size;
-        initLabels();
-        initPosArray();
+            sound = new int[2];
+            sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+            sound[0] = sp.load(context, R.raw.valid, 1);
+            sound[1] = sp.load(context, R.raw.invalid, 1);
+        }
+    }
+
+    private void initRows(){
         rowArr = new TableRow[no_rows];
         for(int i=0;i<no_rows;i++) {
             rowArr[i] = new TableRow(context);
             TableRow.LayoutParams rowParams = new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             rowArr[i].setLayoutParams(rowParams);
         }
+    }
+
+    private void initDimens(int size){
+        LogUtils.LOGD("sachin",size+"=size");
+        BOARD_SIZE = size;
+        no_rows = size;
+        no_cols = size;
+    }
+
+
+    public void initBoard(int size, String soundMode,ArrayList<String> labels,boolean saved){
+        initSounds(soundMode);
+        this.saved = saved;
+        initDimens(size);
+        initLabels(labels);
+        initPosArray(labels);
+        initRows();
+    }
+
+
+    public void initBoard(int size,String soundMode) {
+        initSounds(soundMode);
+        initDimens(size);
+        initLabels();
+        initPosArray();
+        initRows();
         Collections.shuffle(labelList);
     }
 
@@ -81,6 +110,12 @@ public class Board extends TableLayout {
         }
     }
 
+    private void initLabels(ArrayList<String> savedList){
+        labelList = new ArrayList<String>();
+        for(int i=0;i<no_rows*no_cols;i++){
+            labelList.add(savedList.get(i));
+        }
+    }
     private void initPosArray(){
       pos_array = new int[no_rows][];
       for(int i=0;i<no_rows;i++)
@@ -95,11 +130,22 @@ public class Board extends TableLayout {
               else
                   pos_array[i][j]=1;
           }
-
-
-
     }
 
+    private void initPosArray(ArrayList<String> list){
+        pos_array = new int[no_rows][];
+        for(int i=0;i<no_rows;i++)
+            pos_array[i] = new int[no_cols];
+        for(int i=0;i<no_rows;i++)   //i*SIZE+j
+            for(int j=0;j<no_cols;j++) {
+                int pos = i*no_rows+j;
+                int val = Integer.valueOf(list.get(pos));
+                if(val==0)
+                    pos_array[i][j]=0;
+                else
+                    pos_array[i][j]=1;
+            }
+    }
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -178,8 +224,6 @@ public class Board extends TableLayout {
             else{
                 if(isSoundEnabled)
                   sp.play(sound[1], 1, 1, 1, 0,(float) 1.0);
-                //if(vib.hasVibrator())
-                  //  vib.vibrate(100);
                 Toast.makeText(context, "InValid Move", Toast.LENGTH_SHORT).show();
             }
         }
@@ -194,8 +238,6 @@ public class Board extends TableLayout {
             else{
                 if(isSoundEnabled)
                   sp.play(sound[1], 1, 1, 1, 0,(float) 1.0);
-                //if(vib.hasVibrator())
-                  //  vib.vibrate(100);
                 Toast.makeText(context,"InValid Move",Toast.LENGTH_SHORT).show();
             }
         }
@@ -211,8 +253,6 @@ public class Board extends TableLayout {
             else{
                 if(isSoundEnabled)
                    sp.play(sound[1], 1, 1, 1, 0,(float) 1.0);
-              //  if(vib.hasVibrator())
-                //    vib.vibrate(100);
                 Toast.makeText(context,"InValid Move",Toast.LENGTH_SHORT).show();
             }
         }
@@ -227,8 +267,6 @@ public class Board extends TableLayout {
             else{
                 if(isSoundEnabled)
                    sp.play(sound[1], 1, 1, 1, 0,(float) 1.0);
-              //  if(vib.hasVibrator())
-                //    vib.vibrate(1000);
                 Toast.makeText(context,"InValid Move",Toast.LENGTH_SHORT).show();
 
             }
@@ -430,7 +468,7 @@ public class Board extends TableLayout {
             }
         }
         if(result==1) {
-            Toast.makeText(context,"Won...",Toast.LENGTH_LONG).show();
+            new AlertDialogFactory(context.getApplicationContext(),"FINISH").getDialog();
             return true;
         }
         return false;
@@ -444,5 +482,26 @@ public class Board extends TableLayout {
             LogUtils.LOGD("BoardGame", "flushSoundPool-- Board");
         }
     }
+
+
+
+    private void showSuccessDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("You Won!!");
+        builder.setTitle("Congratulations.");
+        builder.setPositiveButton( "Play Again", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                ((MainActivity)context).finish();
+            }
+        })
+                .setNegativeButton( "Exit Game", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ((MainActivity)context).finish();
+                    }
+                } );
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 
 }

@@ -1,4 +1,4 @@
-package com.board.game.sasha.com.board.game.sasha.logutils;
+package com.board.game.sasha.logutils;
 
 import android.support.v4.BuildConfig;
 import android.util.Log;
