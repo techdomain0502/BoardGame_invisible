@@ -104,7 +104,7 @@ public class Board extends TableLayout {
         initRows();
         initMap();
         for(int i=0;i<labels.size();i++){
-            Log.d("savetest","intboard 2nd version labels="+labels.get(i));
+            LogUtils.LOGD("savetest","intboard 2nd version labels="+labels.get(i));
         }
     }
 
@@ -125,7 +125,7 @@ public class Board extends TableLayout {
                 labelList.add("");
             else
                 labelList.add(String.valueOf(i));
-            Log.d("savetest","initLabels labelist@"+i+" "+labelList.get(i));
+            LogUtils.LOGD("savetest","initLabels labelist@"+i+" "+labelList.get(i));
         }
     }
 
@@ -133,7 +133,7 @@ public class Board extends TableLayout {
         labelList = new ArrayList<String>();
         for(int i=0;i<no_rows*no_cols;i++){
             labelList.add(savedList.get(i));
-            Log.d("savetest","initlabels "+savedList.get(i));
+            LogUtils.LOGD("savetest","initlabels "+savedList.get(i));
         }
     }
     private void initPosArray(){
@@ -149,7 +149,7 @@ public class Board extends TableLayout {
                   pos_array[i][j]=0;
               else
                   pos_array[i][j]=1;
-              Log.d("savetest","initPosArray "+pos_array[i][j]);
+              LogUtils.LOGD("savetest","initPosArray "+pos_array[i][j]);
           }
     }
 
@@ -162,7 +162,7 @@ public class Board extends TableLayout {
                 int pos = i*no_rows+j;
 
                 String val = list.get(pos);
-                Log.d("savedstate","pos="+pos+" val="+val);
+                LogUtils.LOGD("savedstate","pos="+pos+" val="+val);
                 if(Utils.isNullorWhiteSpace(val))
                     pos_array[i][j]=0;
                 else
@@ -176,7 +176,7 @@ public class Board extends TableLayout {
     }
 
     private void initialize() {
-        Log.d("savetest","board... initialize");
+        LogUtils.LOGD("savetest","board... initialize");
         int button_dimen = board_width / no_cols;
         TRANSLATE_OFFSET = button_dimen;
         int count =0;
@@ -195,7 +195,7 @@ public class Board extends TableLayout {
                     if(!Utils.isNullorWhiteSpace(labelList.get(count))) {
                         map.put(i * no_rows + j, labelList.get(count));
                         button.setText(labelList.get(count));
-                        Log.d("savetest", i + " " + j + " button.getText()" + button.getText() + " count=" + count + " " + labelList.get(count));
+                        LogUtils.LOGD("savetest", i + " " + j + " button.getText()" + button.getText() + " count=" + count + " " + labelList.get(count));
                         rowArr[i].addView(button);
                         count++;
                     }
@@ -203,7 +203,7 @@ public class Board extends TableLayout {
                         count++;
                         map.put(i * no_rows + j, labelList.get(count));
                         button.setText(labelList.get(count));
-                        Log.d("savetest", i + " " + j + " button.getText()" + button.getText() + " count=" + count + " " + labelList.get(count));
+                        LogUtils.LOGD("savetest", i + " " + j + " button.getText()" + button.getText() + " count=" + count + " " + labelList.get(count));
                         rowArr[i].addView(button);
                         count++;
                     }
@@ -211,7 +211,7 @@ public class Board extends TableLayout {
                else if(pos_array[i][j]==0) {
                     map.put(i * no_rows + j, "");
                     button.setText("");
-                    Log.d("savetest", i + " "+j + " " + button.getText());
+                    LogUtils.LOGD("savetest", i + " "+j + " " + button.getText());
                     rowArr[i].addView(button);
                     rowArr[i].getChildAt(j).setVisibility(View.INVISIBLE);
                 }
@@ -556,7 +556,7 @@ public class Board extends TableLayout {
            for(int i=0;i<length;i++){
                stateObject.put("id" + i, map.get(i).toString());
            }
-           Log.d("boardgame",stateObject.toString());
+           LogUtils.LOGD("boardgame",stateObject.toString());
            GameObject.put("savedstate", stateObject);
            SharedPreferences storedPrefs = context.getSharedPreferences("gameprefs",Context.MODE_PRIVATE);
            SharedPreferences.Editor editor = context.getSharedPreferences("gameprefs",Context.MODE_PRIVATE).edit();

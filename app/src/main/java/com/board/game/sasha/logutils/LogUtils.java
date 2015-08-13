@@ -8,8 +8,8 @@ import android.util.Log;
  */
 public class LogUtils {
     public static void LOGD(String TAG,String Msg){
-        if(!BuildConfig.DEBUG)
-            Log.d(TAG,Msg);
+        if(BuildConfig.DEBUG)
+            LogUtils.LOGD(TAG,Msg);
     }
 
     public static void LOGV(String TAG,String Msg){

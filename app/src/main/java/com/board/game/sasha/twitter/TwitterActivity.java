@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.board.game.sasha.R;
 import com.board.game.sasha.commonutils.Utils;
+import com.board.game.sasha.logutils.LogUtils;
 
 import java.io.InputStream;
 
@@ -362,10 +363,10 @@ public class TwitterActivity extends Activity implements OnClickListener {
 
                 twitter4j.Status response = twitter.updateStatus(statusUpdate);
 
-                Log.d("Status", response.getText());
+                LogUtils.LOGD("Status", response.getText());
 
             } catch (TwitterException e) {
-                Log.d("Failed to post!", e.getMessage());
+                LogUtils.LOGD("Failed to post!", e.getMessage());
             }
             return null;
         }
