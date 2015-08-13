@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,12 +45,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private AnimationSet set;
     private CountDownTimer timer;
     private ArcTimer arcTimer;
-    private boolean saved;
     private String gameStateObject;
     private SharedPreferences pref;
     private String grid;
     private String soundMode;
-
+    private boolean saved ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +57,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         Bundle i = getIntent().getExtras();
         grid = i.get("grid").toString();
         soundMode = i.get("sound").toString();
-
+        saved = i.getBoolean("saved", false);
+        LogUtils.LOGD("boardgame","saved="+saved);
         board = (Board) findViewById(R.id.board);
         hr = (TextView) findViewById(R.id.hour);
         min = (TextView) findViewById(R.id.min);
@@ -99,20 +100,18 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     private void parseSavedJsonGameState() {
         try {
-            boolean saved = false;
-            saved = pref.getBoolean("saved", false);
             ArrayList<String> labelList = new ArrayList<String>();
 
             if (saved) {
                 String jsongString = pref.getString("gamestate", "");
-
                 JSONObject GameObject = new JSONObject(jsongString);
                 int size = GameObject.getInt("gamesize");
                 int len = size * size;
-                JSONObject obj = (JSONObject) GameObject.get("gamestate");
+                JSONObject obj = (JSONObject) GameObject.get("savedstate");
+
                 for (int i = 0; i < len; i++) {
-                    labelList.add(obj.get("index" + i).toString());
-                    LogUtils.LOGD("boardgame", obj.get("index" + i).toString());
+                    labelList.add(obj.get("id" + i).toString());
+                    LogUtils.LOGD("boardgame", obj.get("id" + i).toString());
                 }
                 board.initBoard(size, soundMode, labelList, saved);
             } else {
@@ -269,4 +268,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         } else
             super.onBackPressed();
     }
+
+    public void notifyBoardToSave(){
+        if(board!=null){
+            board.saveGameState();
+        }
+    }
+
+
 }

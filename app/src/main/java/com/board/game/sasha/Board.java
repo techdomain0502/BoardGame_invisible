@@ -3,10 +3,12 @@ package com.board.game.sasha;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -19,8 +21,12 @@ import android.widget.Toast;
 import com.board.game.sasha.logutils.LogUtils;
 import com.board.game.sasha.dialog.AlertDialogFactory;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -39,6 +45,7 @@ public class Board extends TableLayout {
     private Button temp;
     private ArrayList<String> labelList;
     private int[][] pos_array ;
+    private HashMap<Integer,Integer> map;
     private int TRANSLATE_OFFSET = 100;
     private int drawable[] = {R.drawable.btn_army_glossy,R.drawable.btn_black_glossy,
                               R.drawable.btn_blue_glossy,R.drawable.btn_blue_pink_glossy,
@@ -91,6 +98,11 @@ public class Board extends TableLayout {
         initLabels(labels);
         initPosArray(labels);
         initRows();
+        initMap();
+    }
+
+    private void initMap() {
+        map = new HashMap<Integer,Integer>();
     }
 
 
@@ -100,6 +112,7 @@ public class Board extends TableLayout {
         initLabels();
         initPosArray();
         initRows();
+        initMap();
         Collections.shuffle(labelList);
     }
 
@@ -114,6 +127,7 @@ public class Board extends TableLayout {
         labelList = new ArrayList<String>();
         for(int i=0;i<no_rows*no_cols;i++){
             labelList.add(savedList.get(i));
+            Log.d("boardgame","initlabels "+savedList.get(i));
         }
     }
     private void initPosArray(){
@@ -139,7 +153,9 @@ public class Board extends TableLayout {
         for(int i=0;i<no_rows;i++)   //i*SIZE+j
             for(int j=0;j<no_cols;j++) {
                 int pos = i*no_rows+j;
+
                 int val = Integer.valueOf(list.get(pos));
+                Log.d("boardgame","pos="+pos+" val="+val);
                 if(val==0)
                     pos_array[i][j]=0;
                 else
@@ -161,16 +177,23 @@ public class Board extends TableLayout {
             for (int j = 0; j < no_cols; j++) {
                 TableRow.LayoutParams buttonParams = new TableRow.LayoutParams(button_dimen, button_dimen);
                 Button button = new Button(context);
-                button.setTextAppearance(context,R.style.ButtonText);
+                button.setTextAppearance(context, R.style.ButtonText);
                 button.setLayoutParams(buttonParams);
                 button.setTag(new Coord(i, j));
-                button.setBackgroundResource(drawable[(i*no_rows+j)%8]);
+                button.setBackgroundResource(drawable[(i * no_rows + j) % 8]);
                 button.setOnTouchListener(new onFlingGestureListenerImpl());
-                if(pos_array[i][j]==1)
+
+                if(pos_array[i][j]==1) {
+                    Log.d("boardgame","initialise "+labelList.get(count));
+                    map.put(i*no_rows+j,Integer.valueOf(labelList.get(count)));
                     button.setText(labelList.get(count++));
+                }
                 rowArr[i].addView(button);
-                if(pos_array[i][j]==0)
+                if(pos_array[i][j]==0) {
+                    Log.d("boardgame","initialise "+labelList.get(count));
+                    map.put(i*no_rows+j,0);
                     rowArr[i].getChildAt(j).setVisibility(View.INVISIBLE);
+                }
             }
         }
 
@@ -333,6 +356,8 @@ public class Board extends TableLayout {
                 temp.setBackgroundDrawable(background);
                 pos_array[x][y] = 0;
                 pos_array[x][y + 1] = 1;
+                map.put(x*no_rows+y,0);
+                map.put((x)*no_rows+(y+1),Integer.valueOf(text));
                 validateResult();
             }
 
@@ -369,6 +394,8 @@ public class Board extends TableLayout {
                 temp.setBackgroundDrawable(background);
                 pos_array[x][y] = 0;
                 pos_array[x][y - 1] = 1;
+                map.put(x*no_rows+y,0);
+                map.put((x)*no_rows+(y-1),Integer.valueOf(text));
                 validateResult();
             }
 
@@ -406,6 +433,8 @@ public class Board extends TableLayout {
                 temp.setBackgroundDrawable(background);
                 pos_array[x][y] = 0;
                 pos_array[x - 1][y] = 1;
+                map.put(x*no_rows+y,0);
+                map.put((x-1)*no_rows+y,Integer.valueOf(text));
                 validateResult();
             }
 
@@ -441,6 +470,8 @@ public class Board extends TableLayout {
                 temp.setBackgroundDrawable(background);
                 pos_array[x][y] = 0;
                 pos_array[x + 1][y] = 1;
+                map.put(x*no_rows+y,0);
+                map.put((x+1)*no_rows+y,Integer.valueOf(text));
                 validateResult();
             }
 
@@ -485,7 +516,29 @@ public class Board extends TableLayout {
         }
     }
 
+   public void saveGameState(){
+       JSONObject GameObject = new JSONObject();
+       JSONObject stateObject = new JSONObject();
+       try {
+           int length = map.size();
+           GameObject.put("gamesize",BOARD_SIZE);
+           for(int i=0;i<length;i++){
+               stateObject.put("id" + i, map.get(i).toString());
+           }
+           Log.d("boardgame",stateObject.toString());
+           GameObject.put("savedstate", stateObject);
+           SharedPreferences.Editor editor = context.getSharedPreferences("gameprefs",Context.MODE_PRIVATE).edit();
+           editor.clear();
+           editor.putString("gamestate", GameObject.toString());
+           editor.putBoolean("saved",true);
+           editor.commit();
 
+       } catch (JSONException e) {
+           e.printStackTrace();
+       }catch(Exception e){
+           e.printStackTrace();
+       }
+   }
 
 
 }

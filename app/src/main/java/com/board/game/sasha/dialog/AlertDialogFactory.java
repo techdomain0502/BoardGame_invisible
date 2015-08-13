@@ -35,7 +35,7 @@ public class AlertDialogFactory {
                     "Alert!!",
                     "Continue Game",
                     "Play Again",
-                    "Exit Game").getInstance();
+                    "Exit & Save").getInstance();
         }
         return null;
     }
@@ -80,7 +80,6 @@ public class AlertDialogFactory {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dismiss();
-
                 }
             });
 
@@ -98,6 +97,7 @@ public class AlertDialogFactory {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    ((MainActivity)context).notifyBoardToSave();
                     ((MainActivity) context).finish();
 
                 }

@@ -34,7 +34,7 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
     SharedPreferences sharedPreferences;
     String grid;
     String sound;
-
+    boolean saved;
     CallbackManager callbackManager;
     ShareDialog shareDialog;
     @Override
@@ -63,7 +63,7 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
         });
 
         sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-
+        saved = sharedPreferences.getBoolean("saved",false);
         continue_last = (Button)findViewById(R.id.continue_last);
         new_game = (Button)findViewById(R.id.new_game);
         configuration = (Button)findViewById(R.id.config);
@@ -75,7 +75,10 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
         share_fb.setOnClickListener(this);
         share_tw.setOnClickListener(this);
         Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_left_to_right);
-        continue_last.setAnimation(anim);
+        if(saved) {
+            continue_last.setVisibility(View.VISIBLE);
+            continue_last.setAnimation(anim);
+        }
         share_fb.setAnimation(anim);
         anim.start();
         anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_right_to_left);
@@ -85,8 +88,6 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
         anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_bottom_to_top);
         configuration.setAnimation(anim);
         anim.start();
-
-
     }
 
     @Override
@@ -107,13 +108,17 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
         switch (v.getId()){
             case R.id.continue_last:
                 Intent savedGame = new Intent(this, MainActivity.class);
+                savedGame.putExtra("saved",true);
+                savedGame.putExtra("grid",grid);
+                savedGame.putExtra("sound",sound);
                 startActivity(savedGame);
                 finish();
                 break;
             case R.id.new_game:
                 Intent newGame = new Intent(this, MainActivity.class);
-                newGame.putExtra("grid",grid);
+                newGame.putExtra("grid", grid);
                 newGame.putExtra("sound",sound);
+                newGame.putExtra("saved",false);
                 startActivity(newGame);
                 finish();
                 break;

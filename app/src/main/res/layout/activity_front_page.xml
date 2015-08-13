@@ -12,6 +12,7 @@
 
 
         <Button
+            android:visibility="gone"
             android:id="@+id/continue_last"
             style="@style/frontpageButtonText"
             android:layout_height="wrap_content"
