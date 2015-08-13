@@ -33,7 +33,7 @@ public class AlertDialogFactory {
             return new ExitDialog(context,
                     "Do you want to leave the Game?",
                     "Alert!!",
-                    "Continue Game",
+                    "Resume",
                     "Play Again",
                     "Exit & Save").getInstance();
         }

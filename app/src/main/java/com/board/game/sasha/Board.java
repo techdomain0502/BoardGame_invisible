@@ -18,6 +18,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
 
+import com.board.game.sasha.commonutils.Utils;
 import com.board.game.sasha.logutils.LogUtils;
 import com.board.game.sasha.dialog.AlertDialogFactory;
 
@@ -45,7 +46,7 @@ public class Board extends TableLayout {
     private Button temp;
     private ArrayList<String> labelList;
     private int[][] pos_array ;
-    private HashMap<Integer,Integer> map;
+    private HashMap<Integer,String> map;
     private int TRANSLATE_OFFSET = 100;
     private int drawable[] = {R.drawable.btn_army_glossy,R.drawable.btn_black_glossy,
                               R.drawable.btn_blue_glossy,R.drawable.btn_blue_pink_glossy,
@@ -90,6 +91,9 @@ public class Board extends TableLayout {
         no_cols = size;
     }
 
+    private void initMap() {
+        map = new HashMap<Integer, String>();
+    }
 
     public void initBoard(int size, String soundMode,ArrayList<String> labels,boolean saved){
         initSounds(soundMode);
@@ -99,12 +103,10 @@ public class Board extends TableLayout {
         initPosArray(labels);
         initRows();
         initMap();
+        for(int i=0;i<labels.size();i++){
+            Log.d("savetest","intboard 2nd version labels="+labels.get(i));
+        }
     }
-
-    private void initMap() {
-        map = new HashMap<Integer,Integer>();
-    }
-
 
     public void initBoard(int size,String soundMode) {
         initSounds(soundMode);
@@ -118,8 +120,12 @@ public class Board extends TableLayout {
 
     private void initLabels(){
         labelList = new ArrayList<String>();
-        for(int i=1;i<no_rows*no_cols;i++){
-            labelList.add(String.valueOf(i));
+        for(int i=0;i<no_rows*no_cols;i++){
+            if(i==(no_rows*no_cols-1))
+                labelList.add("");
+            else
+                labelList.add(String.valueOf(i));
+            Log.d("savetest","initLabels labelist@"+i+" "+labelList.get(i));
         }
     }
 
@@ -127,7 +133,7 @@ public class Board extends TableLayout {
         labelList = new ArrayList<String>();
         for(int i=0;i<no_rows*no_cols;i++){
             labelList.add(savedList.get(i));
-            Log.d("boardgame","initlabels "+savedList.get(i));
+            Log.d("savetest","initlabels "+savedList.get(i));
         }
     }
     private void initPosArray(){
@@ -143,6 +149,7 @@ public class Board extends TableLayout {
                   pos_array[i][j]=0;
               else
                   pos_array[i][j]=1;
+              Log.d("savetest","initPosArray "+pos_array[i][j]);
           }
     }
 
@@ -154,9 +161,9 @@ public class Board extends TableLayout {
             for(int j=0;j<no_cols;j++) {
                 int pos = i*no_rows+j;
 
-                int val = Integer.valueOf(list.get(pos));
-                Log.d("boardgame","pos="+pos+" val="+val);
-                if(val==0)
+                String val = list.get(pos);
+                Log.d("savedstate","pos="+pos+" val="+val);
+                if(Utils.isNullorWhiteSpace(val))
                     pos_array[i][j]=0;
                 else
                     pos_array[i][j]=1;
@@ -169,6 +176,7 @@ public class Board extends TableLayout {
     }
 
     private void initialize() {
+        Log.d("savetest","board... initialize");
         int button_dimen = board_width / no_cols;
         TRANSLATE_OFFSET = button_dimen;
         int count =0;
@@ -184,16 +192,30 @@ public class Board extends TableLayout {
                 button.setOnTouchListener(new onFlingGestureListenerImpl());
 
                 if(pos_array[i][j]==1) {
-                    Log.d("boardgame","initialise "+labelList.get(count));
-                    map.put(i*no_rows+j,Integer.valueOf(labelList.get(count)));
-                    button.setText(labelList.get(count++));
+                    if(!Utils.isNullorWhiteSpace(labelList.get(count))) {
+                        map.put(i * no_rows + j, labelList.get(count));
+                        button.setText(labelList.get(count));
+                        Log.d("savetest", i + " " + j + " button.getText()" + button.getText() + " count=" + count + " " + labelList.get(count));
+                        rowArr[i].addView(button);
+                        count++;
+                    }
+                    else{
+                        count++;
+                        map.put(i * no_rows + j, labelList.get(count));
+                        button.setText(labelList.get(count));
+                        Log.d("savetest", i + " " + j + " button.getText()" + button.getText() + " count=" + count + " " + labelList.get(count));
+                        rowArr[i].addView(button);
+                        count++;
+                    }
                 }
-                rowArr[i].addView(button);
-                if(pos_array[i][j]==0) {
-                    Log.d("boardgame","initialise "+labelList.get(count));
-                    map.put(i*no_rows+j,0);
+               else if(pos_array[i][j]==0) {
+                    map.put(i * no_rows + j, "");
+                    button.setText("");
+                    Log.d("savetest", i + " "+j + " " + button.getText());
+                    rowArr[i].addView(button);
                     rowArr[i].getChildAt(j).setVisibility(View.INVISIBLE);
                 }
+
             }
         }
 
@@ -242,8 +264,10 @@ public class Board extends TableLayout {
             int x = ((Coord)o).getX();
             int y = ((Coord)o).getY();
 
-            if(validate_DownMove(x,y))
-                animDown((Button)v,x,y);
+            if(validate_DownMove(x,y)) {
+                ((MainActivity)context).updateMoves();
+                animDown((Button) v, x, y);
+            }
             else{
                 if(isSoundEnabled)
                   sp.play(sound[1], 1, 1, 1, 0,(float) 1.0);
@@ -256,8 +280,10 @@ public class Board extends TableLayout {
             int x = ((Coord)o).getX();
             int y = ((Coord)o).getY();
 
-            if(validate_LeftMove(x,y))
-                animLeft((Button)v,x,y);
+            if(validate_LeftMove(x,y)) {
+                ((MainActivity)context).updateMoves();
+                animLeft((Button) v, x, y);
+            }
             else{
                 if(isSoundEnabled)
                   sp.play(sound[1], 1, 1, 1, 0,(float) 1.0);
@@ -271,8 +297,10 @@ public class Board extends TableLayout {
             int x = ((Coord)o).getX();
             int y = ((Coord)o).getY();
 
-            if(validate_RightMove(x,y))
-                animRight((Button)v,x,y);
+            if(validate_RightMove(x,y)) {
+                ((MainActivity)context).updateMoves();
+                animRight((Button) v, x, y);
+            }
             else{
                 if(isSoundEnabled)
                    sp.play(sound[1], 1, 1, 1, 0,(float) 1.0);
@@ -285,8 +313,10 @@ public class Board extends TableLayout {
             //Your code here
             int x = ((Coord)o).getX();
             int y = ((Coord)o).getY();
-            if(validate_UpMove(x,y))
-                animTop((Button)v,x,y);
+            if(validate_UpMove(x,y)) {
+                ((MainActivity)context).updateMoves();
+                animTop((Button) v, x, y);
+            }
             else{
                 if(isSoundEnabled)
                    sp.play(sound[1], 1, 1, 1, 0,(float) 1.0);
@@ -356,8 +386,8 @@ public class Board extends TableLayout {
                 temp.setBackgroundDrawable(background);
                 pos_array[x][y] = 0;
                 pos_array[x][y + 1] = 1;
-                map.put(x*no_rows+y,0);
-                map.put((x)*no_rows+(y+1),Integer.valueOf(text));
+                map.put(x*no_rows+y,"");
+                map.put((x)*no_rows+(y+1),(text));
                 validateResult();
             }
 
@@ -394,8 +424,8 @@ public class Board extends TableLayout {
                 temp.setBackgroundDrawable(background);
                 pos_array[x][y] = 0;
                 pos_array[x][y - 1] = 1;
-                map.put(x*no_rows+y,0);
-                map.put((x)*no_rows+(y-1),Integer.valueOf(text));
+                map.put(x*no_rows+y,"");
+                map.put((x)*no_rows+(y-1),(text));
                 validateResult();
             }
 
@@ -433,8 +463,8 @@ public class Board extends TableLayout {
                 temp.setBackgroundDrawable(background);
                 pos_array[x][y] = 0;
                 pos_array[x - 1][y] = 1;
-                map.put(x*no_rows+y,0);
-                map.put((x-1)*no_rows+y,Integer.valueOf(text));
+                map.put(x*no_rows+y,"");
+                map.put((x-1)*no_rows+y,(text));
                 validateResult();
             }
 
@@ -470,8 +500,8 @@ public class Board extends TableLayout {
                 temp.setBackgroundDrawable(background);
                 pos_array[x][y] = 0;
                 pos_array[x + 1][y] = 1;
-                map.put(x*no_rows+y,0);
-                map.put((x+1)*no_rows+y,Integer.valueOf(text));
+                map.put(x*no_rows+y,"");
+                map.put((x+1)*no_rows+y,(text));
                 validateResult();
             }
 
@@ -489,8 +519,9 @@ public class Board extends TableLayout {
             TableRow row =  (TableRow)this.getChildAt(i);
             for (int j = 0; j < no_cols; j++) {
                  Button btn = (Button)row.getChildAt(j);
+                String str = btn.getText().toString();
                  int pos = i*no_rows+j;
-                if(pos+1 == Integer.valueOf(btn.getText().toString()))
+                if(!Utils.isNullorWhiteSpace(str) && pos == Integer.valueOf(str))
                     result = 1;
                 else {
                     result = 0;
@@ -516,7 +547,7 @@ public class Board extends TableLayout {
         }
     }
 
-   public void saveGameState(){
+   public void saveGameState(int moveCount){
        JSONObject GameObject = new JSONObject();
        JSONObject stateObject = new JSONObject();
        try {
@@ -527,10 +558,14 @@ public class Board extends TableLayout {
            }
            Log.d("boardgame",stateObject.toString());
            GameObject.put("savedstate", stateObject);
+           SharedPreferences storedPrefs = context.getSharedPreferences("gameprefs",Context.MODE_PRIVATE);
            SharedPreferences.Editor editor = context.getSharedPreferences("gameprefs",Context.MODE_PRIVATE).edit();
            editor.clear();
            editor.putString("gamestate", GameObject.toString());
            editor.putBoolean("saved",true);
+           editor.putString("sound",storedPrefs.getString("sound","on"));
+           editor.putString("grid",storedPrefs.getString("grid","3"));
+           editor.putString("moves",String.valueOf(moveCount));
            editor.commit();
 
        } catch (JSONException e) {
@@ -539,6 +574,7 @@ public class Board extends TableLayout {
            e.printStackTrace();
        }
    }
+
 
 
 }

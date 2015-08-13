@@ -49,7 +49,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private SharedPreferences pref;
     private String grid;
     private String soundMode;
-    private boolean saved ;
+    private boolean saved;
+    private TextView moves;
+    private int moveCount=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +67,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         sec = (TextView) findViewById(R.id.sec);
         msec = (TextView) findViewById(R.id.msec);
         arcTimer = (ArcTimer) findViewById(R.id.arcTimer);
+        moves = (TextView)findViewById(R.id.moves);
         playContainer = (RelativeLayout) findViewById(R.id.playButtonContainer);
         counterContainer = (RelativeLayout) findViewById(R.id.startTimerContainer);
         playguideText = (TextView) findViewById(R.id.guideText);
@@ -73,6 +76,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         header = (TextView) findViewById(R.id.header);
         playButton.setOnClickListener(this);
         pref = getSharedPreferences("gameprefs", Context.MODE_PRIVATE);
+        moveCount = Integer.valueOf(pref.getString("moves","0"));
+        moves.setText(String.valueOf(moveCount));
         parseSavedJsonGameState();
 
         initAnimation();
@@ -271,9 +276,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     public void notifyBoardToSave(){
         if(board!=null){
-            board.saveGameState();
+            board.saveGameState(moveCount);
         }
     }
+
+  public void updateMoves(){
+        moveCount++;
+        moves.setText(String.valueOf(moveCount));
+  }
 
 
 }

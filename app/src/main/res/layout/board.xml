@@ -73,6 +73,26 @@
         android:layout_centerVertical="true"
         android:padding="2dp" />
 
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/timerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Moves took:" />
+        <TextView
+            style="@style/timerText"
+            android:id="@+id/moves"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"/>
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/startTimerContainer"
@@ -87,26 +107,26 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
             android:background="@drawable/btn_pink_matte"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
             android:text="Game Begins in"
             android:textColor="@android:color/black"
             android:textSize="40sp" />
 
-            <com.board.game.sasha.ArcTimer
-                android:layout_below="@+id/header"
-                android:id="@+id/arcTimer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
-            <TextView
-                android:id="@+id/timer_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/pink"
-                android:layout_centerInParent="true"
-                android:textSize="150sp" />
+        <com.board.game.sasha.ArcTimer
+            android:id="@+id/arcTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header" />
+
+        <TextView
+            android:id="@+id/timer_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/pink"
+            android:textSize="150sp" />
 
     </RelativeLayout>
 
