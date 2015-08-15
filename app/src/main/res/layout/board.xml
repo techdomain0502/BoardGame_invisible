@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/btn_green_matte"
+        android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:padding="2dp">
 
@@ -69,12 +69,12 @@
     <com.board.game.sasha.Board
         android:id="@+id/board"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="@dimen/board_height"
         android:layout_centerVertical="true"
         android:padding="2dp" />
 
     <LinearLayout
-        android:layout_alignParentBottom="true"
+        android:visibility="visible"
         android:layout_centerHorizontal="true"
         android:paddingBottom="5dp"
         android:layout_width="wrap_content"

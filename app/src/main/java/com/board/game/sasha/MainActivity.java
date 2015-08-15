@@ -51,7 +51,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private String soundMode;
     private boolean saved;
     private TextView moves;
-    private int moveCount=0;
+    private int moveCount = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,14 +61,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         grid = i.get("grid").toString();
         soundMode = i.get("sound").toString();
         saved = i.getBoolean("saved", false);
-        LogUtils.LOGD("boardgame","saved="+saved);
+        LogUtils.LOGD("boardgame", "saved=" + saved+" grid="+grid+" soundmode="+soundMode);
         board = (Board) findViewById(R.id.board);
         hr = (TextView) findViewById(R.id.hour);
         min = (TextView) findViewById(R.id.min);
         sec = (TextView) findViewById(R.id.sec);
         msec = (TextView) findViewById(R.id.msec);
         arcTimer = (ArcTimer) findViewById(R.id.arcTimer);
-        moves = (TextView)findViewById(R.id.moves);
+        moves = (TextView) findViewById(R.id.moves);
         playContainer = (RelativeLayout) findViewById(R.id.playButtonContainer);
         counterContainer = (RelativeLayout) findViewById(R.id.startTimerContainer);
         playguideText = (TextView) findViewById(R.id.guideText);
@@ -76,8 +77,16 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         header = (TextView) findViewById(R.id.header);
         playButton.setOnClickListener(this);
         pref = getSharedPreferences("gameprefs", Context.MODE_PRIVATE);
-        moveCount = Integer.valueOf(pref.getString("moves","0"));
-        moves.setText(String.valueOf(moveCount));
+
+        if (saved) {
+            moveCount = Integer.valueOf(pref.getString("moves", "0"));
+            elapsedTime = pref.getLong("elapsedTime", 0);
+            moves.setText(String.valueOf(moveCount));
+        } else {
+            elapsedTime = 0;
+            moves.setText(String.valueOf(0));
+        }
+
         parseSavedJsonGameState();
 
         initAnimation();
@@ -193,7 +202,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
 
     	/* Although we are not using milliseconds on the timer in this example
-    	 * I included the code in the event that you wanted to include it on your own
+         * I included the code in the event that you wanted to include it on your own
     	 */
         milliseconds = String.valueOf((long) time);
         if (milliseconds.length() == 2) {
@@ -236,7 +245,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     private Runnable startTimer = new Runnable() {
         public void run() {
-            elapsedTime = System.currentTimeMillis() - startTime;
+            elapsedTime = elapsedTime + REFRESH_RATE;
             updateTimer(elapsedTime);
             mHandler.postDelayed(this, REFRESH_RATE);
         }
@@ -260,30 +269,56 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             mHandler.removeCallbacks(startTimer);
         if (board != null)
             board.flushSoundPool();
+    }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (startTimer != null)
+            mHandler.removeCallbacks(startTimer);
     }
 
     @Override
     public void onBackPressed() {
-
         if (board != null && (playContainer.getVisibility() == View.GONE && counterContainer.getVisibility() == View.GONE)) {
+          LogUtils.LOGD("boardgame","onbackpress if");
             AlertDialog dialog = new AlertDialogFactory(MainActivity.this, "EXIT").getDialog();
-            if(dialog!=null)
+            if (dialog != null) {
                 dialog.show();
-        } else
+                pauseTimer();
+            }
+        } else {
+            LogUtils.LOGD("boardgame","onbackpress else");
             super.onBackPressed();
-    }
-
-    public void notifyBoardToSave(){
-        if(board!=null){
-            board.saveGameState(moveCount);
         }
     }
 
-  public void updateMoves(){
+
+    public void resumeTimer() {
+        mHandler.postDelayed(startTimer, 0);
+    }
+
+    public void pauseTimer() {
+        mHandler.removeCallbacks(startTimer);
+    }
+
+    public void notifyBoardToSave() {
+        if (board != null) {
+            board.saveGameState(moveCount, elapsedTime);
+        }
+    }
+
+    public void clearSavedGameState() {
+        SharedPreferences.Editor editor = getSharedPreferences("gameprefs", Context.MODE_PRIVATE).edit();
+        editor.clear();
+        editor.commit();
+    }
+
+    public void updateMoves() {
         moveCount++;
         moves.setText(String.valueOf(moveCount));
-  }
+    }
 
 
 }

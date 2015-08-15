@@ -26,7 +26,7 @@ public class AlertDialogFactory {
             return new FinishDialog(context,
                     "Congratulations!! You Won the Game",
                     "Winner, Horray!!",
-                    "Play Again",
+                    "Restart",
                     "Exit Game"
             ).getInstance();
         } else if (type.equalsIgnoreCase("EXIT")) {
@@ -34,7 +34,7 @@ public class AlertDialogFactory {
                     "Do you want to leave the Game?",
                     "Alert!!",
                     "Resume",
-                    "Play Again",
+                    "Restart",
                     "Exit & Save").getInstance();
         }
         return null;
@@ -48,17 +48,23 @@ public class AlertDialogFactory {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    if (context instanceof MainActivity) {
+                        ((MainActivity) context).finish();
+                        ((MainActivity) context).clearSavedGameState();
+                    }
                     Intent intent = new Intent(getContext(), FrontPage.class);
                     context.startActivity(intent);
-                    ((MainActivity) context).finish();
+
                 }
             });
             builder.setNegativeButton(negative, new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    ((MainActivity) context).finish();
-
+                    if (context instanceof MainActivity) {
+                        ((MainActivity) context).finish();
+                        ((MainActivity) context).clearSavedGameState();
+                    }
                 }
             });
 
@@ -72,7 +78,7 @@ public class AlertDialogFactory {
 
     private class ExitDialog extends BaseDialog {
 
-        public ExitDialog(final Context context, String Message, String Title, String positive,String neutral,String negative) {
+        public ExitDialog(final Context context, String Message, String Title, String positive, String neutral, String negative) {
             super(context, Message, Title);
 
             builder.setPositiveButton(positive, new DialogInterface.OnClickListener() {
@@ -80,6 +86,8 @@ public class AlertDialogFactory {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dismiss();
+                    if (context instanceof MainActivity)
+                        ((MainActivity) context).resumeTimer();
                 }
             });
 
@@ -87,9 +95,12 @@ public class AlertDialogFactory {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    if (context instanceof MainActivity) {
+                        ((MainActivity) context).finish();
+                        ((MainActivity) context).clearSavedGameState();
+                    }
                     Intent intent = new Intent(getContext(), FrontPage.class);
                     context.startActivity(intent);
-                    ((MainActivity) context).finish();
                 }
             });
 
@@ -97,9 +108,11 @@ public class AlertDialogFactory {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    ((MainActivity)context).notifyBoardToSave();
-                    ((MainActivity) context).finish();
-
+                    ((MainActivity) context).notifyBoardToSave();
+                    if (context instanceof MainActivity) {
+                        ((MainActivity) context).finish();
+                        ((MainActivity) context).notifyBoardToSave();
+                    }
                 }
             });
         }
@@ -124,6 +137,7 @@ public class AlertDialogFactory {
             builder = new AlertDialog.Builder(context);
             builder.setMessage(msg);
             builder.setTitle(title);
+            builder.setCancelable(false);
         }
 
 

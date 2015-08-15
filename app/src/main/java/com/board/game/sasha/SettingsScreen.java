@@ -16,18 +16,18 @@ public class SettingsScreen extends PreferenceActivity implements SharedPreferen
     private  final String Sound = "sound";
 
     SharedPreferences sharedPreferences;
-
+    private SharedPreferences pref ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.settings);
-
+        pref = getSharedPreferences("gameprefs",Context.MODE_PRIVATE);
         grid = (ListPreference)findPreference("grid");
         sound = (ListPreference)findPreference("sound");
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
         sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        updatePreferences();
+      //  updatePreferences();
         updateSettingsUI();
     }
 
@@ -47,13 +47,15 @@ public class SettingsScreen extends PreferenceActivity implements SharedPreferen
     }
     private void updatePreferences(){
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(Grid, grid.getValue());
+        editor.putString(Grid,grid.getValue());
         editor.putString(Sound,sound.getValue());
         editor.commit();
     }
 
     private void updateSettingsUI() {
-        grid.setSummary(grid.getValue());
-        sound.setSummary(sound.getValue());
+        grid.setValue(pref.getString("grid","3"));
+        sound.setValue(pref.getString("sound","on"));
+        grid.setSummary(pref.getString("grid","3"));
+        sound.setSummary(pref.getString("sound","on"));
     }
 }

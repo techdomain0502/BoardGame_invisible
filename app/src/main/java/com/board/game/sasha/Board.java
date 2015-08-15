@@ -49,10 +49,9 @@ public class Board extends TableLayout {
     private HashMap<Integer,String> map;
     private int TRANSLATE_OFFSET = 100;
     private int drawable[] = {R.drawable.btn_army_glossy,R.drawable.btn_black_glossy,
-                              R.drawable.btn_blue_glossy,R.drawable.btn_blue_pink_glossy,
+                              R.drawable.game_blue_glossy,R.drawable.btn_blue_pink_glossy,
                               R.drawable.btn_green_glossy,
-                              R.drawable.btn_lightblue_glossy,R.drawable.btn_pink_glossy,
-                              R.drawable.btn_white_glossy
+                              R.drawable.btn_lightblue_glossy,R.drawable.game_pink_glossy,
                               };
     boolean saved;
     public Board(Context ctxt, AttributeSet attr){
@@ -188,7 +187,7 @@ public class Board extends TableLayout {
                 button.setTextAppearance(context, R.style.ButtonText);
                 button.setLayoutParams(buttonParams);
                 button.setTag(new Coord(i, j));
-                button.setBackgroundResource(drawable[(i * no_rows + j) % 8]);
+                button.setBackgroundResource(drawable[(i * no_rows + j) % drawable.length]);
                 button.setOnTouchListener(new onFlingGestureListenerImpl());
 
                 if(pos_array[i][j]==1) {
@@ -547,7 +546,7 @@ public class Board extends TableLayout {
         }
     }
 
-   public void saveGameState(int moveCount){
+   public void saveGameState(int moveCount,long elapsedTime){
        JSONObject GameObject = new JSONObject();
        JSONObject stateObject = new JSONObject();
        try {
@@ -566,6 +565,7 @@ public class Board extends TableLayout {
            editor.putString("sound",storedPrefs.getString("sound","on"));
            editor.putString("grid",storedPrefs.getString("grid","3"));
            editor.putString("moves",String.valueOf(moveCount));
+           editor.putLong("elapsedTime",elapsedTime);
            editor.commit();
 
        } catch (JSONException e) {

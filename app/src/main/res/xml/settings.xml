@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    >
-<PreferenceCategory
-    android:title="Game Settings"
-    android:key="main_category">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="main_category"
+        android:title="Game Settings">
+        <ListPreference
+            android:defaultValue="@string/three"
+            android:entries="@array/grid_entry"
+            android:entryValues="@array/grid_value"
+            android:key="grid"
+            android:persistent="true"
+            android:summary="Choose the Grid Size"
+            android:title="Grid Size" />
 
-    <ListPreference
-        android:title="Grid Size"
-        android:summary="Choose the Grid Size"
-        android:key="grid"
-        android:entries="@array/grid_entry"
-        android:persistent="true"
-        android:defaultValue="@string/three"
-        android:entryValues="@array/grid_value"/>
-
-    <ListPreference
-        android:title="Sound Mode"
-        android:summary="Choose to Turn on/off Sounds"
-        android:key="sound"
-        android:entries="@array/sound_entry"
-        android:persistent="true"
-        android:defaultValue="@string/on"
-        android:entryValues="@array/sound_value"/>
-
-
-</PreferenceCategory>
+        <ListPreference
+            android:defaultValue="@string/on"
+            android:entries="@array/sound_entry"
+            android:entryValues="@array/sound_value"
+            android:key="sound"
+            android:persistent="true"
+            android:summary="Choose to Turn on/off Sounds"
+            android:title="Sound" />
+    </PreferenceCategory>
 </PreferenceScreen>

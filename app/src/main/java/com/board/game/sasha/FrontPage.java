@@ -27,16 +27,17 @@ import com.facebook.share.widget.ShareDialog;
 
 
 public class FrontPage extends ActionBarActivity implements View.OnClickListener {
-    public static final String MyPREFERENCES = "gameprefs" ;
+    public static final String MyPREFERENCES = "gameprefs";
     Button continue_last;
     Button new_game;
-    Button configuration,share_fb,share_tw;
+    Button configuration, share_fb, share_tw;
     SharedPreferences sharedPreferences;
     String grid;
     String sound;
     boolean saved;
     CallbackManager callbackManager;
     ShareDialog shareDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,29 +54,29 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
 
             @Override
             public void onCancel() {
-                LogUtils.LOGD("boardgame","facebook share feature cancelled");
+                LogUtils.LOGD("boardgame", "facebook share feature cancelled");
             }
 
             @Override
             public void onError(FacebookException e) {
-                Toast.makeText(getApplicationContext(),"Please enable wifi/mobile data for sharing",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Please enable wifi/mobile data for sharing", Toast.LENGTH_SHORT).show();
             }
         });
 
         sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        saved = sharedPreferences.getBoolean("saved",false);
-        continue_last = (Button)findViewById(R.id.continue_last);
-        new_game = (Button)findViewById(R.id.new_game);
-        configuration = (Button)findViewById(R.id.config);
-        share_fb = (Button)findViewById(R.id.share_fb);
-        share_tw = (Button)findViewById(R.id.share_tw);
+        saved = sharedPreferences.getBoolean("saved", false);
+        continue_last = (Button) findViewById(R.id.continue_last);
+        new_game = (Button) findViewById(R.id.new_game);
+        configuration = (Button) findViewById(R.id.config);
+        share_fb = (Button) findViewById(R.id.share_fb);
+        share_tw = (Button) findViewById(R.id.share_tw);
         continue_last.setOnClickListener(this);
         new_game.setOnClickListener(this);
         configuration.setOnClickListener(this);
         share_fb.setOnClickListener(this);
         share_tw.setOnClickListener(this);
         Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_left_to_right);
-        if(saved) {
+        if (saved) {
             continue_last.setVisibility(View.VISIBLE);
             continue_last.setAnimation(anim);
         }
@@ -93,8 +94,8 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
     @Override
     protected void onResume() {
         super.onResume();
-        grid = sharedPreferences.getString("grid","3");
-        sound = sharedPreferences.getString("sound","on");
+        grid = sharedPreferences.getString("grid", "3");
+        sound = sharedPreferences.getString("sound", "on");
     }
 
     @Override
@@ -105,25 +106,25 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.continue_last:
                 Intent savedGame = new Intent(this, MainActivity.class);
-                savedGame.putExtra("saved",true);
-                savedGame.putExtra("grid",grid);
-                savedGame.putExtra("sound",sound);
+                savedGame.putExtra("saved", true);
+                savedGame.putExtra("grid", grid);
+                savedGame.putExtra("sound", sound);
                 startActivity(savedGame);
                 finish();
                 break;
             case R.id.new_game:
                 Intent newGame = new Intent(this, MainActivity.class);
                 newGame.putExtra("grid", grid);
-                newGame.putExtra("sound",sound);
-                newGame.putExtra("saved",false);
+                newGame.putExtra("sound", sound);
+                newGame.putExtra("saved", false);
                 startActivity(newGame);
                 finish();
                 break;
             case R.id.config:
-                Intent settings_intent= new Intent(this,SettingsScreen.class);
+                Intent settings_intent = new Intent(this, SettingsScreen.class);
                 startActivity(settings_intent);
                 break;
             case R.id.share_fb:
@@ -140,7 +141,7 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
                 }
                 break;
             case R.id.share_tw:
-                Intent twitter_intent= new Intent(this,TwitterActivity.class);
+                Intent twitter_intent = new Intent(this, TwitterActivity.class);
                 startActivity(twitter_intent);
                 break;
         }
