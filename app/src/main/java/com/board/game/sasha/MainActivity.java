@@ -52,7 +52,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private boolean saved;
     private TextView moves;
     private int moveCount = 0;
-
+    private boolean runnablePosted = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,7 +103,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             @Override
             public void onFinish() {
                 mHandler.removeCallbacks(startTimer);
-                mHandler.postDelayed(startTimer, 0);
+                runnablePosted = mHandler.postDelayed(startTimer, 0);
                 startTime = System.currentTimeMillis();
                 alphaAnimation.cancel();
                 counterContainer.setVisibility(View.GONE);
@@ -222,26 +222,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.menu_main,menu);
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-     /*   int id = item.getItemId();
-        switch(id){
-            case R.id.play:
-                startTime = System.currentTimeMillis();
-                mHandler.removeCallbacks(startTimer);
-                mHandler.postDelayed(startTimer, 0);
-                break;
-        }
-*/
-        return super.onOptionsItemSelected(item);
-    }
-
 
     private Runnable startTimer = new Runnable() {
         public void run() {
@@ -250,6 +230,16 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             mHandler.postDelayed(this, REFRESH_RATE);
         }
     };
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (startTimer != null && !runnablePosted &&
+                (playContainer.getVisibility() == View.GONE
+                        && counterContainer.getVisibility() == View.GONE))
+            resumeTimer();
+    }
 
     @Override
     public void onClick(View v) {
@@ -276,7 +266,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     protected void onPause() {
         super.onPause();
         if (startTimer != null)
-            mHandler.removeCallbacks(startTimer);
+            pauseTimer();
     }
 
     @Override
@@ -297,10 +287,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     public void resumeTimer() {
         mHandler.postDelayed(startTimer, 0);
+        runnablePosted = true;
     }
 
     public void pauseTimer() {
         mHandler.removeCallbacks(startTimer);
+        runnablePosted = false;
     }
 
     public void notifyBoardToSave() {
