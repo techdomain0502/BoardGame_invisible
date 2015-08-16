@@ -237,7 +237,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         super.onResume();
         if (startTimer != null && !runnablePosted &&
                 (playContainer.getVisibility() == View.GONE
-                        && counterContainer.getVisibility() == View.GONE))
+                        && counterContainer.getVisibility() == View.GONE) && (board.getResult()!=1))
             resumeTimer();
     }
 

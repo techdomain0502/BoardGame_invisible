@@ -25,7 +25,7 @@ public class AlertDialogFactory {
         if (type.equalsIgnoreCase("FINISH")) {
             return new FinishDialog(context,
                     "Congratulations!! You Won the Game",
-                    "Winner, Horray!!",
+                    "Hooray!!",
                     "Restart",
                     "Exit Game"
             ).getInstance();
