@@ -114,7 +114,7 @@
             android:textColor="@android:color/black"
             android:textSize="40sp" />
 
-        <com.board.game.sasha.ArcTimer
+        <com.board.game.sasha.customviews.ArcTimer
             android:id="@+id/arcTimer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

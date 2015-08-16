@@ -1,4 +1,4 @@
-package com.board.game.sasha;
+package com.board.game.sasha.customviews;
 
 import android.content.Context;
 import android.graphics.Canvas;

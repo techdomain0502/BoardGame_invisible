@@ -1,18 +1,16 @@
-package com.board.game.sasha;
+package com.board.game.sasha.customviews;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.os.CountDownTimer;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
+import com.board.game.sasha.R;
 import com.board.game.sasha.logutils.LogUtils;
 
 /**
