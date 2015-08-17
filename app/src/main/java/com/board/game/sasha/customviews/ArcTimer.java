@@ -79,7 +79,7 @@ public  class ArcTimer extends View {
         canvas.drawOval(rectF, p);
         canvas.drawOval(rectF1, p);
         canvas.drawArc(rectF, startAngle,sweepAngle, false, p1);
-        canvas.drawArc (rectF1,startAngle,sweepAngle, false, p2);
+        canvas.drawArc (rectF1,startAngle,-sweepAngle, false, p2);
     }
 
     private class CustomAnimation extends Animation{

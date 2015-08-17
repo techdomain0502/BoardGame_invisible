@@ -109,10 +109,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/btn_pink_matte"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:text="Game Begins in"
+            android:textStyle="bold"
             android:textColor="@android:color/black"
             android:textSize="40sp" />
 
@@ -127,7 +127,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textColor="@color/pink"
+            android:textColor="@color/orange"
             android:textSize="150sp" />
 
     </RelativeLayout>
@@ -145,7 +145,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/btn_orange_matte"
             android:padding="10dp"
             android:text="@string/beginHeader"
             android:textColor="@android:color/black"
