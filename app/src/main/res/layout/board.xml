@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/settings_background">
+    android:background="@drawable/splash">
 
 
     <LinearLayout
@@ -100,7 +100,7 @@
         android:id="@+id/startTimerContainer"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/initial_page_background"
+        android:background="@drawable/splash"
         android:visibility="invisible">
 
         <TextView
@@ -136,7 +136,7 @@
         android:id="@+id/playButtonContainer"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/initial_page_background"
+        android:background="@drawable/splash"
         android:visibility="visible">
 
         <TextView
