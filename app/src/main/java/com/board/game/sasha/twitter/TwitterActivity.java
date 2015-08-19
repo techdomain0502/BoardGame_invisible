@@ -276,7 +276,6 @@ public class TwitterActivity extends Activity implements OnClickListener {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e("Twitter Login Failed", e.getMessage());
             }
 
             // TODO Auto-generated method stub
