@@ -48,10 +48,10 @@ public class Board extends TableLayout {
     private int[][] pos_array;
     private HashMap<Integer, String> map;
     private int TRANSLATE_OFFSET = 100;
-    private int drawable[] = {R.drawable.btn_army_glossy, R.drawable.btn_black_glossy,
-            R.drawable.game_blue_glossy, R.drawable.btn_blue_pink_glossy,
+    private int drawable[] = {R.drawable.btn_green_glossy, R.drawable.btn_green_glossy,
+            R.drawable.btn_green_glossy, R.drawable.btn_green_glossy,
             R.drawable.btn_green_glossy,
-            R.drawable.btn_lightblue_glossy, R.drawable.game_pink_glossy,
+            R.drawable.btn_green_glossy, R.drawable.btn_green_glossy,
     };
     boolean saved;
     int lastPos;
