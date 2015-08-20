@@ -3,6 +3,7 @@ package com.board.game.sasha;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -15,6 +16,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -53,6 +55,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private TextView moves;
     private int moveCount = 0;
     private boolean runnablePosted = false;
+    private ImageButton sound;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +78,13 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         playButton = (Button) findViewById(R.id.playButton);
         timer_text = (TextView) findViewById(R.id.timer_text);
         header = (TextView) findViewById(R.id.header);
+        sound = (ImageButton)findViewById(R.id.sound);
+        if(soundMode.equalsIgnoreCase("on")){
+            sound.setImageResource(R.drawable.sound_on);
+        }
+        else
+            sound.setImageResource(R.drawable.sound_off);
+        sound.setOnClickListener(this);
         playButton.setOnClickListener(this);
         pref = getSharedPreferences("gameprefs", Context.MODE_PRIVATE);
 
@@ -243,11 +253,23 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        timer.start();
-        playContainer.setVisibility(View.GONE);
-        anim.cancel();
-        playguideText.setVisibility(View.GONE);
-        counterContainer.setVisibility(View.VISIBLE);
+        int id = v.getId();
+        switch (id){
+            case R.id.playButton:
+                timer.start();
+                playContainer.setVisibility(View.GONE);
+                anim.cancel();
+                playguideText.setVisibility(View.GONE);
+                counterContainer.setVisibility(View.VISIBLE);
+                break;
+            case R.id.sound:
+                int drawable = soundMode.equalsIgnoreCase("on")?R.drawable.sound_off:R.drawable.sound_on;
+                sound.setImageResource(drawable);
+                soundMode = soundMode.equalsIgnoreCase("on")?"off":"on";
+                board.initSounds(soundMode);
+                break;
+        }
+
     }
 
     @Override

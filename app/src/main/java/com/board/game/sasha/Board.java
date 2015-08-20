@@ -64,7 +64,7 @@ public class Board extends TableLayout {
     private int sound[];
     private boolean isSoundEnabled;
 
-    private void initSounds(String soundMode) {
+    public void initSounds(String soundMode) {
         isSoundEnabled = (soundMode.equalsIgnoreCase("on")) ? true : false;
         if (isSoundEnabled) {
             sound = new int[2];
