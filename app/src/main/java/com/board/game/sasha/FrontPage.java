@@ -1,5 +1,6 @@
 package com.board.game.sasha;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,11 +11,13 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.board.game.sasha.MainActivity;
 import com.board.game.sasha.R;
 import com.board.game.sasha.SettingsScreen;
+import com.board.game.sasha.dialog.AlertDialogFactory;
 import com.board.game.sasha.logutils.LogUtils;
 import com.board.game.sasha.twitter.TwitterActivity;
 import com.facebook.CallbackManager;
@@ -30,7 +33,9 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
     public static final String MyPREFERENCES = "gameprefs";
     Button continue_last;
     Button new_game;
-    Button configuration, share_fb, share_tw;
+    Button configuration/*, share_fb, share_tw*/;
+    Button best_score;
+    ImageView share_fb,share_tw;
     SharedPreferences sharedPreferences;
     String grid;
     String sound;
@@ -68,11 +73,13 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
         continue_last = (Button) findViewById(R.id.continue_last);
         new_game = (Button) findViewById(R.id.new_game);
         configuration = (Button) findViewById(R.id.config);
-        share_fb = (Button) findViewById(R.id.share_fb);
-        share_tw = (Button) findViewById(R.id.share_tw);
+        best_score = (Button) findViewById(R.id.score);
+        share_fb = (ImageView) findViewById(R.id.fb);
+        share_tw = (ImageView) findViewById(R.id.tw);
         continue_last.setOnClickListener(this);
         new_game.setOnClickListener(this);
         configuration.setOnClickListener(this);
+        best_score.setOnClickListener(this);
         share_fb.setOnClickListener(this);
         share_tw.setOnClickListener(this);
         Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_left_to_right);
@@ -80,11 +87,10 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
             continue_last.setVisibility(View.VISIBLE);
             continue_last.setAnimation(anim);
         }
-        share_fb.setAnimation(anim);
+        best_score.setAnimation(anim);
         anim.start();
         anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_right_to_left);
         new_game.setAnimation(anim);
-        share_tw.setAnimation(anim);
         anim.start();
         anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_bottom_to_top);
         configuration.setAnimation(anim);
@@ -127,7 +133,14 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
                 Intent settings_intent = new Intent(this, SettingsScreen.class);
                 startActivity(settings_intent);
                 break;
-            case R.id.share_fb:
+            case R.id.score:
+                String move = sharedPreferences.getString("best_move",null);
+                String time = sharedPreferences.getString("best_time",null);
+                AlertDialog dialog = new AlertDialogFactory(this, "SCORE",move,time).getDialog();
+                if(dialog!=null)
+                    dialog.show();
+                break;
+            case R.id.fb:
                 if (ShareDialog.canShow(ShareLinkContent.class)) {
                     ShareLinkContent linkContent = new ShareLinkContent.Builder()
                             .setContentTitle("Board Game - Please share it.")
@@ -140,7 +153,7 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
                     shareDialog.show(linkContent);
                 }
                 break;
-            case R.id.share_tw:
+            case R.id.tw:
                 Intent twitter_intent = new Intent(this, TwitterActivity.class);
                 startActivity(twitter_intent);
                 break;

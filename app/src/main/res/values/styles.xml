@@ -28,7 +28,8 @@
     <style name="frontpageButtonText">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:minWidth">250dp</item>
         <item name="android:textColor">@color/text_selector</item>
         <item name="android:textSize">20dp</item>
         <item name="android:padding">20dp</item>

@@ -5,19 +5,19 @@
     android:background="@drawable/front_page">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:orientation="vertical">
 
 
         <Button
-            android:visibility="gone"
             android:id="@+id/continue_last"
             style="@style/frontpageButtonText"
             android:layout_height="wrap_content"
             android:background="@drawable/firstpage_button1_selector"
-            android:text="@string/continue_last" />
+            android:text="@string/continue_last"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/new_game"
@@ -34,17 +34,61 @@
             android:text="@string/action_settings" />
 
         <Button
-            android:id="@+id/share_fb"
+            android:id="@+id/score"
             style="@style/frontpageButtonText"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_blue_matte"
-            android:text="@string/share_fb" />
+            android:text="@string/best_Score" />
 
-        <Button
-            android:id="@+id/share_tw"
-            style="@style/frontpageButtonText"
-            android:layout_height="wrap_content"
-            android:background="@drawable/btn_blue_matte"
-            android:text="@string/share_tw" />
+        <!--  <Button
+              android:id="@+id/share_fb"
+              style="@style/frontpageButtonText"
+              android:layout_height="wrap_content"
+              android:background="@drawable/btn_blue_matte"
+              android:text="@string/share_fb" />
+
+          <Button
+              android:id="@+id/share_tw"
+              style="@style/frontpageButtonText"
+              android:layout_height="wrap_content"
+              android:background="@drawable/btn_blue_matte"
+              android:text="@string/share_tw" />-->
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/share_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/share_us"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:layout_centerVertical="true"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/fb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@+id/share_text"
+            android:clickable="true"
+            android:src="@drawable/fb" />
+
+        <ImageView
+            android:id="@+id/tw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/fb"
+            android:clickable="true"
+            android:src="@drawable/tw" />
+
+    </RelativeLayout>
+
 </RelativeLayout>

@@ -96,12 +96,13 @@
             android:text="0" />
     </LinearLayout>
 
-    <ImageButton
+    <ImageView
         android:id="@+id/sound"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:clickable="true"
         android:src="@drawable/sound_on" />
 
     <RelativeLayout

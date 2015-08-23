@@ -532,7 +532,7 @@ public class Board extends TableLayout {
             }
         }
 
- 
+
         if (result == 1) {
             AlertDialog dialog = new AlertDialogFactory(context, "FINISH").getDialog();
             if (dialog != null) {

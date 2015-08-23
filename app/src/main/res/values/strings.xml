@@ -9,11 +9,14 @@
     <string name="black">black</string>
     <string name="on">on</string>
     <string name="off">off</string>
-    <string name="login_instructions">Login to twiter</string>
+    <string name="login_instructions">Share our app</string>
     <string name="share_instructions">Enter share message</string>
     <string name="btn_login">Login to Twitter</string>
     <string name="btn_share">Share</string>
-
+    <string name="share_us">Share us on:</string>
+    <string name="your_move">Moves taken: %1s </string>
+    <string name="your_time">Finish Time: %2s</string>
+    <string name="no_saved_result">Nothing Best Available :(</string>
     <!-- Twitter Configurations -->
     <string name="twitter_callback">http://www.facebook.com/delhimetroassistant</string>
     <string name="twitter_consumer_key">Llu66fenmKiftfDTL5T3rRpKH</string>
@@ -26,6 +29,7 @@
     <string name="configuration">Options</string>
     <string name="share_fb">Share us on Facebook</string>
     <string name="share_tw">Share us on Twitter</string>
+    <string name="best_Score">Best Score</string>
     <string name="new_game">New Game</string>
     <string name="continue_last">Continue Last</string>
     <string name="title_activity_settings_screen">SettingsScreen</string>

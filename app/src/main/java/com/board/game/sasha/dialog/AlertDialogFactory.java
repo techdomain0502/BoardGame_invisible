@@ -1,13 +1,16 @@
 package com.board.game.sasha.dialog;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.view.View;
+import android.widget.TextView;
 
 import com.board.game.sasha.FrontPage;
 import com.board.game.sasha.MainActivity;
+import com.board.game.sasha.R;
+import com.board.game.sasha.commonutils.Utils;
 
 /**
  * Created by sachin.c1 on 12-Aug-15.
@@ -15,11 +18,21 @@ import com.board.game.sasha.MainActivity;
 public class AlertDialogFactory {
     private Context context;
     private String type;
-
+    private String move,time;
     public AlertDialogFactory(Context context, String type) {
         this.context = context;
         this.type = type;
     }
+
+
+
+    public AlertDialogFactory(Context context, String type,String move,String time) {
+        this.context = context;
+        this.type = type;
+        this.move = move;
+        this.time = time;
+    }
+
 
     public AlertDialog getDialog() {
         if (type.equalsIgnoreCase("FINISH")) {
@@ -36,9 +49,40 @@ public class AlertDialogFactory {
                     "Resume",
                     "Restart",
                     "Exit & Save").getInstance();
+        } else if (type.equalsIgnoreCase("SCORE")) {
+            return new ScoreDialog(context,
+                    "Your Best statistics:"
+                    ).getInstance();
         }
         return null;
     }
+
+
+
+    private class ScoreDialog extends BaseDialog {
+
+        public ScoreDialog(final Context context,String Title) {
+            super(context, Title);
+
+        }
+
+        public AlertDialog getInstance() {
+             View view = getLayoutInflater().inflate(R.layout.best_score_layout,null,false);
+            if(!Utils.isNullorWhiteSpace(move) && !Utils.isNullorWhiteSpace(time)) {
+                ((TextView)view.findViewById(R.id.text0)).setVisibility(View.GONE);
+                ((TextView)view.findViewById(R.id.text1)).setVisibility(View.VISIBLE);
+                ((TextView)view.findViewById(R.id.text1)).setText(String.format(context.getResources().getString(R.string.your_move), move));
+                ((TextView)view.findViewById(R.id.text2)).setVisibility(View.VISIBLE);
+                ((TextView)view.findViewById(R.id.text2)).setText(String.format(context.getResources().getString(R.string.your_time), time));
+            }
+            builder.setView(view);
+
+            AlertDialog dialog = builder.create();
+            return dialog;
+        }
+    }
+
+
 
     private class FinishDialog extends BaseDialog {
 
@@ -50,7 +94,7 @@ public class AlertDialogFactory {
                 public void onClick(DialogInterface dialog, int which) {
                     if (context instanceof MainActivity) {
                         ((MainActivity) context).finish();
-                        ((MainActivity) context).clearSavedGameState();
+                        ((MainActivity) context).saveGameBestStats();
                     }
                     Intent intent = new Intent(getContext(), FrontPage.class);
                     context.startActivity(intent);
@@ -63,7 +107,7 @@ public class AlertDialogFactory {
                 public void onClick(DialogInterface dialog, int which) {
                     if (context instanceof MainActivity) {
                         ((MainActivity) context).finish();
-                        ((MainActivity) context).clearSavedGameState();
+                        ((MainActivity) context).saveGameBestStats();
                     }
                 }
             });
@@ -128,6 +172,15 @@ public class AlertDialogFactory {
         private String msg;
         private String title;
         protected AlertDialog.Builder builder;
+
+        public BaseDialog(Context context, String Title){
+            super(context);
+            c = context;
+            title = Title;
+            builder = new AlertDialog.Builder(context);
+            builder.setTitle(title);
+            builder.setCancelable(true);
+        }
 
         public BaseDialog(Context context, String Message, String Title) {
             super(context);

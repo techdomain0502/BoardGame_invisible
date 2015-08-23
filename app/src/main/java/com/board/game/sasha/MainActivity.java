@@ -17,9 +17,11 @@ import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.board.game.sasha.commonutils.Utils;
 import com.board.game.sasha.customviews.ArcTimer;
 import com.board.game.sasha.dialog.AlertDialogFactory;
 import com.board.game.sasha.logutils.LogUtils;
@@ -55,7 +57,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private TextView moves;
     private int moveCount = 0;
     private boolean runnablePosted = false;
-    private ImageButton sound;
+    private ImageView sound;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +80,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         playButton = (Button) findViewById(R.id.playButton);
         timer_text = (TextView) findViewById(R.id.timer_text);
         header = (TextView) findViewById(R.id.header);
-        sound = (ImageButton)findViewById(R.id.sound);
+        sound = (ImageView)findViewById(R.id.sound);
         if(soundMode.equalsIgnoreCase("on")){
             sound.setImageResource(R.drawable.sound_on);
         }
@@ -323,16 +325,97 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
     }
 
+    public void saveGameBestStats(){
+        String saved_time = pref.getString("best_time",null);
+        String saved_move = pref.getString("best_move",null);
+        SharedPreferences.Editor editor = getSharedPreferences("gameprefs", Context.MODE_PRIVATE).edit();
+        editor.clear();
+        checkIfweHaveBestScoresAvailableNow(editor,saved_move,saved_time);
+        editor.commit();
+
+    }
+
     public void clearSavedGameState() {
         SharedPreferences.Editor editor = getSharedPreferences("gameprefs", Context.MODE_PRIVATE).edit();
         editor.clear();
         editor.commit();
     }
 
+    private void checkIfweHaveBestScoresAvailableNow(SharedPreferences.Editor editor,String savedmove,String savedtime) {
+        String moves = savedmove;
+        String time = savedtime;
+        if(!Utils.isNullorWhiteSpace(moves)){
+            if(saveBestNeeded(moves,time)){
+                editor.putString("best_move",String.valueOf(moveCount));
+                editor.putString("best_time",hours+":"+minutes+":"+seconds+":"+milliseconds);
+            }else{
+                editor.putString("best_move",moves);
+                editor.putString("best_time",time);
+            }
+
+        }else{
+            editor.putString("best_move",String.valueOf(moveCount));
+            editor.putString("best_time",hours+":"+minutes+":"+seconds+":"+milliseconds);
+        }
+    }
+
+    private boolean saveBestNeeded(String moves,String time){
+        int move = Integer.valueOf(moves);
+        String time_tokens[] = time.split(":");
+        int saved_hrs = Integer.valueOf(time_tokens[0]);
+        int saved_min = Integer.valueOf(time_tokens[1]);
+        int saved_sec = Integer.valueOf(time_tokens[2]);
+        int saved_msec = Integer.valueOf(time_tokens[3]);
+        if(moveCount<move || checktimediff(saved_hrs,saved_min,saved_sec,saved_msec)){
+          return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    private boolean checktimediff(int saved_hrs, int saved_min, int saved_sec, int saved_msec) {
+        if(Integer.valueOf(hours)>saved_hrs)
+            return false;
+        else{
+            if(Integer.valueOf(hours)==saved_hrs){
+                //check mins now, as hours are equal
+                if(Integer.valueOf(minutes)>saved_min)
+                    return false;
+                else{
+                    if(Integer.valueOf(minutes)==saved_min){
+                        // check seconds now, as minutes are equal
+                        if(Integer.valueOf(seconds)>saved_sec)
+                            return false;
+                        else{
+                            if(Integer.valueOf(seconds)==saved_sec){
+                                //check msec now, as seconds are equal
+                                if(Integer.valueOf(milliseconds)>saved_msec)
+                                    return false;
+                                else{
+                                    if(Integer.valueOf(milliseconds)==saved_msec)
+                                        return false;
+                                    else
+                                        return true;
+                                }
+                            }else{
+                                return true;
+                            }
+                        }
+                    }else{
+                       return true;
+                    }
+                }
+            }else{
+                return true;
+            }
+        }
+    }
+
+
     public void updateMoves() {
         moveCount++;
         moves.setText(String.valueOf(moveCount));
     }
-
 
 }
