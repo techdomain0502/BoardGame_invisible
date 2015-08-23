@@ -514,26 +514,26 @@ public class Board extends TableLayout {
 
     private void validateResult() {
         result = 1;
-        for (int i = 0; i < no_rows; i++) {
+        outer: for (int i = 0; i < no_rows; i++) {
             TableRow row = (TableRow) this.getChildAt(i);
-            for (int j = 0; j < no_cols; j++) {
+           inner:  for (int j = 0; j < no_cols; j++) {
                 Button btn = (Button) row.getChildAt(j);
-                String str = btn.getText().toString();
                 int pos = i * no_rows + j;
+                String str = map.get(pos);
                 if (!Utils.isNullorWhiteSpace(str) && pos == Integer.valueOf(str)) {
                     result = 1;
-                    LogUtils.LOGD("resulttest", pos + " " + result);
                 } else {
-                    if (pos == (lastPos))
+                    if (pos == (lastPos)) {
                         break;
+                    }
                     result = 0;
-                    LogUtils.LOGD("resulttest", pos + " " + result);
-                    break;
+                    break outer;
                 }
             }
         }
+
+ 
         if (result == 1) {
-            LogUtils.LOGD("resulttest", "result==1 showdialog");
             AlertDialog dialog = new AlertDialogFactory(context, "FINISH").getDialog();
             if (dialog != null) {
                 dialog.show();
