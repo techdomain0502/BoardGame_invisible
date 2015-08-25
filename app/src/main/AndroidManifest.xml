@@ -14,7 +14,7 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-     <!--   <activity
+        <activity
             android:name=".SplashScreen"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -24,28 +24,34 @@
 
 
         </activity>
--->
+        -->
         <activity
             android:name=".SettingsScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/SettingsTheme">
-
         </activity>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+                <category android:name="android.intent.category.OTHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".FrontPage"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.DEFAULT" />
+                <category android:name="android.intent.category.OTHER" />
             </intent-filter>
-
         </activity>
+
         <activity
             android:name="com.facebook.FacebookActivity"
             android:label="@string/app_name"

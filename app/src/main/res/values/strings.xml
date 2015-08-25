@@ -1,7 +1,7 @@
 <resources>
     <string name="start">Press Start to Play</string>
     <string name="beginHeader">So Let\'s Begin!</string>
-    <string name="app_name">Board</string>
+    <string name="app_name">Sliding Numbers</string>
     <string name="three">3</string>
     <string name="four">4</string>
     <string name="five">5</string>
@@ -13,7 +13,7 @@
     <string name="share_instructions">Enter share message</string>
     <string name="btn_login">Login to Twitter</string>
     <string name="btn_share">Share</string>
-    <string name="share_us">Share us on:</string>
+    <string name="share_us">Share us on:-</string>
     <string name="your_move">Moves taken: %1s </string>
     <string name="your_time">Finish Time: %2s</string>
     <string name="no_saved_result">Nothing Best Available :(</string>

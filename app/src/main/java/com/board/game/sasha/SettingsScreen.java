@@ -8,10 +8,11 @@ import android.preference.PreferenceActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.board.game.sasha.commonutils.GlobalConstants;
+
 
 public class SettingsScreen extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
     private  ListPreference theme,grid,sound;
-    private  final String MyPREFERENCES = "gameprefs" ;
     private  final String Grid = "grid";
     private  final String Sound = "sound";
 
@@ -21,12 +22,12 @@ public class SettingsScreen extends PreferenceActivity implements SharedPreferen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.settings);
-        pref = getSharedPreferences("gameprefs",Context.MODE_PRIVATE);
+        pref = getSharedPreferences(GlobalConstants.pref_file,Context.MODE_PRIVATE);
         grid = (ListPreference)findPreference("grid");
         sound = (ListPreference)findPreference("sound");
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
-        sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(GlobalConstants.pref_file, Context.MODE_PRIVATE);
       //  updatePreferences();
         updateSettingsUI();
     }

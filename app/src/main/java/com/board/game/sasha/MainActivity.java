@@ -3,23 +3,24 @@ package com.board.game.sasha;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.board.game.sasha.commonutils.Utils;
 import com.board.game.sasha.customviews.ArcTimer;
@@ -58,10 +59,18 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private int moveCount = 0;
     private boolean runnablePosted = false;
     private ImageView sound;
+    private ImageView settings;
+    private LinearLayout settingitem_container;
+    TranslateAnimation translate;
+    private int width;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.board);
+
+        settings = (ImageView)findViewById(R.id.settings);
+        settingitem_container = (LinearLayout)findViewById(R.id.settingitems_container);
+
         Bundle i = getIntent().getExtras();
         grid = i.get("grid").toString();
         soundMode = i.get("sound").toString();
@@ -88,6 +97,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             sound.setImageResource(R.drawable.sound_off);
         sound.setOnClickListener(this);
         playButton.setOnClickListener(this);
+        settings.setOnClickListener(this);
         pref = getSharedPreferences("gameprefs", Context.MODE_PRIVATE);
 
         if (saved) {
@@ -119,6 +129,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 startTime = System.currentTimeMillis();
                 alphaAnimation.cancel();
                 counterContainer.setVisibility(View.GONE);
+                settingitem_container.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        width = settingitem_container.getMeasuredWidth();
+                        Toast.makeText(getApplicationContext(), width + "  ", 500).show();
+                    }
+                });
+
             }
         };
 
@@ -172,6 +190,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         set.addAnimation(scaleAnimation);
 
     }
+
+
+
+
 
 
     private void updateTimer(float time) {
@@ -257,6 +279,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onClick(View v) {
         int id = v.getId();
         switch (id){
+            case R.id.settings:
+                break;
+
             case R.id.playButton:
                 timer.start();
                 playContainer.setVisibility(View.GONE);

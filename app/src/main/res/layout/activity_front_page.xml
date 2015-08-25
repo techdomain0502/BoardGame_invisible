@@ -14,23 +14,23 @@
         <Button
             android:id="@+id/continue_last"
             style="@style/frontpageButtonText"
+            android:background="@drawable/btn_blue_glossy"
             android:layout_height="wrap_content"
-            android:background="@drawable/firstpage_button1_selector"
             android:text="@string/continue_last"
             android:visibility="gone" />
 
         <Button
             android:id="@+id/new_game"
+            android:background="@drawable/btn_green_matte"
             style="@style/frontpageButtonText"
             android:layout_height="wrap_content"
-            android:background="@drawable/firstpage_button2_selector"
             android:text="@string/new_game" />
 
         <Button
             android:id="@+id/config"
             style="@style/frontpageButtonText"
+            android:background="@drawable/btn_pink_glossy"
             android:layout_height="wrap_content"
-            android:background="@drawable/firstpage_button3_selector"
             android:text="@string/action_settings" />
 
         <Button

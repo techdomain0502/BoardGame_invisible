@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.board.game.sasha.MainActivity;
 import com.board.game.sasha.R;
 import com.board.game.sasha.SettingsScreen;
+import com.board.game.sasha.commonutils.GlobalConstants;
 import com.board.game.sasha.dialog.AlertDialogFactory;
 import com.board.game.sasha.logutils.LogUtils;
 import com.board.game.sasha.twitter.TwitterActivity;
@@ -30,7 +31,7 @@ import com.facebook.share.widget.ShareDialog;
 
 
 public class FrontPage extends ActionBarActivity implements View.OnClickListener {
-    public static final String MyPREFERENCES = "gameprefs";
+
     Button continue_last;
     Button new_game;
     Button configuration/*, share_fb, share_tw*/;
@@ -68,7 +69,7 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
             }
         });
 
-        sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(GlobalConstants.pref_file, Context.MODE_PRIVATE);
         saved = sharedPreferences.getBoolean("saved", false);
         continue_last = (Button) findViewById(R.id.continue_last);
         new_game = (Button) findViewById(R.id.new_game);
