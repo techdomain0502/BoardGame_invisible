@@ -9,6 +9,8 @@
     <string name="black">black</string>
     <string name="on">on</string>
     <string name="off">off</string>
+    <string name="number">Number Puzzle</string>
+    <string name="picture">Picture Puzzle</string>
     <string name="login_instructions">Share our app</string>
     <string name="share_instructions">Enter share message</string>
     <string name="btn_login">Login to Twitter</string>

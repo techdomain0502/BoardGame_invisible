@@ -4,6 +4,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -36,9 +41,6 @@ import java.util.Random;
 public class Board extends TableLayout {
     private int BOARD_SIZE;
     private int board_width;
-    private int board_height;
-    private int cell_spacing;
-    private int board_padding;
     private int no_rows;
     private int no_cols;
     private Context context;
@@ -58,6 +60,7 @@ public class Board extends TableLayout {
         context = ctxt;
         this.setWillNotDraw(false);
         this.setClipChildren(false);
+
     }
 
     private SoundPool sp;
@@ -115,7 +118,7 @@ public class Board extends TableLayout {
         initPosArray();
         initRows();
         initMap();
-        Collections.shuffle(labelList);
+        //Collections.shuffle(labelList);
     }
 
     private void initLabels() {
@@ -146,7 +149,7 @@ public class Board extends TableLayout {
         for (int i = 0; i < no_rows; i++)   //i*SIZE+j
             for (int j = 0; j < no_cols; j++) {
                 int pos = i * no_rows + j;
-                if (pos == index)
+                if (pos == 8)
                     pos_array[i][j] = 0;
                 else
                     pos_array[i][j] = 1;
@@ -177,8 +180,34 @@ public class Board extends TableLayout {
         initialize();
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+       // initialize();
+    }
+
+    private Drawable dArr[];
+    private Drawable[] splitBitmap(Bitmap bmp){
+        int startX = 0;
+        int startY =0;
+        int width = bmp.getWidth()/no_cols;
+        dArr = new Drawable[no_rows*no_cols];
+        for(int ii=0;ii<no_rows*no_cols;ii++){
+            if(ii!=0 && ii%BOARD_SIZE==0) {
+                startX = 0;
+                startY = startY + width;
+            }
+                dArr[ii]= new BitmapDrawable(context.getResources(),Bitmap.createBitmap(bmp,startX,startY,width,width));
+                startX = startX + width;
+
+        }
+        return dArr;
+    }
     private void initialize() {
         LogUtils.LOGD("savetest", "board... initialize");
+        Bitmap bmp =  decodeSampledBitmapFromResource(context.getResources(),R.drawable.cute,board_width,350*2);
+        Log.d("sachin","scaled bmp="+bmp.getWidth()+" "+bmp.getHeight());
+        dArr = splitBitmap(bmp);
         int button_dimen = board_width / no_cols;
         TRANSLATE_OFFSET = button_dimen;
         int count = 0;
@@ -190,13 +219,15 @@ public class Board extends TableLayout {
                 button.setTextAppearance(context, R.style.ButtonText);
                 button.setLayoutParams(buttonParams);
                 button.setTag(new Coord(i, j));
-                button.setBackgroundResource(drawable[(i * no_rows + j) % drawable.length]);
+                //button.setBackgroundResource(drawable[(i * no_rows + j) % drawable.length]);
+
                 button.setOnTouchListener(new onFlingGestureListenerImpl());
 
                 if (pos_array[i][j] == 1) {
                     if (!Utils.isNullorWhiteSpace(labelList.get(count))) {
                         map.put(i * no_rows + j, labelList.get(count));
                         button.setText(labelList.get(count));
+                        button.setBackground(dArr[Integer.valueOf(labelList.get(count))]);
                         LogUtils.LOGD("savetest", i + " " + j + " button.getText()" + button.getText() + " count=" + count + " " + labelList.get(count));
                         rowArr[i].addView(button);
                         count++;
@@ -579,6 +610,61 @@ public class Board extends TableLayout {
             e.printStackTrace();
         }
     }
+
+    public static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+    }
+
+
+    public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
+                                                         int reqWidth, int reqHeight) {
+
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(res, resId, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        if(options.outHeight < reqHeight && options.outWidth < reqWidth){
+            int rawWidth = options.outWidth;
+            int rawHeight = options.outHeight;
+            float scaleWidth = ((float)reqWidth)/rawWidth;
+            float scaleHeight = ((float)reqWidth)/rawHeight;
+            Matrix matrix = new Matrix();
+            matrix.postScale(scaleWidth,scaleHeight);
+            options.inJustDecodeBounds = false;
+            Bitmap resizedBmp = Bitmap.createBitmap(BitmapFactory.decodeResource(res, resId, options),0, 0, options.outWidth, options.outHeight, matrix, false);
+            Log.d("sachin","resized="+resizedBmp.getWidth()+" "+resizedBmp.getHeight());
+          return resizedBmp;
+        }
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+
+        return BitmapFactory.decodeResource(res, resId, options);
+    }
+
 
 
 }

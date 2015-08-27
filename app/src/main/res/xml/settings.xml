@@ -20,5 +20,13 @@
             android:persistent="true"
             android:summary="Choose to Turn on/off Sounds"
             android:title="Sound" />
+        <ListPreference
+            android:defaultValue="number"
+            android:entries="@array/mode_entry"
+            android:entryValues="@array/mode_value"
+            android:key="mode"
+            android:persistent="true"
+            android:summary="Choose Game Mode"
+            android:title="Game Mode" />
     </PreferenceCategory>
 </PreferenceScreen>

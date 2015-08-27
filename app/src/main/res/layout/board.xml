@@ -4,6 +4,14 @@
     android:background="@drawable/front_page">
 
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:src="@drawable/ic_launcher"
+        android:onClick="loadImagefromGallery"
+        android:id="@+id/image"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

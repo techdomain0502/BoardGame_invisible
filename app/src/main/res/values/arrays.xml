@@ -28,5 +28,13 @@
         <item>@string/off</item>
     </string-array>
 
+    <string-array name="mode_entry">
+        <item>Number Puzzle</item>
+        <item>Picture Puzzle</item>
+    </string-array>
+    <string-array name="mode_value">
+        <item>@string/number</item>
+        <item>@string/picture</item>
+    </string-array>
 
 </resources>
