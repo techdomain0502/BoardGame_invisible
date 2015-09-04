@@ -1,4 +1,4 @@
-package com.board.game.sasha;
+package com.board.game.sasha.settings;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,65 +18,71 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.board.game.sasha.R;
 import com.board.game.sasha.commonutils.GlobalConstants;
+import com.board.game.sasha.commonutils.Utils;
+
+import java.io.File;
 
 
 public class SettingsScreen extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener
-,Preference.OnPreferenceClickListener{
-    private  ListPreference grid,sound,mode;
+        , Preference.OnPreferenceClickListener {
+    private ListPreference grid, sound, mode;
     private Preference image;
-    private  final String Grid = "grid";
-    private  final String Sound = "sound";
-    private  final String Mode = "mode";
-    private  final String Image = "image";
+    private final String Grid = "grid";
+    private final String Sound = "sound";
+    private final String Mode = "mode";
+    private final String Image = "image";
     private static int RESULT_LOAD_IMG = 1;
     String imgDecodableString;
 
     SharedPreferences sharedPreferences;
-    private SharedPreferences pref ;
+    private SharedPreferences pref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.settings);
-        pref = getSharedPreferences(GlobalConstants.pref_file,Context.MODE_PRIVATE);
-        grid = (ListPreference)findPreference("grid");
-        sound = (ListPreference)findPreference("sound");
-        mode = (ListPreference)findPreference("mode");
+        //setContentView(R.layout.settingsplaceholder);
+        pref = getSharedPreferences(GlobalConstants.pref_file, Context.MODE_PRIVATE);
+        grid = (ListPreference) findPreference("grid");
+        sound = (ListPreference) findPreference("sound");
+        mode = (ListPreference) findPreference("mode");
         image = findPreference("image");
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
         sharedPreferences = getSharedPreferences(GlobalConstants.pref_file, Context.MODE_PRIVATE);
-      //  updatePreferences();
+        //  updatePreferences();
         updateSettingsUI();
         image.setOnPreferenceClickListener(this);
     }
 
 
-
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if(key.equalsIgnoreCase("grid")){
-            String value = grid.getValue();
-            grid.setSummary(value);
-        }
-        else if(key.equalsIgnoreCase("sound")){
-            String value = sound.getValue();
-            sound.setSummary(value);
-        }else if(key.equalsIgnoreCase("mode"))
-        {
-            String value = mode.getValue();
-            mode.setSummary(value);
+        if (key.equalsIgnoreCase("grid")) {
+            grid.setSummary(grid.getValue());
+        } else if (key.equalsIgnoreCase("sound")) {
+            sound.setSummary(sound.getValue());
+        } else if (key.equalsIgnoreCase("mode")) {
+            mode.setSummary(mode.getValue());
             updateImagePreference();
         }
-        updatePreferences();
     }
 
     private void updateImagePreference() {
-       if(mode.getValue().equalsIgnoreCase("number")){
-           image.setEnabled(false);
-       }else{
-           image.setEnabled(true);
-       }
+        PreferenceCategory category = (PreferenceCategory) findPreference("main_category");
+        if (mode.getValue().equalsIgnoreCase("number")) {
+            category.removePreference(image);
+        } else {
+            category.addPreference(image);
+            File f = new File(pref.getString(GlobalConstants.image_path,"No File Found"));
+            if(f.exists()){
+                image.setSummary(f.getName());
+            }else{
+                image.setSummary(getResources().getString(R.string.default_image_selected));
+            }
+        }
     }
 
 
@@ -99,7 +106,7 @@ public class SettingsScreen extends PreferenceActivity implements SharedPreferen
                         Toast.LENGTH_LONG).show();
 
                 Uri selectedImage = data.getData();
-                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
                 // Get the cursor
                 Cursor cursor = getContentResolver().query(selectedImage,
@@ -110,18 +117,13 @@ public class SettingsScreen extends PreferenceActivity implements SharedPreferen
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 imgDecodableString = cursor.getString(columnIndex);
                 cursor.close();
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("image_path",imgDecodableString);
+                image.setSummary(imgDecodableString);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString(GlobalConstants.image_path,imgDecodableString);
                 editor.commit();
-                // Set the Image in ImageView after decoding the String
-               // imgView.setImageBitmap(BitmapFactory
-                 //       .decodeFile(imgDecodableString));
 
-                Toast.makeText(this, "You have picked Image="+imgDecodableString,
-                        Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(this, "You haven't picked Image",
-                        Toast.LENGTH_LONG).show();
+                image.setSummary(getResources().getString(R.string.default_image_selected));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -132,26 +134,16 @@ public class SettingsScreen extends PreferenceActivity implements SharedPreferen
     }
 
 
-    private void updatePreferences(){
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(Grid,grid.getValue());
-        editor.putString(Sound,sound.getValue());
-        editor.putString(Mode,mode.getValue());
-        editor.commit();
-    }
-
     private void updateSettingsUI() {
-        grid.setValue(pref.getString("grid","3"));
-        sound.setValue(pref.getString("sound","on"));
-        mode.setValue(pref.getString("mode","Number Puzzle"));
-        grid.setSummary(pref.getString("grid", "3"));
-        sound.setSummary(pref.getString("sound","on"));
-        mode.setSummary(pref.getString("mode","Number Puzzle"));
+        grid.setSummary(grid.getValue());
+        sound.setSummary(sound.getValue());
+        mode.setSummary(mode.getValue());
+        updateImagePreference();
     }
 
     @Override
     public boolean onPreferenceClick(Preference preference) {
-        if(preference.getKey().equalsIgnoreCase("image")){
+        if (preference.getKey().equalsIgnoreCase("image")) {
             loadImagefromGallery();
             return true;
         }

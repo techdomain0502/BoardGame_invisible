@@ -5,4 +5,5 @@ package com.board.game.sasha.commonutils;
  */
 public class GlobalConstants {
     public static final String pref_file = "gameprefs";
+    public static final String image_path = "image_path";
 }

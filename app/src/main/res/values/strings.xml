@@ -1,5 +1,8 @@
 <resources>
-    <string name="start">Press Start to Play</string>
+    <string name="no_image_selected">No Image Selected</string>
+    <string name="default_image_selected">Default Image will be used</string>
+    <string name="begin">Start</string>
+    <string name="start">Begin</string>
     <string name="beginHeader">So Let\'s Begin!</string>
     <string name="app_name">Sliding Numbers</string>
     <string name="three">3</string>
@@ -9,8 +12,8 @@
     <string name="black">black</string>
     <string name="on">on</string>
     <string name="off">off</string>
-    <string name="number">Number Puzzle</string>
-    <string name="picture">Picture Puzzle</string>
+    <string name="number">number</string>
+    <string name="picture">picture</string>
     <string name="login_instructions">Share our app</string>
     <string name="share_instructions">Enter share message</string>
     <string name="btn_login">Login to Twitter</string>
@@ -27,7 +30,7 @@
     <!-- End Configurations -->
 
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Game Settings</string>
     <string name="configuration">Options</string>
     <string name="share_fb">Share us on Facebook</string>
     <string name="share_tw">Share us on Twitter</string>

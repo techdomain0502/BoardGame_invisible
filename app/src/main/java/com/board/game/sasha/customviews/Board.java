@@ -1,8 +1,7 @@
-package com.board.game.sasha;
+package com.board.game.sasha.customviews;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -12,6 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -23,13 +23,18 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
 
+import com.board.game.sasha.commonutils.GlobalConstants;
+import com.board.game.sasha.gui.MainActivity;
+import com.board.game.sasha.R;
 import com.board.game.sasha.commonutils.Utils;
 import com.board.game.sasha.logutils.LogUtils;
 import com.board.game.sasha.dialog.AlertDialogFactory;
+import com.board.game.sasha.listeners.onFlingGestureListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -51,10 +56,13 @@ public class Board extends TableLayout {
     private HashMap<Integer, String> map;
     private int TRANSLATE_OFFSET = 100;
     private int drawable[] = {R.drawable.btn_green_glossy};
+    private int pic_array[] = {R.drawable.baby,R.drawable.cute,R.drawable.koala,R.drawable.panda};
     boolean saved;
     int lastPos;
     int result;
-
+    private String gameMode;
+    private boolean picExists;
+    private Bitmap[] array;
     public Board(Context ctxt, AttributeSet attr) {
         super(ctxt, attr);
         context = ctxt;
@@ -106,26 +114,34 @@ public class Board extends TableLayout {
         initPosArray(labels);
         initRows();
         initMap();
+        gameMode = "number";
         for (int i = 0; i < labels.size(); i++) {
             LogUtils.LOGD("savetest", "intboard 2nd version labels=" + labels.get(i));
         }
     }
 
 
-    public void initBoard(int size, String soundMode,String imgPath) {
+    public void initBoard(int size, String soundMode,String gameMode) {
         initSounds(soundMode);
         initDimens(size);
         initLabels();
         initPosArray();
         initRows();
         initMap();
-        initBitmap(imgPath);
+        this.gameMode = gameMode;
+        if(gameMode.equalsIgnoreCase("picture"))
+           initBitmap();
         Collections.shuffle(labelList);
     }
 
     private String imgPath;
-    private void initBitmap(String imgpath) {
-        this.imgPath = imgpath;
+    private void initBitmap() {
+        SharedPreferences preferences = context.getSharedPreferences(GlobalConstants.pref_file, Context.MODE_PRIVATE);
+        imgPath = preferences.getString(GlobalConstants.image_path,"No file Found");
+        File f = new File(imgPath);
+        if(f.exists()){
+            picExists = true;
+        }
     }
 
     private void initLabels() {
@@ -187,27 +203,23 @@ public class Board extends TableLayout {
         initialize();
     }
 
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-       // initialize();
-    }
 
     private Drawable dArr[];
     private Drawable[] splitBitmap(Bitmap bmp){
+        array = new Bitmap[no_rows*no_cols];
         int startX = 0;
         int startY =0;
         int width = bmp.getWidth()/no_cols;
         int height = bmp.getHeight()/no_rows;
-
         dArr = new Drawable[no_rows*no_cols];
         for(int ii=0;ii<no_rows*no_cols;ii++){
             if(ii!=0 && ii%BOARD_SIZE==0) {
                 startX = 0;
                 startY = startY + height;
             }
-
-                dArr[ii]= new BitmapDrawable(context.getResources(),Bitmap.createBitmap(bmp,startX,startY,width,height));
+            Log.d("split",""+startY);
+            array[ii] = Bitmap.createBitmap(bmp,startX,startY,width,height);
+                dArr[ii]= new BitmapDrawable(context.getResources(),array[ii]);
                 startX = startX + width;
 
         }
@@ -215,11 +227,15 @@ public class Board extends TableLayout {
     }
     private void initialize() {
         LogUtils.LOGD("savetest", "board... initialize");
-        Bitmap bmp =  decodeSampledBitmapFromResource(context.getResources()
-                ,imgPath
-                ,board_width,350*2);
-        Log.d("sachin","scaled bmp="+bmp.getWidth()+" "+bmp.getHeight());
-        dArr = splitBitmap(bmp);
+        if(gameMode.equalsIgnoreCase("picture")) {
+            Bitmap bmp = decodeSampledBitmapFromResource(context.getResources()
+                    , imgPath
+                    , board_width, 350 * 2);
+
+            dArr = splitBitmap(bmp);
+            bmp.recycle();
+            bmp = null;
+        }
         int button_dimen = board_width / no_cols;
         TRANSLATE_OFFSET = button_dimen;
         int count = 0;
@@ -231,22 +247,27 @@ public class Board extends TableLayout {
                 button.setTextAppearance(context, R.style.ButtonText);
                 button.setLayoutParams(buttonParams);
                 button.setTag(new Coord(i, j));
-                //button.setBackgroundResource(drawable[(i * no_rows + j) % drawable.length]);
+                if(!gameMode.equalsIgnoreCase("picture"))
+                    button.setBackgroundResource(drawable[(i * no_rows + j) % drawable.length]);
 
                 button.setOnTouchListener(new onFlingGestureListenerImpl());
 
                 if (pos_array[i][j] == 1) {
                     if (!Utils.isNullorWhiteSpace(labelList.get(count))) {
                         map.put(i * no_rows + j, labelList.get(count));
-                        button.setText(labelList.get(count));
-                        button.setBackgroundDrawable(dArr[Integer.valueOf(labelList.get(count))]);
-                        LogUtils.LOGD("savetest", i + " " + j + " button.getText()" + button.getText() + " count=" + count + " " + labelList.get(count));
+                        if(!gameMode.equalsIgnoreCase("picture"))
+                           button.setText(labelList.get(count));
+                        if(gameMode.equalsIgnoreCase("picture"))
+                           button.setBackgroundDrawable(dArr[Integer.valueOf(labelList.get(count))]);
                         rowArr[i].addView(button);
                         count++;
                     } else {
                         count++;
                         map.put(i * no_rows + j, labelList.get(count));
-                        button.setText(labelList.get(count));
+                        if(!gameMode.equalsIgnoreCase("picture"))
+                           button.setText(labelList.get(count));
+                        if(gameMode.equalsIgnoreCase("picture"))
+                           button.setBackgroundDrawable(dArr[Integer.valueOf(labelList.get(count))]);
                         LogUtils.LOGD("savetest", i + " " + j + " button.getText()" + button.getText() + " count=" + count + " " + labelList.get(count));
                         rowArr[i].addView(button);
                         count++;
@@ -587,12 +608,21 @@ public class Board extends TableLayout {
     }
 
 
-    public void flushSoundPool() {
+    public void flushSoundPool_and_Bitmaps() {
         if (sp != null) {
             sp.release();
             sp = null;
             LogUtils.LOGD("BoardGame", "flushSoundPool-- Board");
         }
+
+        int size = 0;
+        if(array!=null)
+            size = array.length;
+        for(int i=0;i<size;i++){
+             array[i].recycle();
+             array[i] = null;
+        }
+
     }
 
     public void saveGameState(int moveCount, long elapsedTime) {
@@ -647,14 +677,19 @@ public class Board extends TableLayout {
     }
 
 
-    public static Bitmap decodeSampledBitmapFromResource(Resources res, String path,
+     private  Bitmap decodeSampledBitmapFromResource(Resources res, String path,
                                                          int reqWidth, int reqHeight) {
 
         // First decode with inJustDecodeBounds=true to check dimensions
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        //BitmapFactory.decodeResource(res, resId, options);
-        BitmapFactory.decodeFile(path,options);
+         int index =  -1;
+        if(!picExists) {
+            index = new Random().nextInt(pic_array.length);
+            BitmapFactory.decodeResource(res, pic_array[index], options);
+        }
+        else
+           BitmapFactory.decodeFile(path,options);
 
         // Calculate inSampleSize
         options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
@@ -667,16 +702,25 @@ public class Board extends TableLayout {
             Matrix matrix = new Matrix();
             matrix.postScale(scaleWidth, scaleHeight);
             options.inJustDecodeBounds = false;
-            Bitmap resizedBmp = Bitmap.createBitmap(BitmapFactory.decodeFile(path,options),0, 0, options.outWidth, options.outHeight, matrix, false);
-            Log.d("sachin","resized="+resizedBmp.getWidth()+" "+resizedBmp.getHeight());
-          return resizedBmp;
+            Bitmap resizedBmp ;
+            if(picExists)
+               resizedBmp = Bitmap.createBitmap(BitmapFactory.decodeFile(path,options),0, 0, options.outWidth, options.outHeight, matrix, false);
+            else
+                resizedBmp = Bitmap.createBitmap(BitmapFactory.decodeResource(res, pic_array[index], options),0, 0, options.outWidth, options.outHeight, matrix, false);
+
+            return resizedBmp;
         }
 
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
-        Matrix matrix = new Matrix();
-        Bitmap resizedBmp =  BitmapFactory.decodeFile(path, options);
-        return Bitmap.createScaledBitmap(resizedBmp,reqWidth,reqHeight,false);
+        Bitmap resizedBmp =  null;
+         if(!picExists) {
+         resizedBmp =   BitmapFactory.decodeResource(res, pic_array[index], options);
+         }
+         else
+             resizedBmp =   BitmapFactory.decodeFile(path,options);
+
+         return Bitmap.createScaledBitmap(resizedBmp,reqWidth,reqHeight,false);
     }
 
 

@@ -1,18 +1,13 @@
-package com.board.game.sasha;
+package com.board.game.sasha.gui;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.provider.MediaStore;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -24,10 +19,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.board.game.sasha.R;
+import com.board.game.sasha.commonutils.GlobalConstants;
 import com.board.game.sasha.commonutils.Utils;
 import com.board.game.sasha.customviews.ArcTimer;
+import com.board.game.sasha.customviews.Board;
 import com.board.game.sasha.dialog.AlertDialogFactory;
 import com.board.game.sasha.logutils.LogUtils;
 
@@ -59,84 +56,25 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private String grid;
     private String soundMode;
     private boolean saved;
-    private String imgPath;
     private TextView moves;
     private int moveCount = 0;
     private boolean runnablePosted = false;
     private ImageView sound;
-    private ImageView settings;
-    private LinearLayout settingitem_container;
-    TranslateAnimation translate;
-    private int width;
-    private ImageView image;
-    private static int RESULT_LOAD_IMG = 1;
-    String imgDecodableString;
-
-    public void loadImagefromGallery(View view) {
-        // Create intent to Open Image applications like Gallery, Google Photos
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        // Start the Intent
-        startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        try {
-            // When an Image is picked
-            if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK
-                    && null != data) {
-                // Get the Image from data
-                Toast.makeText(this, "picked Image",
-                        Toast.LENGTH_LONG).show();
-
-                Uri selectedImage = data.getData();
-                String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-                // Get the cursor
-                Cursor cursor = getContentResolver().query(selectedImage,
-                        filePathColumn, null, null, null);
-                // Move to first row
-                cursor.moveToFirst();
-
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                imgDecodableString = cursor.getString(columnIndex);
-                cursor.close();
-                ImageView imgView = (ImageView) findViewById(R.id.image);
-                // Set the Image in ImageView after decoding the String
-                imgView.setImageBitmap(BitmapFactory
-                        .decodeFile(imgDecodableString));
-
-            } else {
-                Toast.makeText(this, "You haven't picked Image",
-                        Toast.LENGTH_LONG).show();
-            }
-        } catch (Exception e) {
-            Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
-                    .show();
-        }
-
-    }
-
-
+    private SharedPreferences preferenceManager;
+    private String gameMode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.board);
+        pref = getSharedPreferences(GlobalConstants.pref_file, Context.MODE_PRIVATE);
+        preferenceManager = PreferenceManager.getDefaultSharedPreferences(this);
 
 
-        image = (ImageView)findViewById(R.id.image);
+        grid = preferenceManager.getString("grid", "3");
+        gameMode = preferenceManager.getString("mode", "number");
+        soundMode = preferenceManager.getString("sound", "on");
+        saved = getIntent().getBooleanExtra("saved", false);
 
-        settings = (ImageView)findViewById(R.id.settings);
-        settingitem_container = (LinearLayout)findViewById(R.id.settingitems_container);
-
-        Bundle i = getIntent().getExtras();
-        grid = i.get("grid").toString();
-        soundMode = i.get("sound").toString();
-        saved = i.getBoolean("saved", false);
-        imgPath = i.getString("image_path");
-        LogUtils.LOGD("boardgame", "saved=" + saved+" grid="+grid+" soundmode="+soundMode);
         board = (Board) findViewById(R.id.board);
         hr = (TextView) findViewById(R.id.hour);
         min = (TextView) findViewById(R.id.min);
@@ -158,8 +96,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             sound.setImageResource(R.drawable.sound_off);
         sound.setOnClickListener(this);
         playButton.setOnClickListener(this);
-        settings.setOnClickListener(this);
-        pref = getSharedPreferences("gameprefs", Context.MODE_PRIVATE);
+
 
         if (saved) {
             moveCount = Integer.valueOf(pref.getString("moves", "0"));
@@ -213,8 +150,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 }
                 board.initBoard(size, soundMode, labelList, saved);
             } else {
-                Log.d("pathtest", imgPath);
-                board.initBoard(Integer.valueOf(grid), soundMode,imgPath);
+                board.initBoard(Integer.valueOf(grid), soundMode,gameMode);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -334,9 +270,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onClick(View v) {
         int id = v.getId();
         switch (id){
-            case R.id.settings:
-                break;
-
             case R.id.playButton:
                 timer.start();
                 playContainer.setVisibility(View.GONE);
@@ -362,7 +295,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         if (mHandler != null && startTimer != null)
             mHandler.removeCallbacks(startTimer);
         if (board != null)
-            board.flushSoundPool();
+            board.flushSoundPool_and_Bitmaps();
     }
 
 

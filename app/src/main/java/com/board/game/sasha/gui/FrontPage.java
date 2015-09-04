@@ -1,4 +1,4 @@
-package com.board.game.sasha;
+package com.board.game.sasha.gui;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -14,9 +14,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.board.game.sasha.MainActivity;
 import com.board.game.sasha.R;
-import com.board.game.sasha.SettingsScreen;
+import com.board.game.sasha.settings.SettingsScreen;
 import com.board.game.sasha.commonutils.GlobalConstants;
 import com.board.game.sasha.dialog.AlertDialogFactory;
 import com.board.game.sasha.logutils.LogUtils;
@@ -84,27 +83,27 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
         best_score.setOnClickListener(this);
         share_fb.setOnClickListener(this);
         share_tw.setOnClickListener(this);
-        Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_left_to_right);
+      //  Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_left_to_right);
         if (saved) {
             continue_last.setVisibility(View.VISIBLE);
-            continue_last.setAnimation(anim);
+           // continue_last.setAnimation(anim);
         }
-        best_score.setAnimation(anim);
+     /*   best_score.setAnimation(anim);
         anim.start();
         anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_right_to_left);
         new_game.setAnimation(anim);
         anim.start();
         anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_bottom_to_top);
         configuration.setAnimation(anim);
-        anim.start();
+        anim.start();*/
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        grid = sharedPreferences.getString("grid", "3");
-        sound = sharedPreferences.getString("sound", "on");
-        imgPath = sharedPreferences.getString("image_path", "");
+      //  grid = sharedPreferences.getString("grid", "3");
+       // sound = sharedPreferences.getString("sound", "on");
+      //  imgPath = sharedPreferences.getString("image_path", "");
     }
 
     @Override
@@ -119,18 +118,18 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
             case R.id.continue_last:
                 Intent savedGame = new Intent(this, MainActivity.class);
                 savedGame.putExtra("saved", true);
-                savedGame.putExtra("grid", grid);
-                savedGame.putExtra("sound", sound);
-                savedGame.putExtra("image_path",imgPath);
+             //   savedGame.putExtra("grid", grid);
+            //    savedGame.putExtra("sound", sound);
+            //    savedGame.putExtra("image_path",imgPath);
                 startActivity(savedGame);
                 finish();
                 break;
             case R.id.new_game:
                 Intent newGame = new Intent(this, MainActivity.class);
-                newGame.putExtra("grid", grid);
-                newGame.putExtra("sound", sound);
+              //  newGame.putExtra("grid", grid);
+              //  newGame.putExtra("sound", sound);
                 newGame.putExtra("saved", false);
-                newGame.putExtra("image_path",imgPath);
+              //  newGame.putExtra("image_path",imgPath);
                 startActivity(newGame);
                 finish();
                 break;

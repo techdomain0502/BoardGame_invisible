@@ -4,13 +4,16 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.TextView;
 
-import com.board.game.sasha.FrontPage;
-import com.board.game.sasha.MainActivity;
+import com.board.game.sasha.gui.FrontPage;
+import com.board.game.sasha.gui.MainActivity;
 import com.board.game.sasha.R;
 import com.board.game.sasha.commonutils.Utils;
+import com.facebook.share.widget.ShareDialog;
 
 /**
  * Created by sachin.c1 on 12-Aug-15.
@@ -19,9 +22,13 @@ public class AlertDialogFactory {
     private Context context;
     private String type;
     private String move,time;
+    private SharedPreferences pref;
+    private String mode;
     public AlertDialogFactory(Context context, String type) {
         this.context = context;
         this.type = type;
+        pref = PreferenceManager.getDefaultSharedPreferences(context);
+        mode = pref.getString("mode","number");
     }
 
 
@@ -101,16 +108,17 @@ public class AlertDialogFactory {
 
                 }
             });
-            builder.setNegativeButton(negative, new DialogInterface.OnClickListener() {
 
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (context instanceof MainActivity) {
-                        ((MainActivity) context).finish();
-                        ((MainActivity) context).saveGameBestStats();
+                builder.setNegativeButton(negative, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (context instanceof MainActivity) {
+                            ((MainActivity) context).finish();
+                            ((MainActivity) context).saveGameBestStats();
+                        }
                     }
-                }
-            });
+                });
 
         }
 
@@ -147,13 +155,13 @@ public class AlertDialogFactory {
                     context.startActivity(intent);
                 }
             });
+            if(!mode.equalsIgnoreCase("picture"))
+                builder.setNegativeButton(negative, new DialogInterface.OnClickListener() {
 
-            builder.setNegativeButton(negative, new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    ((MainActivity) context).notifyBoardToSave();
-                    if (context instanceof MainActivity) {
+                   @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                     ((MainActivity) context).notifyBoardToSave();
+                      if (context instanceof MainActivity) {
                         ((MainActivity) context).finish();
                         ((MainActivity) context).notifyBoardToSave();
                     }

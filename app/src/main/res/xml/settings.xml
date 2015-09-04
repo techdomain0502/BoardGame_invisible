@@ -19,7 +19,8 @@
             android:key="sound"
             android:persistent="true"
             android:summary="Choose to Turn on/off Sounds"
-            android:title="Sound" />
+            android:title="Sound"
+            />
         <ListPreference
             android:defaultValue="number"
             android:entries="@array/mode_entry"
@@ -28,5 +29,11 @@
             android:persistent="true"
             android:summary="Choose Game Mode"
             android:title="Game Mode" />
+        <Preference
+            android:key="image"
+            android:summary="Choose Image "
+            android:title="Image"
+            android:enabled="true"
+            />
     </PreferenceCategory>
 </PreferenceScreen>
