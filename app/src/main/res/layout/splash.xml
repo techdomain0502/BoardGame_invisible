@@ -6,19 +6,20 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_above="@+id/title"
-        android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/title"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp"
-        android:src="@drawable/ic_launcher"/>
+        android:src="@drawable/ic_launcher" />
+
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="@string/app_name"
         android:maxLines="2"
+        android:text="@string/app_name"
         android:textColor="@android:color/white"
         android:textSize="30sp"
         android:textStyle="bold" />
@@ -28,35 +29,48 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
-        android:text="Let\'s train our brain."
-        android:textColor="@android:color/white"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
+        android:text="Let\'s train our brain."
+        android:textColor="@android:color/white"
         android:textSize="25sp"
         android:textStyle="bold|italic" />
 
 
     <LinearLayout
-        android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:orientation="vertical"
         android:paddingRight="10dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Play"
-            android:textSize="25sp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
             android:layout_gravity="center_horizontal"
-            />
+            android:text="Play"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
         <ImageView
             android:id="@+id/start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:src="@drawable/start_selector"/>
+            android:src="@drawable/start_selector" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/white"
+        android:text="@string/version"
+        android:textSize="20dp"
+        android:padding="2dp"/>
+
 </RelativeLayout>
