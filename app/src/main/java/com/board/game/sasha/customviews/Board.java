@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.preference.PreferenceManager;
@@ -204,22 +205,26 @@ public class Board extends TableLayout {
     }
 
 
-    private Drawable dArr[];
-    private Drawable[] splitBitmap(Bitmap bmp){
+    private LayerDrawable dArr[];
+    private LayerDrawable[] splitBitmap(Bitmap bmp){
         array = new Bitmap[no_rows*no_cols];
         int startX = 0;
         int startY =0;
         int width = bmp.getWidth()/no_cols;
         int height = bmp.getHeight()/no_rows;
-        dArr = new Drawable[no_rows*no_cols];
+        dArr = new LayerDrawable[no_rows*no_cols];
         for(int ii=0;ii<no_rows*no_cols;ii++){
             if(ii!=0 && ii%BOARD_SIZE==0) {
                 startX = 0;
                 startY = startY + height;
             }
             Log.d("split",""+startY);
-            array[ii] = Bitmap.createBitmap(bmp,startX,startY,width,height);
-                dArr[ii]= new BitmapDrawable(context.getResources(),array[ii]);
+            array[ii] = Bitmap.createBitmap(bmp, startX, startY, width, height);
+            Drawable layers[] = new Drawable[2];
+            layers[0]= context.getResources().getDrawable(R.drawable.border);
+            layers[1]= new BitmapDrawable(context.getResources(),array[ii]);
+
+                dArr[ii]= new LayerDrawable(layers);
                 startX = startX + width;
 
         }

@@ -78,12 +78,12 @@
 
 
     <LinearLayout
+        android:background="@drawable/bubble"
         android:id="@+id/move_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal"
-        android:paddingBottom="5dp"
         android:visibility="visible">
 
         <TextView
@@ -117,13 +117,12 @@
         android:visibility="invisible">
 
         <TextView
+            android:background="@drawable/bubble"
             android:id="@+id/header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
             android:text="Game Begins in"
             android:textColor="@android:color/white"
             android:textSize="40sp"
@@ -153,12 +152,12 @@
         android:visibility="visible">
 
         <TextView
+            android:background="@drawable/bubble"
             android:id="@+id/headerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:padding="10dp"
             android:text="@string/beginHeader"
             android:textColor="@android:color/white"
             android:textSize="30dp"

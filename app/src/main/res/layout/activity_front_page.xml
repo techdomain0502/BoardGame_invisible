@@ -63,6 +63,7 @@
         android:padding="5dp">
 
         <TextView
+            android:background="@drawable/bubble"
             android:id="@+id/share_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
