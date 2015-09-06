@@ -102,8 +102,6 @@ public class SettingsScreen extends PreferenceActivity implements SharedPreferen
             if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK
                     && null != data) {
                 // Get the Image from data
-                Toast.makeText(this, "picked Image",
-                        Toast.LENGTH_LONG).show();
 
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -117,6 +115,10 @@ public class SettingsScreen extends PreferenceActivity implements SharedPreferen
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 imgDecodableString = cursor.getString(columnIndex);
                 cursor.close();
+                if(!(imgDecodableString.endsWith("jpg")||imgDecodableString.endsWith("png"))) {
+                    image.setSummary("No File Choosen");
+                    throw new IllegalArgumentException();
+                }
                 image.setSummary(imgDecodableString);
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putString(GlobalConstants.image_path,imgDecodableString);
@@ -125,7 +127,11 @@ public class SettingsScreen extends PreferenceActivity implements SharedPreferen
             } else {
                 image.setSummary(getResources().getString(R.string.default_image_selected));
             }
-        } catch (Exception e) {
+        }
+        catch(IllegalArgumentException e){
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(),"Choose jpg/png only",Toast.LENGTH_SHORT).show();
+        } catch(Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
                     .show();
