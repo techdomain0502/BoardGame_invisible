@@ -144,43 +144,5 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/playButtonContainer"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@drawable/front_page"
-        android:visibility="visible">
-
-        <TextView
-            android:background="@drawable/bubble"
-            android:id="@+id/headerText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:text="@string/beginHeader"
-            android:textColor="@android:color/white"
-            android:textSize="30dp"
-            android:textStyle="bold|italic" />
-
-        <Button
-            android:id="@+id/playButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@drawable/play_over_framebutton"
-            android:clickable="true" />
-
-        <TextView
-            android:id="@+id/guideText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:paddingBottom="20dp"
-            android:text="@string/start"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
-    </RelativeLayout>
 
 </RelativeLayout>

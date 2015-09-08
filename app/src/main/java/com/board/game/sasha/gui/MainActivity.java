@@ -40,7 +40,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private Button playButton;
     private long secs, mins, hrs;
     private String seconds, milliseconds, hours, minutes;
-    private RelativeLayout playContainer, counterContainer;
+    private RelativeLayout counterContainer;
     private Handler mHandler = new Handler();
     private long startTime;
     private long elapsedTime;
@@ -82,10 +82,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         msec = (TextView) findViewById(R.id.msec);
         arcTimer = (ArcTimer) findViewById(R.id.arcTimer);
         moves = (TextView) findViewById(R.id.moves);
-        playContainer = (RelativeLayout) findViewById(R.id.playButtonContainer);
         counterContainer = (RelativeLayout) findViewById(R.id.startTimerContainer);
-        playguideText = (TextView) findViewById(R.id.guideText);
-        playButton = (Button) findViewById(R.id.playButton);
         timer_text = (TextView) findViewById(R.id.timer_text);
         header = (TextView) findViewById(R.id.header);
         sound = (ImageView)findViewById(R.id.sound);
@@ -95,7 +92,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         else
             sound.setImageResource(R.drawable.sound_off);
         sound.setOnClickListener(this);
-        playButton.setOnClickListener(this);
 
 
         if (saved) {
@@ -158,6 +154,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
     private void initAnimation() {
+/*
         anim = new ScaleAnimation(
                 1f, 2.5f, // Start and end values for the X axis scaling
                 1f, 2.5f, // Start and end values for the Y axis scaling
@@ -167,6 +164,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         anim.setDuration(1000);
         anim.setRepeatMode(Animation.REVERSE);
         playguideText.startAnimation(anim);
+*/
 
         set = new AnimationSet(true);
         set.setFillAfter(true);
@@ -260,9 +258,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
+        timer.start();
+        counterContainer.setVisibility(View.VISIBLE);
         if (startTimer != null && !runnablePosted &&
-                (playContainer.getVisibility() == View.GONE
-                        && counterContainer.getVisibility() == View.GONE) && (board.getResult()!=1))
+                (counterContainer.getVisibility() == View.GONE) && (board.getResult()!=1))
             resumeTimer();
     }
 
@@ -270,14 +269,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onClick(View v) {
         int id = v.getId();
         switch (id){
-            case R.id.playButton:
+          /*  case R.id.playButton:
                 timer.start();
                 playContainer.setVisibility(View.GONE);
                 anim.cancel();
                 playguideText.setVisibility(View.GONE);
                 counterContainer.setVisibility(View.VISIBLE);
                 break;
-            case R.id.sound:
+          */  case R.id.sound:
                 int drawable = soundMode.equalsIgnoreCase("on")?R.drawable.sound_off:R.drawable.sound_on;
                 sound.setImageResource(drawable);
                 soundMode = soundMode.equalsIgnoreCase("on")?"off":"on";
@@ -308,7 +307,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        if (board != null && (playContainer.getVisibility() == View.GONE && counterContainer.getVisibility() == View.GONE)) {
+        if (board != null && (counterContainer.getVisibility() == View.GONE)) {
           LogUtils.LOGD("boardgame","onbackpress if");
             AlertDialog dialog = new AlertDialogFactory(MainActivity.this, "EXIT").getDialog();
             if (dialog != null) {
