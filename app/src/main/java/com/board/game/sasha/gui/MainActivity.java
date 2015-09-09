@@ -49,7 +49,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private AlphaAnimation alphaAnimation;
     private ScaleAnimation scaleAnimation;
     private AnimationSet set;
-    private CountDownTimer timer;
     private ArcTimer arcTimer;
     private String gameStateObject;
     private SharedPreferences pref;
@@ -107,25 +106,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         initAnimation();
 
-        timer = new CountDownTimer(3500, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                LogUtils.LOGD("timerdemo", "millisUntilFinished" + millisUntilFinished);
-                arcTimer.updateSweepAngle();
-                timer_text.setText("" + millisUntilFinished / 1000);
-                timer_text.startAnimation(set);
-            }
-
-            @Override
-            public void onFinish() {
-                mHandler.removeCallbacks(startTimer);
-                runnablePosted = mHandler.postDelayed(startTimer, 0);
-                startTime = System.currentTimeMillis();
-                alphaAnimation.cancel();
-                counterContainer.setVisibility(View.GONE);
-
-            }
-        };
 
     }
 
@@ -258,8 +238,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        timer.start();
         counterContainer.setVisibility(View.VISIBLE);
+        arcTimer.beginCountDown();
         if (startTimer != null && !runnablePosted &&
                 (counterContainer.getVisibility() == View.GONE) && (board.getResult()!=1))
             resumeTimer();
@@ -430,4 +410,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         moves.setText(String.valueOf(moveCount));
     }
 
+    public void startappTimer() {
+        mHandler.removeCallbacks(startTimer);
+        runnablePosted = mHandler.postDelayed(startTimer, 0);
+        startTime = System.currentTimeMillis();
+
+    }
 }
