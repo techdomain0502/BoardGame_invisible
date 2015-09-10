@@ -8,9 +8,13 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Transformation;
 
 import com.board.game.sasha.R;
@@ -24,7 +28,7 @@ public  class ArcTimer extends View {
     private float sweepAngle=0;
     private ArcTimer view;
     private RectF rectF,rectF1;
-    private Animation anim;
+    private CustomAnimation anim;
     private   float delta=120;
     private  float startAngle=-90;
     private Paint p ;
@@ -34,7 +38,8 @@ public  class ArcTimer extends View {
     private CountDownTimer timer;
     private int count = 4;
     private float sweepdelta = 0;
-
+    private boolean begin = false;
+    private boolean isCountDownFinished = false;
     // CONSTRUCTOR
     public ArcTimer(Context context) {
         super(context);
@@ -51,19 +56,33 @@ public  class ArcTimer extends View {
         timer = new CountDownTimer(4000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                LogUtils.LOGD("timerdemo", "millisUntilFinished" + millisUntilFinished);
+                LogUtils.LOGD("timerdemo1", "millisUntilFinished" + millisUntilFinished);
                 updateSweepAngle();
             }
 
             @Override
             public void onFinish() {
-                ((MainActivity)getContext()).startappTimer();
+                LogUtils.LOGD("timert", "onfinish");
+                        ((MainActivity) getContext()).startappTimer();
                 setVisibility(View.GONE);
+                setCountDownFinished(true);
             }
         };
 
+        begin = true;
         timer.start();
+
     }
+
+    public void setCountDownFinished(boolean finished){
+        isCountDownFinished = finished;
+    }
+
+    public boolean getCountDownFinished(){
+        return isCountDownFinished;
+    }
+
+
     private void init() {
         p = new Paint();
         p1 = new Paint();
@@ -72,7 +91,9 @@ public  class ArcTimer extends View {
 
         anim = new CustomAnimation();
         this.setAnimation(anim);
+        anim.setInterpolator(new AccelerateDecelerateInterpolator());
         anim.setDuration(1000);
+
         p.setColor(Color.TRANSPARENT);
         p1.setAntiAlias(true);
         p1.setColor(getResources().getColor(R.color.darkgreen));
@@ -88,7 +109,7 @@ public  class ArcTimer extends View {
         p3.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 100, getContext().getResources().getDisplayMetrics()));
 
         sweepdelta = sweepAngle;
-        anim.start();
+        //anim.start();
     }
 
     @Override
@@ -101,22 +122,48 @@ public  class ArcTimer extends View {
     public void updateSweepAngle(){
         LogUtils.LOGD("timerdemo","updateSweepAngle() called");
         sweepdelta = sweepAngle;
-        count--;
         this.startAnimation(anim);
+         count--;
+        //view.invalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        Rect bounds = new Rect();
-        p3.getTextBounds(String.valueOf(count), 0, String.valueOf(count).length(), bounds);
-        int x = ((int)rectF.centerX()) - (bounds.width() / 2);
-        int y = ((int)rectF.centerY()) + (bounds.height() / 2);
-        canvas.drawOval(rectF, p);
-        //canvas.drawOval(rectF1, p);
-        canvas.drawArc(rectF, startAngle,sweepAngle, false, p1);
-        //canvas.drawArc (rectF1,startAngle,-sweepAngle, false, p2);
-        canvas.drawText(String.valueOf(count),x,y,p3);
+        Log.d("sweep", "ondraw");
+        if(begin) {
+            Rect bounds = new Rect();
+            p3.getTextBounds(String.valueOf(count), 0, String.valueOf(count).length(), bounds);
+            int x = ((int) rectF.centerX()) - (bounds.width() / 2);
+            int y = ((int) rectF.centerY()) + (bounds.height() / 2);
+            canvas.drawOval(rectF, p);
+            //canvas.drawOval(rectF1, p);
+            canvas.drawArc(rectF, startAngle, sweepAngle, false, p1);
+            //canvas.drawArc (rectF1,startAngle,-sweepAngle, false, p2);
+            canvas.drawText(String.valueOf(count), x, y, p3);
+        }
+    }
 
+    public void resetMe() {
+        LogUtils.LOGD("sachin","reset called");
+        delta=120;
+        startAngle=-90;
+        count = 4;
+        sweepdelta = 0;
+        begin = false;
+        isCountDownFinished = false;
+        if (anim!=null)
+           anim.cancel();
+        if (timer!=null)
+           timer.cancel();
+    }
+
+    public void clearAnim(){
+        LogUtils.LOGD("sachin", "clear anim called");
+        //if (anim!=null)
+             anim.cancel();
+
+        //if (timer!=null)
+            timer.cancel();
     }
 
     private class CustomAnimation extends Animation{
@@ -126,7 +173,7 @@ public  class ArcTimer extends View {
                                            Transformation t) {
             super.applyTransformation(interpolatedTime, t);
             sweepAngle = interpolatedTime * delta + sweepdelta;
-            LogUtils.LOGD("timerdemo","customanim arctimer.."+sweepAngle);
+            LogUtils.LOGD("timerdemo", "customanim arctimer.."+sweepAngle);
             view.invalidate();
         }
     }

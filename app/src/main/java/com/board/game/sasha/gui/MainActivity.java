@@ -238,8 +238,13 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        counterContainer.setVisibility(View.VISIBLE);
-        arcTimer.beginCountDown();
+        LogUtils.LOGD("resume","resume");
+        if(!arcTimer.getCountDownFinished()) {
+            if(counterContainer.getVisibility()==View.INVISIBLE)
+               counterContainer.setVisibility(View.VISIBLE);
+            arcTimer.resetMe();
+            arcTimer.beginCountDown();
+        }
         if (startTimer != null && !runnablePosted &&
                 (counterContainer.getVisibility() == View.GONE) && (board.getResult()!=1))
             resumeTimer();
@@ -281,8 +286,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     protected void onPause() {
         super.onPause();
+        LogUtils.LOGD("sachin","onPause calld");
         if (startTimer != null)
             pauseTimer();
+        if(!arcTimer.getCountDownFinished())
+            arcTimer.clearAnim();
     }
 
     @Override
@@ -411,6 +419,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
     public void startappTimer() {
+        counterContainer.setVisibility(View.GONE);
         mHandler.removeCallbacks(startTimer);
         runnablePosted = mHandler.postDelayed(startTimer, 0);
         startTime = System.currentTimeMillis();
