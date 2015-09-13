@@ -40,19 +40,13 @@
             android:background="@drawable/btn_blue_matte"
             android:text="@string/best_Score" />
 
-        <!--  <Button
-              android:id="@+id/share_fb"
-              style="@style/frontpageButtonText"
-              android:layout_height="wrap_content"
-              android:background="@drawable/btn_blue_matte"
-              android:text="@string/share_fb" />
-
           <Button
-              android:id="@+id/share_tw"
+              android:id="@+id/help"
               style="@style/frontpageButtonText"
               android:layout_height="wrap_content"
-              android:background="@drawable/btn_blue_matte"
-              android:text="@string/share_tw" />-->
+              android:background="@drawable/btn_green_matte"
+              android:text="@string/help" />
+
     </LinearLayout>
 
     <RelativeLayout

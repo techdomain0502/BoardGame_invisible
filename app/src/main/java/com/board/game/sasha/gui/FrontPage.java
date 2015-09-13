@@ -33,7 +33,8 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
 
     Button continue_last;
     Button new_game;
-    Button configuration/*, share_fb, share_tw*/;
+    Button configuration;
+    Button help;
     Button best_score;
     ImageView share_fb,share_tw;
     SharedPreferences sharedPreferences;
@@ -74,8 +75,10 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
         best_score = (Button) findViewById(R.id.score);
         share_fb = (ImageView) findViewById(R.id.fb);
         share_tw = (ImageView) findViewById(R.id.tw);
+        help =  (Button) findViewById(R.id.help);
         continue_last.setOnClickListener(this);
         new_game.setOnClickListener(this);
+        help.setOnClickListener(this);
         configuration.setOnClickListener(this);
         best_score.setOnClickListener(this);
         share_fb.setOnClickListener(this);
@@ -117,6 +120,10 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
                 AlertDialog dialog = new AlertDialogFactory(this, "SCORE",move,time).getDialog();
                 if(dialog!=null)
                     dialog.show();
+                break;
+            case R.id.help:
+                Intent help_intent = new Intent(this, HelpPage.class);
+                startActivity(help_intent);
                 break;
             case R.id.fb:
                 if (ShareDialog.canShow(ShareLinkContent.class)) {

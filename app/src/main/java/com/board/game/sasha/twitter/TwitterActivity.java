@@ -9,7 +9,6 @@ import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -78,7 +77,7 @@ public class TwitterActivity extends Activity implements OnClickListener {
         StrictMode.setThreadPolicy(policy);*/
 
 		/* Setting activity layout file */
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.twitter_page);
 
         loginLayout = (RelativeLayout) findViewById(R.id.login_layout);
         shareLayout = (LinearLayout) findViewById(R.id.share_layout);
