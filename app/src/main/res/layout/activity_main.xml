@@ -53,7 +53,7 @@
             android:layout_marginTop="5dp"
             android:background="#cceaf3"
             android:text="Hello Friends,\\n please install the latest version of
-            Board Game from http://www.facebook.com/delhimetroassistant"
+            Board Game from https://play.google.com/com.board.game.sasha"
             android:inputType="textMultiLine"
             android:minLines="5"
             android:padding="10dp" />

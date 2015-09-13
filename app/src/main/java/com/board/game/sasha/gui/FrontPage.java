@@ -37,9 +37,6 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
     Button best_score;
     ImageView share_fb,share_tw;
     SharedPreferences sharedPreferences;
-    String grid;
-    String sound;
-    String imgPath;
     boolean saved;
     CallbackManager callbackManager;
     ShareDialog shareDialog;
@@ -83,28 +80,11 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
         best_score.setOnClickListener(this);
         share_fb.setOnClickListener(this);
         share_tw.setOnClickListener(this);
-      //  Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_left_to_right);
         if (saved) {
             continue_last.setVisibility(View.VISIBLE);
-           // continue_last.setAnimation(anim);
         }
-     /*   best_score.setAnimation(anim);
-        anim.start();
-        anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_right_to_left);
-        new_game.setAnimation(anim);
-        anim.start();
-        anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_bottom_to_top);
-        configuration.setAnimation(anim);
-        anim.start();*/
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-      //  grid = sharedPreferences.getString("grid", "3");
-       // sound = sharedPreferences.getString("sound", "on");
-      //  imgPath = sharedPreferences.getString("image_path", "");
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -118,18 +98,12 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
             case R.id.continue_last:
                 Intent savedGame = new Intent(this, MainActivity.class);
                 savedGame.putExtra("saved", true);
-             //   savedGame.putExtra("grid", grid);
-            //    savedGame.putExtra("sound", sound);
-            //    savedGame.putExtra("image_path",imgPath);
                 startActivity(savedGame);
                 finish();
                 break;
             case R.id.new_game:
                 Intent newGame = new Intent(this, MainActivity.class);
-              //  newGame.putExtra("grid", grid);
-              //  newGame.putExtra("sound", sound);
                 newGame.putExtra("saved", false);
-              //  newGame.putExtra("image_path",imgPath);
                 startActivity(newGame);
                 finish();
                 break;
@@ -150,7 +124,7 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
                             .setContentTitle("Board Game - Please share it.")
                             .setContentDescription(
                                     "https://www.facebook.com/BoardGame--" +
-                                            "apk Download url:http://play.google.com/boardgame")
+                                            "apk Download url:https://play.google.com/com.board.game.sasha")
                             .setContentUrl(Uri.parse("http://developers.facebook.com/android"))
                             .build();
 
