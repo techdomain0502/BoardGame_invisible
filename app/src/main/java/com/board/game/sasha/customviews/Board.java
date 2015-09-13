@@ -70,6 +70,7 @@ public class Board extends TableLayout {
     private int sound[];
     private boolean isSoundEnabled;
     private String imgPath;
+    private LayerDrawable dArr[];
 
     public Board(Context ctxt, AttributeSet attr) {
         super(ctxt, attr);
@@ -183,7 +184,7 @@ public class Board extends TableLayout {
         for (int i = 0; i < no_rows; i++)   //i*SIZE+j
             for (int j = 0; j < no_cols; j++) {
                 int pos = i * no_rows + j;
-                if (pos == 8)
+                if (pos == index)
                     pos_array[i][j] = 0;
                 else
                     pos_array[i][j] = 1;
@@ -212,8 +213,6 @@ public class Board extends TableLayout {
         initialize();
     }
 
-
-    private LayerDrawable dArr[];
     private LayerDrawable[] splitBitmap(Bitmap bmp){
         array = new Bitmap[no_rows*no_cols];
         int startX = 0;
@@ -259,8 +258,10 @@ public class Board extends TableLayout {
             for (int j = 0; j < no_cols; j++) {
                 int btn_index = i*no_rows +j;
                 TableRow.LayoutParams buttonParams = new TableRow.LayoutParams(button_dimen, button_dimen);
-                //Button button = new Button(context);
-                btn_arr[btn_index].setTextAppearance(context, R.style.ButtonText);
+                if(!gameMode.equalsIgnoreCase("picture"))
+                    btn_arr[btn_index].setTextAppearance(context, R.style.ButtonText);
+                else
+                    btn_arr[btn_index].setTextAppearance(context, R.style.ButtonTextTransparent);
                 btn_arr[btn_index].setLayoutParams(buttonParams);
                 btn_arr[btn_index].setTag(coord_arr[i * no_rows + j]);
                 if(!gameMode.equalsIgnoreCase("picture"))
@@ -271,7 +272,6 @@ public class Board extends TableLayout {
                 if (pos_array[i][j] == 1) {
                     if (!Utils.isNullorWhiteSpace(labelList.get(count))) {
                         map.put(i * no_rows + j, labelList.get(count));
-                        if(!gameMode.equalsIgnoreCase("picture"))
                             btn_arr[btn_index].setText(labelList.get(count));
                         if(gameMode.equalsIgnoreCase("picture"))
                             btn_arr[btn_index].setBackgroundDrawable(dArr[Integer.valueOf(labelList.get(count))]);

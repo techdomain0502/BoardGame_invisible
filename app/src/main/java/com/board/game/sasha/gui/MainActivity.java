@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
@@ -13,17 +12,14 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.board.game.sasha.R;
 import com.board.game.sasha.commonutils.GlobalConstants;
 import com.board.game.sasha.commonutils.Utils;
-import com.board.game.sasha.customviews.ArcTimer;
 import com.board.game.sasha.customviews.Board;
 import com.board.game.sasha.dialog.AlertDialogFactory;
 import com.board.game.sasha.logutils.LogUtils;
@@ -36,21 +32,12 @@ import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
     private Board board;
-    private TextView hr, min, sec, msec, playguideText, timer_text, header;
-    private Button playButton;
+    private TextView hr, min, sec, msec;
     private long secs, mins, hrs;
     private String seconds, milliseconds, hours, minutes;
-    private RelativeLayout counterContainer;
     private Handler mHandler = new Handler();
-    private long startTime;
     private long elapsedTime;
     private final int REFRESH_RATE = 100;
-    private Animation anim;
-    private AlphaAnimation alphaAnimation;
-    private ScaleAnimation scaleAnimation;
-    private AnimationSet set;
-    private ArcTimer arcTimer;
-    private String gameStateObject;
     private SharedPreferences pref;
     private String grid;
     private String soundMode;
@@ -79,11 +66,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         min = (TextView) findViewById(R.id.min);
         sec = (TextView) findViewById(R.id.sec);
         msec = (TextView) findViewById(R.id.msec);
-        arcTimer = (ArcTimer) findViewById(R.id.arcTimer);
         moves = (TextView) findViewById(R.id.moves);
-        counterContainer = (RelativeLayout) findViewById(R.id.startTimerContainer);
-        timer_text = (TextView) findViewById(R.id.timer_text);
-        header = (TextView) findViewById(R.id.header);
         sound = (ImageView)findViewById(R.id.sound);
         if(soundMode.equalsIgnoreCase("on")){
             sound.setImageResource(R.drawable.sound_on);
@@ -103,9 +86,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
 
         parseSavedJsonGameState();
-
-        initAnimation();
-
 
     }
 
@@ -133,32 +113,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
     }
 
-    private void initAnimation() {
-/*
-        anim = new ScaleAnimation(
-                1f, 2.5f, // Start and end values for the X axis scaling
-                1f, 2.5f, // Start and end values for the Y axis scaling
-                Animation.RELATIVE_TO_SELF, 0.5f, // Pivot point of X scaling
-                Animation.RELATIVE_TO_SELF, 0.5f); // Pivot point of Y scaling
-        anim.setRepeatCount(Animation.INFINITE); // Needed to keep the result of the animation
-        anim.setDuration(1000);
-        anim.setRepeatMode(Animation.REVERSE);
-        playguideText.startAnimation(anim);
-*/
-
-        set = new AnimationSet(true);
-        set.setFillAfter(true);
-        alphaAnimation = new AlphaAnimation(1.0f, 0.0f);
-        alphaAnimation.setDuration(500);
-        // alphaAnimation.setFillAfter(true);
-        set.addAnimation(alphaAnimation);
-
-        scaleAnimation = new ScaleAnimation(1f, 0f, 1f, 0f, Animation.RELATIVE_TO_SELF,
-                0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        scaleAnimation.setDuration(500);
-        set.addAnimation(scaleAnimation);
-
-    }
 
 
 
@@ -239,14 +193,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         LogUtils.LOGD("resume","resume");
-       /* if(!arcTimer.getCountDownFinished()) {
-            if(counterContainer.getVisibility()==View.INVISIBLE)
-               counterContainer.setVisibility(View.VISIBLE);
-            arcTimer.resetMe();
-            arcTimer.beginCountDown();
-        }*/
-        if (startTimer != null && !runnablePosted /*&&
-                (counterContainer.getVisibility() == View.GONE)*/ && (board.getResult()!=1))
+
+        if (startTimer != null && !runnablePosted && (board.getResult()!=1))
             resumeTimer();
     }
 
@@ -254,14 +202,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onClick(View v) {
         int id = v.getId();
         switch (id){
-          /*  case R.id.playButton:
-                timer.start();
-                playContainer.setVisibility(View.GONE);
-                anim.cancel();
-                playguideText.setVisibility(View.GONE);
-                counterContainer.setVisibility(View.VISIBLE);
-                break;
-          */  case R.id.sound:
+                case R.id.sound:
                 int drawable = soundMode.equalsIgnoreCase("on")?R.drawable.sound_off:R.drawable.sound_on;
                 sound.setImageResource(drawable);
                 soundMode = soundMode.equalsIgnoreCase("on")?"off":"on";
@@ -274,8 +215,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (anim != null)
-            anim.cancel();
         if (mHandler != null && startTimer != null)
             mHandler.removeCallbacks(startTimer);
         if (board != null)
@@ -289,13 +228,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         LogUtils.LOGD("sachin","onPause calld");
         if (startTimer != null)
             pauseTimer();
-      /*  if(!arcTimer.getCountDownFinished())
-            arcTimer.clearAnim();*/
+
     }
 
     @Override
     public void onBackPressed() {
-        if (board != null /*&& (counterContainer.getVisibility() == View.GONE)*/) {
+        if (board != null) {
           LogUtils.LOGD("boardgame","onbackpress if");
             AlertDialog dialog = new AlertDialogFactory(MainActivity.this, "EXIT").getDialog();
             if (dialog != null) {
@@ -418,11 +356,4 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         moves.setText(String.valueOf(moveCount));
     }
 
-    public void startappTimer() {
-       // counterContainer.setVisibility(View.GONE);
-        mHandler.removeCallbacks(startTimer);
-        runnablePosted = mHandler.postDelayed(startTimer, 0);
-        startTime = System.currentTimeMillis();
-
-    }
 }
