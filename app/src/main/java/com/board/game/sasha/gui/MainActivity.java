@@ -239,14 +239,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         LogUtils.LOGD("resume","resume");
-        if(!arcTimer.getCountDownFinished()) {
+       /* if(!arcTimer.getCountDownFinished()) {
             if(counterContainer.getVisibility()==View.INVISIBLE)
                counterContainer.setVisibility(View.VISIBLE);
             arcTimer.resetMe();
             arcTimer.beginCountDown();
-        }
-        if (startTimer != null && !runnablePosted &&
-                (counterContainer.getVisibility() == View.GONE) && (board.getResult()!=1))
+        }*/
+        if (startTimer != null && !runnablePosted /*&&
+                (counterContainer.getVisibility() == View.GONE)*/ && (board.getResult()!=1))
             resumeTimer();
     }
 
@@ -289,13 +289,13 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         LogUtils.LOGD("sachin","onPause calld");
         if (startTimer != null)
             pauseTimer();
-        if(!arcTimer.getCountDownFinished())
-            arcTimer.clearAnim();
+      /*  if(!arcTimer.getCountDownFinished())
+            arcTimer.clearAnim();*/
     }
 
     @Override
     public void onBackPressed() {
-        if (board != null && (counterContainer.getVisibility() == View.GONE)) {
+        if (board != null /*&& (counterContainer.getVisibility() == View.GONE)*/) {
           LogUtils.LOGD("boardgame","onbackpress if");
             AlertDialog dialog = new AlertDialogFactory(MainActivity.this, "EXIT").getDialog();
             if (dialog != null) {
@@ -419,7 +419,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
     public void startappTimer() {
-        counterContainer.setVisibility(View.GONE);
+       // counterContainer.setVisibility(View.GONE);
         mHandler.removeCallbacks(startTimer);
         runnablePosted = mHandler.postDelayed(startTimer, 0);
         startTime = System.currentTimeMillis();

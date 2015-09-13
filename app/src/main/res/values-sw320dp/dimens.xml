@@ -3,4 +3,5 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="board_height">350dp</dimen>
-</resources>
+    <dimen name="title_textSize">25sp</dimen>
+	</resources>

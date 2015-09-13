@@ -12,7 +12,6 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -24,13 +23,13 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
 
-import com.board.game.sasha.commonutils.GlobalConstants;
-import com.board.game.sasha.gui.MainActivity;
 import com.board.game.sasha.R;
+import com.board.game.sasha.commonutils.GlobalConstants;
 import com.board.game.sasha.commonutils.Utils;
-import com.board.game.sasha.logutils.LogUtils;
 import com.board.game.sasha.dialog.AlertDialogFactory;
+import com.board.game.sasha.gui.MainActivity;
 import com.board.game.sasha.listeners.onFlingGestureListener;
+import com.board.game.sasha.logutils.LogUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,24 +56,29 @@ public class Board extends TableLayout {
     private HashMap<Integer, String> map;
     private int TRANSLATE_OFFSET = 100;
     private int drawable[] = {R.drawable.btn_green_glossy};
-    private int pic_array[] = {R.drawable.baby,R.drawable.cute,R.drawable.koala,R.drawable.panda};
+    private int pic_array[] = {R.drawable.baby,R.drawable.cute,R.drawable.koala,R.drawable.panda,R.drawable.penguin,R.drawable.daughter};
     boolean saved;
     int lastPos;
     int result;
     private String gameMode;
     private boolean picExists;
     private Bitmap[] array;
+    private Button[] btn_arr;
+    private Coord[] coord_arr;
+    private onFlingGestureListenerImpl fling;
+    private SoundPool sp;
+    private int sound[];
+    private boolean isSoundEnabled;
+    private String imgPath;
+
     public Board(Context ctxt, AttributeSet attr) {
         super(ctxt, attr);
         context = ctxt;
         this.setWillNotDraw(false);
         this.setClipChildren(false);
-
+        fling = new onFlingGestureListenerImpl();
     }
 
-    private SoundPool sp;
-    private int sound[];
-    private boolean isSoundEnabled;
 
     public void initSounds(String soundMode) {
         isSoundEnabled = (soundMode.equalsIgnoreCase("on")) ? true : false;
@@ -96,7 +100,6 @@ public class Board extends TableLayout {
     }
 
     private void initDimens(int size) {
-        LogUtils.LOGD("sachin", size + "=size");
         BOARD_SIZE = size;
         no_rows = size;
         no_cols = size;
@@ -115,10 +118,8 @@ public class Board extends TableLayout {
         initPosArray(labels);
         initRows();
         initMap();
+        initButtons_Coords();
         gameMode = "number";
-        for (int i = 0; i < labels.size(); i++) {
-            LogUtils.LOGD("savetest", "intboard 2nd version labels=" + labels.get(i));
-        }
     }
 
 
@@ -129,13 +130,24 @@ public class Board extends TableLayout {
         initPosArray();
         initRows();
         initMap();
+        initButtons_Coords();
         this.gameMode = gameMode;
         if(gameMode.equalsIgnoreCase("picture"))
            initBitmap();
         Collections.shuffle(labelList);
     }
 
-    private String imgPath;
+    private void initButtons_Coords() {
+        btn_arr = new Button[BOARD_SIZE * BOARD_SIZE];
+        coord_arr = new Coord[BOARD_SIZE * BOARD_SIZE];
+        for(int i=0;i<no_rows;i++)
+            for(int j=0;j<no_cols;j++) {
+                int index = i * no_rows + j;
+                btn_arr[index] = new Button(context);
+                coord_arr[index] = new Coord(i, j);
+            }
+    }
+
     private void initBitmap() {
         SharedPreferences preferences = context.getSharedPreferences(GlobalConstants.pref_file, Context.MODE_PRIVATE);
         imgPath = preferences.getString(GlobalConstants.image_path,"No file Found");
@@ -152,7 +164,6 @@ public class Board extends TableLayout {
                 labelList.add("");
             else
                 labelList.add(String.valueOf(i));
-            LogUtils.LOGD("savetest", "initLabels labelist@" + i + " " + labelList.get(i));
         }
     }
 
@@ -160,7 +171,6 @@ public class Board extends TableLayout {
         labelList = new ArrayList<String>();
         for (int i = 0; i < no_rows * no_cols; i++) {
             labelList.add(savedList.get(i));
-            LogUtils.LOGD("savetest", "initlabels " + savedList.get(i));
         }
     }
 
@@ -177,7 +187,6 @@ public class Board extends TableLayout {
                     pos_array[i][j] = 0;
                 else
                     pos_array[i][j] = 1;
-                LogUtils.LOGD("savetest", "initPosArray " + pos_array[i][j]);
             }
     }
 
@@ -190,7 +199,6 @@ public class Board extends TableLayout {
                 int pos = i * no_rows + j;
 
                 String val = list.get(pos);
-                LogUtils.LOGD("savedstate", "pos=" + pos + " val=" + val);
                 if (Utils.isNullorWhiteSpace(val))
                     pos_array[i][j] = 0;
                 else
@@ -230,8 +238,10 @@ public class Board extends TableLayout {
         }
         return dArr;
     }
+
+
+
     private void initialize() {
-        LogUtils.LOGD("savetest", "board... initialize");
         if(gameMode.equalsIgnoreCase("picture")) {
             Bitmap bmp = decodeSampledBitmapFromResource(context.getResources()
                     , imgPath
@@ -247,41 +257,40 @@ public class Board extends TableLayout {
         for (int i = 0; i < no_rows; i++) {
             this.addView(rowArr[i]);
             for (int j = 0; j < no_cols; j++) {
+                int btn_index = i*no_rows +j;
                 TableRow.LayoutParams buttonParams = new TableRow.LayoutParams(button_dimen, button_dimen);
-                Button button = new Button(context);
-                button.setTextAppearance(context, R.style.ButtonText);
-                button.setLayoutParams(buttonParams);
-                button.setTag(new Coord(i, j));
+                //Button button = new Button(context);
+                btn_arr[btn_index].setTextAppearance(context, R.style.ButtonText);
+                btn_arr[btn_index].setLayoutParams(buttonParams);
+                btn_arr[btn_index].setTag(coord_arr[i * no_rows + j]);
                 if(!gameMode.equalsIgnoreCase("picture"))
-                    button.setBackgroundResource(drawable[(i * no_rows + j) % drawable.length]);
+                    btn_arr[btn_index].setBackgroundResource(drawable[(i * no_rows + j) % drawable.length]);
 
-                button.setOnTouchListener(new onFlingGestureListenerImpl());
+                btn_arr[btn_index].setOnTouchListener(fling);
 
                 if (pos_array[i][j] == 1) {
                     if (!Utils.isNullorWhiteSpace(labelList.get(count))) {
                         map.put(i * no_rows + j, labelList.get(count));
                         if(!gameMode.equalsIgnoreCase("picture"))
-                           button.setText(labelList.get(count));
+                            btn_arr[btn_index].setText(labelList.get(count));
                         if(gameMode.equalsIgnoreCase("picture"))
-                           button.setBackgroundDrawable(dArr[Integer.valueOf(labelList.get(count))]);
-                        rowArr[i].addView(button);
+                            btn_arr[btn_index].setBackgroundDrawable(dArr[Integer.valueOf(labelList.get(count))]);
+                        rowArr[i].addView(btn_arr[btn_index]);
                         count++;
                     } else {
                         count++;
                         map.put(i * no_rows + j, labelList.get(count));
                         if(!gameMode.equalsIgnoreCase("picture"))
-                           button.setText(labelList.get(count));
+                            btn_arr[btn_index].setText(labelList.get(count));
                         if(gameMode.equalsIgnoreCase("picture"))
-                           button.setBackgroundDrawable(dArr[Integer.valueOf(labelList.get(count))]);
-                        LogUtils.LOGD("savetest", i + " " + j + " button.getText()" + button.getText() + " count=" + count + " " + labelList.get(count));
-                        rowArr[i].addView(button);
+                            btn_arr[btn_index].setBackgroundDrawable(dArr[Integer.valueOf(labelList.get(count))]);
+                        rowArr[i].addView(btn_arr[btn_index]);
                         count++;
                     }
                 } else if (pos_array[i][j] == 0) {
                     map.put(i * no_rows + j, "");
-                    button.setText("");
-                    LogUtils.LOGD("savetest", i + " " + j + " " + button.getText());
-                    rowArr[i].addView(button);
+                    btn_arr[btn_index].setText("");
+                    rowArr[i].addView(btn_arr[btn_index]);
                     rowArr[i].getChildAt(j).setVisibility(View.INVISIBLE);
                 }
 
@@ -306,10 +315,6 @@ public class Board extends TableLayout {
             this.y = y;
         }
 
-        public Coord getObj() {
-            return this;
-        }
-
         public int getX() {
             return x;
         }
@@ -318,10 +323,6 @@ public class Board extends TableLayout {
             return y;
         }
 
-        public void setXY(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
 
     }
 
@@ -628,6 +629,13 @@ public class Board extends TableLayout {
              array[i] = null;
         }
 
+
+        for(int index=0;index<no_rows*no_cols;index++){
+            coord_arr[index] = null;
+            btn_arr[index] = null;
+        }
+
+        context = null;
     }
 
     public void saveGameState(int moveCount, long elapsedTime) {
@@ -639,7 +647,6 @@ public class Board extends TableLayout {
             for (int i = 0; i < length; i++) {
                 stateObject.put("id" + i, map.get(i).toString());
             }
-            LogUtils.LOGD("boardgame", stateObject.toString());
             GameObject.put("savedstate", stateObject);
             SharedPreferences storedPrefs = context.getSharedPreferences("gameprefs", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = context.getSharedPreferences("gameprefs", Context.MODE_PRIVATE).edit();
