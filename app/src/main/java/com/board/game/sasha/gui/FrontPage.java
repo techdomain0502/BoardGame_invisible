@@ -36,7 +36,7 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
     Button configuration;
     Button help;
     Button best_score;
-    ImageView share_fb,share_tw;
+    ImageView share_fb,share_tw,share_wa;
     SharedPreferences sharedPreferences;
     boolean saved;
     CallbackManager callbackManager;
@@ -75,6 +75,7 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
         best_score = (Button) findViewById(R.id.score);
         share_fb = (ImageView) findViewById(R.id.fb);
         share_tw = (ImageView) findViewById(R.id.tw);
+        share_wa = (ImageView) findViewById(R.id.wa);
         help =  (Button) findViewById(R.id.help);
         continue_last.setOnClickListener(this);
         new_game.setOnClickListener(this);
@@ -83,6 +84,7 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
         best_score.setOnClickListener(this);
         share_fb.setOnClickListener(this);
         share_tw.setOnClickListener(this);
+        share_wa.setOnClickListener(this);
         if (saved) {
             continue_last.setVisibility(View.VISIBLE);
         }
@@ -141,6 +143,21 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
             case R.id.tw:
                 Intent twitter_intent = new Intent(this, TwitterActivity.class);
                 startActivity(twitter_intent);
+                break;
+            case R.id.wa:
+                Intent whatsapp = new Intent(Intent.ACTION_SEND);
+                whatsapp .setType("text/plain");
+                String text = "Hello Friends, Do enjoy a time buster game. " +
+                        "Please install from google play: https://play.google.com/com.board.game.sasha";
+                whatsapp .setPackage("com.whatsapp");
+                if (whatsapp != null) {
+                    whatsapp.putExtra(Intent.EXTRA_TEXT, text);//
+                }
+                    if(whatsapp.resolveActivity(getPackageManager())!=null)
+                        startActivity(whatsapp);
+                    else
+                        Toast.makeText(this,"Whatsapp Not installed. Please install to share"
+                                ,Toast.LENGTH_SHORT).show();
                 break;
         }
 

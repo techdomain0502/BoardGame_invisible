@@ -69,7 +69,7 @@
     <com.board.game.sasha.customviews.Board
         android:id="@+id/board"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/board_height"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:padding="2dp" />
 

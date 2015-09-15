@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:text="@string/no_saved_result"
         android:textStyle="bold"
-        android:textSize="25dp"
+        android:textSize="@dimen/app_title_summary_size"
         android:layout_gravity="center"/>
 
     <TextView
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:text="@string/your_move"
         android:textStyle="italic"
-        android:textSize="18dp"
+        android:textSize="@dimen/app_title_summary_size"
         android:layout_gravity="center"
         android:visibility="gone" />
 
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:text="@string/your_time"
         android:textStyle="italic"
-        android:textSize="18dp"
+        android:textSize="@dimen/app_title_summary_size"
         android:layout_gravity="center"
         android:visibility="gone" />
 </LinearLayout>

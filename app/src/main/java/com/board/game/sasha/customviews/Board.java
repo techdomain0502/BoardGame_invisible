@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
@@ -48,6 +49,7 @@ public class Board extends TableLayout {
     private int board_width;
     private int no_rows;
     private int no_cols;
+    int button_dimen;
     private Context context;
     private TableRow[] rowArr;
     private Button temp;
@@ -250,7 +252,7 @@ public class Board extends TableLayout {
             bmp.recycle();
             bmp = null;
         }
-        int button_dimen = board_width / no_cols;
+
         TRANSLATE_OFFSET = button_dimen;
         int count = 0;
         for (int i = 0; i < no_rows; i++) {
@@ -303,6 +305,10 @@ public class Board extends TableLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         board_width = this.getMeasuredWidth() - getPaddingLeft() - getPaddingRight();
+        button_dimen = board_width / no_cols;
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)this.getLayoutParams();
+        params.height = button_dimen * no_rows;
+        setLayoutParams(params);
     }
 
 

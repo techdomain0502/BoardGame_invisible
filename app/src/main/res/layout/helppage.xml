@@ -12,8 +12,8 @@
         android:layout_gravity="center_horizontal"
         android:padding="10dp"
         android:text="@string/HelpTitle"
-        android:textSize="25sp"
-        android:textStyle="bold" />
+        android:textSize="@dimen/app_title_summary_size"
+        android:textStyle="bold|italic" />
 
 
     <TextView
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:text="@string/numberHelp"
-        android:textSize="20sp"
+        android:textSize="@dimen/app_title_summary_size"
         android:textStyle="bold" />
 
 
@@ -32,7 +32,25 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:text="@string/pictureHelp"
-        android:textSize="20sp"
+        android:textSize="@dimen/app_title_summary_size"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/gridHelp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/gridHelp"
+        android:textSize="@dimen/app_title_summary_size"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/soundHelp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/soundHelp"
+        android:textSize="@dimen/app_title_summary_size"
         android:textStyle="bold" />
 
 
@@ -42,7 +60,8 @@
         android:layout_gravity="center_horizontal"
         android:padding="10dp"
         android:text="@string/finishHelp"
-        android:textSize="25sp"
-        android:textStyle="bold" />
+        android:textSize="@dimen/app_title_summary_size"
+        android:textStyle="bold|italic"
+        />
 
 </LinearLayout>
