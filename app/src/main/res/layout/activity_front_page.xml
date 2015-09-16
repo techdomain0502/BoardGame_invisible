@@ -63,14 +63,15 @@
             android:layout_height="wrap_content"
             android:text="@string/share_us"
             android:textColor="@color/white"
+            android:layout_marginRight="10dp"
             android:textSize="@dimen/app_title_summary_size"
             android:layout_centerVertical="true"
             android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/fb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/share_icon_size"
+            android:layout_height="@dimen/share_icon_size"
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@+id/share_text"
             android:clickable="true"
@@ -78,8 +79,8 @@
 
         <ImageView
             android:id="@+id/tw"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/share_icon_size"
+            android:layout_height="@dimen/share_icon_size"
             android:layout_toRightOf="@+id/fb"
             android:clickable="true"
             android:layout_marginRight="10dp"
@@ -87,8 +88,8 @@
 
         <ImageView
             android:id="@+id/wa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/share_icon_size"
+            android:layout_height="@dimen/share_icon_size"
             android:layout_toRightOf="@+id/tw"
             android:clickable="true"
             android:src="@drawable/wa" />

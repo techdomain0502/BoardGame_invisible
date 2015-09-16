@@ -7,5 +7,7 @@
     <dimen name="icon_marginBottom">15dp</dimen>
     <dimen name="app_title_summary_size">40sp</dimen>
     <dimen name="front_button_size">350dp</dimen>
+    <dimen name="share_icon_size">80dp</dimen>
     <dimen name="front_button_textsize">40dp</dimen>
+
 </resources>
