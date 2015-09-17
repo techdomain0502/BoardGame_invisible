@@ -4,13 +4,13 @@
     <string name="begin">Start</string>
     <string name="start">Begin</string>
     <string name="beginHeader">So Let\'s Begin!</string>
-    <string name="app_name">Flip It</string>
+    <string name="app_name">Flip Me</string>
     <string name="help">Help</string>
     <string name="HelpTitle">Tips to play</string>
     <string name="numberHelp">a. Number Puzzle:=> Slide the tiles left,right,top or bottom to arrange the numbers
                  in increasing order from top to bottom eg: 0,1,2,3......</string>
     <string name="pictureHelp">b. Picture Puzzle:=> Slide the picture tiles to make a complete picture</string>
-    <string name="finishHelp">Happy Sliding :)</string>
+    <string name="finishHelp">Happy Flip-Flop :)</string>
     <string name="gridHelp">c. Change Grid Size in Game Settings.</string>
     <string name="soundHelp">d. Switch on/off the slide sounds.</string>
     <string name="three">3</string>
