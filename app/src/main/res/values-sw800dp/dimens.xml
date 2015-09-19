@@ -7,4 +7,6 @@
     <dimen name="app_title_summary_size">40sp</dimen>
     <dimen name="front_button_size">350dp</dimen>
     <dimen name="front_button_textsize">40dp</dimen>
+    <dimen name="help_icon_size">140dp</dimen>
+
 </resources>

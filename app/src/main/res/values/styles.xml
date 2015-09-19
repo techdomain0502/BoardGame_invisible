@@ -32,7 +32,7 @@
         <item name="android:minWidth">@dimen/front_button_size</item>
         <item name="android:textColor">@color/text_selector</item>
         <item name="android:textSize">@dimen/front_button_textsize</item>
-        <item name="android:padding">20dp</item>
+        <item name="android:padding">10dp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginTop">5dp</item>
     </style>

@@ -9,5 +9,6 @@
     <dimen name="front_button_size">350dp</dimen>
     <dimen name="share_icon_size">80dp</dimen>
     <dimen name="front_button_textsize">40dp</dimen>
+    <dimen name="help_icon_size">120dp</dimen>
 
 </resources>
