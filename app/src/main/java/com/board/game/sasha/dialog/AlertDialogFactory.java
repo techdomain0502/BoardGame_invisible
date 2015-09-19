@@ -85,6 +85,7 @@ public class AlertDialogFactory {
             builder.setView(view);
 
             AlertDialog dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(true);
             return dialog;
         }
     }
@@ -188,6 +189,7 @@ public class AlertDialogFactory {
             builder = new AlertDialog.Builder(context);
             builder.setTitle(title);
             builder.setCancelable(true);
+
         }
 
         public BaseDialog(Context context, String Message, String Title) {
