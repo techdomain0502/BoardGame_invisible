@@ -227,7 +227,6 @@ public class Board extends TableLayout {
                 startX = 0;
                 startY = startY + height;
             }
-            Log.d("split",""+startY);
             array[ii] = Bitmap.createBitmap(bmp, startX, startY, width, height);
             Drawable layers[] = new Drawable[2];
             layers[0]= context.getResources().getDrawable(R.drawable.border);
@@ -239,8 +238,6 @@ public class Board extends TableLayout {
         }
         return dArr;
     }
-
-
 
     private void initialize() {
         if(gameMode.equalsIgnoreCase("picture")) {

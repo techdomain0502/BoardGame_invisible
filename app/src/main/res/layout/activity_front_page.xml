@@ -14,40 +14,53 @@
         <Button
             android:id="@+id/continue_last"
             style="@style/frontpageButtonText"
-            android:background="@drawable/btn_blue_glossy"
             android:layout_height="wrap_content"
+            android:background="@drawable/btn_blue_glossy"
             android:text="@string/continue_last"
             android:visibility="gone" />
 
         <Button
             android:id="@+id/new_game"
-            android:background="@drawable/btn_green_matte"
             style="@style/frontpageButtonText"
             android:layout_height="wrap_content"
+            android:background="@drawable/btn_green_matte"
             android:text="@string/new_game" />
 
-        <Button
-            android:id="@+id/config"
-            style="@style/frontpageButtonText"
-            android:background="@drawable/btn_pink_glossy"
-            android:layout_height="wrap_content"
-            android:text="@string/action_settings" />
 
-        <Button
-            android:id="@+id/score"
-            style="@style/frontpageButtonText"
-            android:layout_height="wrap_content"
-            android:background="@drawable/btn_blue_matte"
-            android:text="@string/best_Score" />
-
-          <Button
-              android:id="@+id/help"
-              style="@style/frontpageButtonText"
-              android:layout_height="wrap_content"
-              android:background="@drawable/btn_green_matte"
-              android:text="@string/help" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/config"
+        android:layout_width="@dimen/help_icon_size"
+        android:layout_height="@dimen/help_icon_size"
+        android:background="@drawable/settings"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        />
+
+
+    <Button
+        android:id="@+id/score"
+        android:layout_width="@dimen/help_icon_size"
+        android:layout_height="@dimen/help_icon_size"
+        android:background="@drawable/score"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp" />
+
+    <Button
+        android:id="@+id/help"
+        android:layout_width="@dimen/help_icon_size"
+        android:layout_height="@dimen/help_icon_size"
+        android:background="@drawable/help"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"/>
+
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -57,15 +70,15 @@
         android:padding="5dp">
 
         <TextView
-            android:background="@drawable/bubble"
             android:id="@+id/share_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bubble"
             android:text="@string/share_us"
             android:textColor="@color/white"
-            android:layout_marginRight="10dp"
             android:textSize="@dimen/app_title_summary_size"
-            android:layout_centerVertical="true"
             android:textStyle="bold" />
 
         <ImageView
@@ -81,9 +94,9 @@
             android:id="@+id/tw"
             android:layout_width="@dimen/share_icon_size"
             android:layout_height="@dimen/share_icon_size"
+            android:layout_marginRight="10dp"
             android:layout_toRightOf="@+id/fb"
             android:clickable="true"
-            android:layout_marginRight="10dp"
             android:src="@drawable/tw" />
 
         <ImageView
