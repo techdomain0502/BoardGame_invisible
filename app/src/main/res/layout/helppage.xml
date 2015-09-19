@@ -16,6 +16,7 @@
             android:layout_gravity="center_horizontal"
             android:padding="10dp"
             android:text="@string/HelpTitle"
+            android:textColor="@color/black"
             android:textSize="@dimen/app_title_summary_size"
             android:textStyle="bold|italic" />
 
@@ -26,6 +27,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="@string/numberHelp"
+            android:textColor="@color/black"
             android:textSize="@dimen/app_title_summary_size"
             android:textStyle="bold" />
 
@@ -36,6 +38,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="@string/pictureHelp"
+            android:textColor="@color/black"
             android:textSize="@dimen/app_title_summary_size"
             android:textStyle="bold" />
 
@@ -45,6 +48,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="@string/gridHelp"
+            android:textColor="@color/black"
             android:textSize="@dimen/app_title_summary_size"
             android:textStyle="bold" />
 
@@ -54,6 +58,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="@string/soundHelp"
+            android:textColor="@color/black"
             android:textSize="@dimen/app_title_summary_size"
             android:textStyle="bold" />
 
@@ -64,8 +69,10 @@
             android:layout_gravity="center_horizontal"
             android:padding="10dp"
             android:text="@string/finishHelp"
+            android:textColor="@color/black"
             android:textSize="@dimen/app_title_summary_size"
             android:textStyle="bold|italic" />
 
     </LinearLayout>
+
 </ScrollView>
