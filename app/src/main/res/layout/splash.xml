@@ -72,15 +72,5 @@
             android:src="@drawable/start_selector" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/version"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:padding="2dp"
-        android:text="@string/version"
-        android:textColor="@color/white"
-        android:textSize="@dimen/app_title_summary_size" />
 
 </RelativeLayout>
