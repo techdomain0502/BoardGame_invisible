@@ -12,8 +12,6 @@ android {
         applicationId "com.board.game.sasha"
         minSdkVersion 10
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
     }
     buildTypes {
         release {
