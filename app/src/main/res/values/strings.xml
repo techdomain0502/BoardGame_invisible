@@ -6,6 +6,8 @@
     <string name="beginHeader">So Let\'s Begin!</string>
     <string name="app_name">Flip Me</string>
     <string name="help">Help</string>
+    <string name="shareUrl">Hello Friends, Do enjoy our time buster game. " +
+                        "Please install from google play: https://play.google.com/store/apps/details?id=com.board.game.sasha</string>
     <string name="HelpTitle">Tips to play</string>
     <string name="numberHelp">a. Number Puzzle:=> Slide the tiles left,right,top or bottom to arrange the numbers
                  in increasing order from top to bottom eg: 0,1,2,3......</string>

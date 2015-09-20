@@ -131,9 +131,7 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
                 if (ShareDialog.canShow(ShareLinkContent.class)) {
                     ShareLinkContent linkContent = new ShareLinkContent.Builder()
                             .setContentTitle("Board Game - Please share it.")
-                            .setContentDescription(
-                                    "https://www.facebook.com/BoardGame--" +
-                                            "apk Download url:https://play.google.com/com.board.game.sasha")
+                            .setContentDescription(getResources().getString(R.string.shareUrl))
                             .setContentUrl(Uri.parse("http://developers.facebook.com/android"))
                             .build();
 
@@ -147,8 +145,7 @@ public class FrontPage extends ActionBarActivity implements View.OnClickListener
             case R.id.wa:
                 Intent whatsapp = new Intent(Intent.ACTION_SEND);
                 whatsapp .setType("text/plain");
-                String text = "Hello Friends, Do enjoy a time buster game. " +
-                        "Please install from google play: https://play.google.com/com.board.game.sasha";
+                String text = getResources().getString(R.string.shareUrl);
                 whatsapp .setPackage("com.whatsapp");
                 if (whatsapp != null) {
                     whatsapp.putExtra(Intent.EXTRA_TEXT, text);//
