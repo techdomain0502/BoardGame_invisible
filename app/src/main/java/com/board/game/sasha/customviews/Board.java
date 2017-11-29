@@ -42,7 +42,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 /**
- * Created by sachin on 8/2/2015.
+ * Created by sachin chugh on 8/2/2015.
  */
 public class Board extends TableLayout {
     private int BOARD_SIZE;
